@@ -6,6 +6,7 @@
              mc:Ignorable="d"
              x:Class="CleanXF.Mobile.App">
     <Application.Resources>
-        
+        <!-- Add more resources here -->
+        <ResourceDictionary Source="Colors.xaml" />
     </Application.Resources>
 </Application>

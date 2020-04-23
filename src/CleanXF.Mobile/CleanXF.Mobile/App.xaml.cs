@@ -1,14 +1,11 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 using CleanXF.Mobile.Services;
-using CleanXF.Mobile.Views;
+
 
 namespace CleanXF.Mobile
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();

@@ -12,8 +12,7 @@
         Styles and Resources 
     -->
     <Shell.Resources>
-        <ResourceDictionary>
-            <Color x:Key="NavigationPrimary">#2196F3</Color>
+        <ResourceDictionary>            
             <Style x:Key="BaseStyle" TargetType="Element">
                 <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
@@ -34,9 +33,9 @@
         <Tab Title="Browse" Icon="tab_feed.png">
             <ShellContent ContentTemplate="{DataTemplate local:ItemsPage}" />
         </Tab>
-        <Tab Title="About" Icon="tab_about.png">
+        <!--<Tab Title="About" Icon="tab_about.png">
             <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
-        </Tab>
+        </Tab>-->
     </TabBar>
 
     <!-- Optional Templates 
