@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.ViewModels
@@ -10,7 +9,7 @@ namespace CleanXF.Mobile.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
+            OpenWebCommand = new Command(async () => await Task.Delay(1000) /*Browser.OpenAsync("https://xamarin.com"))*/);
         }
 
         public ICommand OpenWebCommand { get; }
