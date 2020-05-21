@@ -1,5 +1,4 @@
 ﻿using CleanXF.Mobile.ViewModels;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
@@ -8,18 +7,19 @@ namespace CleanXF.Mobile.Views
     {
         public InitializePage()
         {
-            var rootLayout = new StackLayout();
-            rootLayout.VerticalOptions = LayoutOptions.Center;
-
+            var rootLayout = new StackLayout
+            {
+                VerticalOptions = LayoutOptions.Center
+            };
             var activityIndicator = new ActivityIndicator();
-            activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
+            activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, nameof(BaseViewModel.IsBusy));
             rootLayout.Children.Add(activityIndicator);
             Content = rootLayout;
         }
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();            
+            base.OnAppearing();
             ((InitializeViewModel)BindingContext).IsBusy = true;
         }
     }
