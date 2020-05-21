@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CleanXF.Mobile.Infrastructure\CleanXF.Mobile.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
