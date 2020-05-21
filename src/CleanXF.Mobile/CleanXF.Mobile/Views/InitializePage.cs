@@ -17,10 +17,10 @@ namespace CleanXF.Mobile.Views
             Content = rootLayout;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            ((InitializeViewModel)BindingContext).IsBusy = true;
+            await ((InitializeViewModel)BindingContext).Initialize();
         }
     }
 }
