@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using CleanXF.Mobile.ViewModels;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
 {
@@ -6,7 +8,19 @@ namespace CleanXF.Mobile.Views
     {
         public InitializePage()
         {
-            Content = new Label { Text = "HI" };
+            var rootLayout = new StackLayout();
+            rootLayout.VerticalOptions = LayoutOptions.Center;
+
+            var activityIndicator = new ActivityIndicator();
+            activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
+            rootLayout.Children.Add(activityIndicator);
+            Content = rootLayout;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();            
+            ((InitializeViewModel)BindingContext).IsBusy = true;
         }
     }
 }
