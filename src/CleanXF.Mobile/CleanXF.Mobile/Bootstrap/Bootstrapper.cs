@@ -1,23 +1,33 @@
 ﻿using Autofac;
+using CleanXF.Mobile.Factories;
+using CleanXF.Mobile.Services;
+using CleanXF.Mobile.ViewModels;
+using CleanXF.Mobile.Views;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Bootstrap
 {
     public class Bootstrapper : AutofacBootstrapper
     {
-        protected override void ConfigureApplication(IContainer container)
+        private readonly App _app;
+
+        public Bootstrapper(App app)
         {
-            /*
-            var pageFactory = container.Resolve<IPageFactory>();
-            _app.MainPage = pageFactory.Resolve<InitializeViewModel>();
-            ContainerProvider.Container = container;*/
+            _app = app;
         }
 
-        protected override void RegisterPages(/*IPageFactory pageFactory*/)
+        protected override void ConfigureApplication(IContainer container)
+        {           
+            DependencyService.Register<MockDataStore>();
+            //_app.MainPage = new AppShell();
+            var pageFactory = container.Resolve<IPageFactory>();
+            _app.MainPage = pageFactory.Resolve<InitializeViewModel>();
+        }
+
+        protected override void RegisterPages(IPageFactory pageFactory)
         {
-            throw new NotImplementedException();
+            pageFactory.Register<InitializeViewModel, InitializePage>();
         }
     }
 }

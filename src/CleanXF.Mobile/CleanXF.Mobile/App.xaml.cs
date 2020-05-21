@@ -1,6 +1,5 @@
 ﻿using Xamarin.Forms;
-using CleanXF.Mobile.Services;
-
+using CleanXF.Mobile.Bootstrap;
 
 namespace CleanXF.Mobile
 {
@@ -9,8 +8,8 @@ namespace CleanXF.Mobile
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
+            var bootstrapper = new Bootstrapper(this);
+            bootstrapper.Run();
         }
 
         protected override void OnStart()

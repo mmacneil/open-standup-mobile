@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 using Xamarin.Forms;
-
 using CleanXF.Mobile.Models;
 using CleanXF.Mobile.Services;
 
@@ -39,6 +37,11 @@ namespace CleanXF.Mobile.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public void SetState<T>(Action<T> action) where T : class
+        {
+            action(this as T);
         }
 
         #region INotifyPropertyChanged
