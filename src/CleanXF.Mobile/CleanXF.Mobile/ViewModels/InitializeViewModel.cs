@@ -15,7 +15,7 @@ namespace CleanXF.Mobile.ViewModels
         public async Task Initialize()
         {
             IsBusy = true;
-            await _authenticator.Authenticate();
+            var result = await _authenticator.Authenticate();
         }
     }
 }
