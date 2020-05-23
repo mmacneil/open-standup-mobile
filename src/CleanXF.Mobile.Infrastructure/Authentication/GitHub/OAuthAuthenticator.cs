@@ -1,5 +1,4 @@
 ﻿using CleanXF.Core.Interfaces.Authentication;
-using Polly;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,9 +33,13 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
 
                 var response = await _httpClient.SendAsync(msg);
                 var content = await response.Content.ReadAsStringAsync();
+
+                var accessToken = content.Split("&")[0].Replace("access_token=", "");
+
                 return content;
+                // access_token=41fb1ff11451cb30fb720d3b9fc6a3b86e66c9fe&scope=&token_type=bearer
             }
-            catch(Exception e)
+            catch
             {
                 return null;
             }          
