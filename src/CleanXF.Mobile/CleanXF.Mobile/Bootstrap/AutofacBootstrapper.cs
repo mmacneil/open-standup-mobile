@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Infrastructure;
-
+using System;
 
 namespace CleanXF.Mobile.Bootstrap
 {
@@ -14,13 +14,16 @@ namespace CleanXF.Mobile.Bootstrap
             var container = builder.Build();
             var pageFactory = container.Resolve<IPageFactory>();
             RegisterPages(pageFactory);
-            ConfigureApplication(container);       
+            ConfigureApplication(container);
         }
 
         protected virtual void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule<AppModule>();
-            builder.RegisterModule<InfrastructureModule>();
+            builder.RegisterModule(new InfrastructureModule
+            {
+                ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+            });
         }
 
         protected abstract void RegisterPages(IPageFactory pageFactory);
@@ -28,3 +31,4 @@ namespace CleanXF.Mobile.Bootstrap
         protected abstract void ConfigureApplication(IContainer container);
     }
 }
+
