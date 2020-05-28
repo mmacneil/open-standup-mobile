@@ -4,6 +4,6 @@ namespace CleanXF.Core.Interfaces.Authentication
 {
     public interface IAuthenticator
     {
-        Task<bool> Authenticate();
+        Task<string> Authenticate();
     }
 }

@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Dtos\" />
+    <PackageReference Include="autofac" Version="5.2.0" />
+    <PackageReference Include="mediatr" Version="8.0.1" />
   </ItemGroup>
 
 </Project>

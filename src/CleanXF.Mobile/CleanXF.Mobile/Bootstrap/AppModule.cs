@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.ViewModels;
+using MediatR;
 using System.Reflection;
 
 
@@ -12,6 +13,8 @@ namespace CleanXF.Mobile.Bootstrap
         {
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
             .Where(t => t.Name.EndsWith("Page"));
+
+            //builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
            .Where(t => t.IsSubclassOf(typeof(BaseViewModel)));

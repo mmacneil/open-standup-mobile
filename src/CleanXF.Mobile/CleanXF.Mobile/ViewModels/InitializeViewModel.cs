@@ -1,21 +1,24 @@
-﻿using CleanXF.Core.Interfaces.Authentication;
+﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
+using CleanXF.Core.Interfaces.Authentication;
+using MediatR;
 using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.ViewModels
 {
     public class InitializeViewModel : BaseViewModel
-    {
-        private readonly IAuthenticator _authenticator;
+    {         
+        //private readonly ISessionRepository _sessionRepository;
+        private readonly IMediator _mediator;
 
-        public InitializeViewModel(IAuthenticator authenticator)
-        {
-            _authenticator = authenticator;
+        public InitializeViewModel(IMediator mediator)
+        {           
+            _mediator = mediator;
         }
 
         public async Task Initialize()
         {
             IsBusy = true;
-            var result = await _authenticator.Authenticate();
+            await _mediator.Send(new AuthenticationRequest());          
         }
     }
 }

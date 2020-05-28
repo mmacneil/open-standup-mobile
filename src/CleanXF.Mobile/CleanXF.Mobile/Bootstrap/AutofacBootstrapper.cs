@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using CleanXF.Core;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Infrastructure;
 using System;
@@ -20,6 +21,7 @@ namespace CleanXF.Mobile.Bootstrap
         protected virtual void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule<AppModule>();
+            builder.RegisterModule<CoreModule>();
             builder.RegisterModule(new InfrastructureModule
             {
                 ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
