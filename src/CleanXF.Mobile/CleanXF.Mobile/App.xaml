@@ -3,10 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cleanxf="clr-namespace:CleanXF.Mobile;assembly=CleanXF.Mobile"
              mc:Ignorable="d"
              x:Class="CleanXF.Mobile.App">
     <Application.Resources>
-        <!-- Add more resources here -->
-        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <cleanxf:Colors />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
+
+ 

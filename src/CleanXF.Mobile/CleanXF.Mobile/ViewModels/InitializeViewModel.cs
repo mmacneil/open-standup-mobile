@@ -16,6 +16,7 @@ namespace CleanXF.Mobile.ViewModels
         public async Task Initialize()
         {
             IsBusy = true;
+
             var authenticationResult = await _mediator.Send(new AuthenticationRequest());
 
             if (!authenticationResult.Status)

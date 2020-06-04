@@ -20,7 +20,7 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             try
             {
                 var authenticationResult = await WebAuthenticator.AuthenticateAsync(
-                    new Uri($"https://github.com/login/oauth/authorize?client_id={Configuration.GitHub.ClientId}&redirect_uri=myapp://"),
+                    new Uri($"https://github.com/login/oauth/authorize?client_id={Configuration.GitHub.ClientId}&scope=user&redirect_uri=myapp://"),
                     new Uri("myapp://"));
 
                 //code
