@@ -6,7 +6,6 @@ namespace CleanXF.Mobile.ViewModels
 {
     public class InitializeViewModel : BaseViewModel
     {         
-        //private readonly ISessionRepository _sessionRepository;
         private readonly IMediator _mediator;
 
         public InitializeViewModel(IMediator mediator)
@@ -18,8 +17,13 @@ namespace CleanXF.Mobile.ViewModels
         {
             IsBusy = true;
             var authenticationResult = await _mediator.Send(new AuthenticationRequest());
-            
 
+            if (!authenticationResult.Status)
+            {
+                ErrorText = "Authentication failed, check your credentials and try again.";
+            }
+
+            IsBusy = false;
         }
     }
 }
