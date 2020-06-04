@@ -1,5 +1,4 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
-using CleanXF.Core.Interfaces.Authentication;
 using MediatR;
 using System.Threading.Tasks;
 
@@ -18,7 +17,9 @@ namespace CleanXF.Mobile.ViewModels
         public async Task Initialize()
         {
             IsBusy = true;
-            await _mediator.Send(new AuthenticationRequest());          
+            var authenticationResult = await _mediator.Send(new AuthenticationRequest());
+            
+
         }
     }
 }
