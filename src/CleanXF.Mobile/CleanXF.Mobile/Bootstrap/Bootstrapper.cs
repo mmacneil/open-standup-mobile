@@ -3,7 +3,6 @@ using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Services;
 using CleanXF.Mobile.ViewModels;
 using CleanXF.Mobile.Views;
-using System;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Bootstrap

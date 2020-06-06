@@ -24,6 +24,7 @@ namespace CleanXF.Mobile.ViewModels
                 ErrorText = authenticationResponse.ErrorText;
             }
 
+            MainPage = new AppShell();
             IsBusy = false;
         }
     }

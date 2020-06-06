@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.ViewModels;
-using MediatR;
 using System.Reflection;
-
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Bootstrap
 {
@@ -11,11 +10,11 @@ namespace CleanXF.Mobile.Bootstrap
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterInstance(Application.Current).AsSelf();
+
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
             .Where(t => t.Name.EndsWith("Page"));
-
-            //builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
-
+            
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
            .Where(t => t.IsSubclassOf(typeof(BaseViewModel)));
 
