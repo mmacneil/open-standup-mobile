@@ -7,6 +7,7 @@ namespace CleanXF.SharedKernel
         public OperationResult OperationResult { get; }
         public T Payload { get; set; }
         public string ErrorText { get; }
+        public bool Succeeded => OperationResult == OperationResult.Succeeded;
 
         public OperationResponse(OperationResult operationResult, T payload, string errorText = "")
         {

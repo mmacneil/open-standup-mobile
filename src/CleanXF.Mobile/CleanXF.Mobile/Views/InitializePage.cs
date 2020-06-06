@@ -15,7 +15,7 @@ namespace CleanXF.Mobile.Views
             var activityIndicator = new ActivityIndicator();
             activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, nameof(BaseViewModel.IsBusy));
 
-            var statusLabel = new Label();
+            var statusLabel = new Label { HorizontalTextAlignment = TextAlignment.Center };
             statusLabel.SetBinding(Label.TextProperty, nameof(BaseViewModel.ErrorText));
 
             rootLayout.Children.Add(activityIndicator);

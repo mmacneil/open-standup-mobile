@@ -17,11 +17,11 @@ namespace CleanXF.Mobile.ViewModels
         {
             IsBusy = true;
 
-            var authenticationResult = await _mediator.Send(new AuthenticationRequest());
+            var authenticationResponse = await _mediator.Send(new AuthenticationRequest());
 
-            if (!authenticationResult.Status)
+            if (!authenticationResponse.Succeeded)
             {
-                ErrorText = "Authentication failed, check your credentials and try again.";
+                ErrorText = authenticationResponse.ErrorText;
             }
 
             IsBusy = false;

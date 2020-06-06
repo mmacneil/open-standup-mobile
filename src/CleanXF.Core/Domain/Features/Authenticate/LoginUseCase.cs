@@ -1,6 +1,7 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
 using CleanXF.Core.Interfaces.Authentication;
 using CleanXF.Core.Interfaces.Data.Repositories;
+using CleanXF.SharedKernel;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,13 +23,14 @@ namespace CleanXF.Core.Domain.Features.Authenticate
         {
             var response = await _authenticator.Authenticate();
 
-            if ()
+            if (response.Succeeded)
             {
-                return new AuthenticationResponse(await _sessionRepository.Initialize(accessToken));
+                await _sessionRepository.Initialize(response.Payload);
+                return new AuthenticationResponse(OperationResult.Succeeded, response.Payload);
             }
 
             // Authentication failed
-            return new AuthenticationResponse();
+            return new AuthenticationResponse(response.OperationResult, null, response.ErrorText);
         }
     }
 }

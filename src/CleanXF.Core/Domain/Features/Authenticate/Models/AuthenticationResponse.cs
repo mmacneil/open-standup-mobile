@@ -1,14 +1,11 @@
-﻿
+﻿using CleanXF.SharedKernel;
 
 namespace CleanXF.Core.Domain.Features.Authenticate.Models
 {
-    public class AuthenticationResponse
+    public class AuthenticationResponse : OperationResponse<string>
     {
-        public bool Status { get; }
-
-        public AuthenticationResponse(bool status = false)
+        public AuthenticationResponse(OperationResult operationResult, string accessToken, string errorText = "") : base(operationResult, accessToken, errorText)
         {
-            Status = status;
         }
     }
 }

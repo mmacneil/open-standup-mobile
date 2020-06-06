@@ -30,11 +30,11 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
                 // POST https://github.com/login/oauth/access_token                
                 var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={Configuration.GitHub.ClientId}&client_secret={Configuration.GitHub.ClientSecret}"));
                 var content = await response.Content.ReadAsStringAsync();
-                return new OperationResponse<string>(true, content.Split("&")[0].Replace("access_token=", ""));
+                return new OperationResponse<string>(OperationResult.Succeeded, content.Split("&")[0].Replace("access_token=", ""));
             }
             catch (Exception e)
             {
-                return new OperationResponse<string>(false, null, e.Message);
+                return new OperationResponse<string>(OperationResult.Failed, null, e.Message);
             }
         }
     }
