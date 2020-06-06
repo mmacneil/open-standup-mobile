@@ -9,4 +9,8 @@
     <PackageReference Include="mediatr" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CleanXF.SharedKernel\CleanXF.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

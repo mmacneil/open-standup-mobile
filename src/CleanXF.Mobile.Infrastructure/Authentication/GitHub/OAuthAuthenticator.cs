@@ -1,4 +1,5 @@
 ﻿using CleanXF.Core.Interfaces.Authentication;
+using CleanXF.SharedKernel;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             _httpClient = httpClient;
         }
 
-        public async Task<string> Authenticate()
+        public async Task<OperationResponse<string>> Authenticate()
         {
             try
             {
@@ -29,11 +30,11 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
                 // POST https://github.com/login/oauth/access_token                
                 var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={Configuration.GitHub.ClientId}&client_secret={Configuration.GitHub.ClientSecret}"));
                 var content = await response.Content.ReadAsStringAsync();
-                return content.Split("&")[0].Replace("access_token=", "");
+                return new OperationResponse<string>(true, content.Split("&")[0].Replace("access_token=", ""));
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                return new OperationResponse<string>(false, null, e.Message);
             }
         }
     }

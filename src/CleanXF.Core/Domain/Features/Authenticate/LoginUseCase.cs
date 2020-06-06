@@ -20,10 +20,9 @@ namespace CleanXF.Core.Domain.Features.Authenticate
 
         public async Task<AuthenticationResponse> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
-            var accessToken = await _authenticator.Authenticate();
+            var response = await _authenticator.Authenticate();
 
-            // The presence of a token means the authentication step succeeded
-            if (!string.IsNullOrEmpty(accessToken))
+            if ()
             {
                 return new AuthenticationResponse(await _sessionRepository.Initialize(accessToken));
             }

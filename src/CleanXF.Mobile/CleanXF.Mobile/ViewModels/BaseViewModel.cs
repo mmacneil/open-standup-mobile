@@ -19,7 +19,6 @@ namespace CleanXF.Mobile.ViewModels
             set { SetProperty(ref _errorText, value); }
         }
 
-
         private bool _isBusy = false;
         public bool IsBusy
         {

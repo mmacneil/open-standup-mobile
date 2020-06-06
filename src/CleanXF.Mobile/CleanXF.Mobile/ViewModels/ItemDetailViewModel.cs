@@ -1,6 +1,4 @@
-﻿using System;
-
-using CleanXF.Mobile.Models;
+﻿using CleanXF.Mobile.Models;
 
 namespace CleanXF.Mobile.ViewModels
 {

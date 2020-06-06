@@ -12,7 +12,7 @@ namespace CleanXF.Mobile.Views
                 VerticalOptions = LayoutOptions.Center
             };
 
-            var activityIndicator = new ActivityIndicator { Color = (Color)Application.Current.Resources["NavigationPrimary"] };
+            var activityIndicator = new ActivityIndicator();
             activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, nameof(BaseViewModel.IsBusy));
 
             var statusLabel = new Label();

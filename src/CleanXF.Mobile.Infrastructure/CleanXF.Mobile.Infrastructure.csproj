@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CleanXF.Core\CleanXF.Core.csproj" />
+    <ProjectReference Include="..\CleanXF.SharedKernel\CleanXF.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

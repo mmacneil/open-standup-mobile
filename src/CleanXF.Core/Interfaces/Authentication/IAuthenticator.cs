@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using CleanXF.SharedKernel;
+using System.Threading.Tasks;
 
 namespace CleanXF.Core.Interfaces.Authentication
 {
     public interface IAuthenticator
     {
-        Task<string> Authenticate();
+        Task<OperationResponse<string>> Authenticate();
     }
 }

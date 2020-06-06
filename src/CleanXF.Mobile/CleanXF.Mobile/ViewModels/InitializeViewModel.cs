@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 namespace CleanXF.Mobile.ViewModels
 {
     public class InitializeViewModel : BaseViewModel
-    {         
+    {
         private readonly IMediator _mediator;
 
         public InitializeViewModel(IMediator mediator)
-        {           
+        {
             _mediator = mediator;
         }
 
