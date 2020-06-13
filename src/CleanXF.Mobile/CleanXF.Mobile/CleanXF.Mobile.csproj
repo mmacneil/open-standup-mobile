@@ -18,6 +18,9 @@
     <EmbeddedResource Update="Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="ShellStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
