@@ -25,6 +25,22 @@
         </Tab>-->
     </TabBar>
 
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="Black"
+              HeightRequest="200">
+                <Image Aspect="AspectFill"
+                   Source="xamarinstore.jpg"
+                   Opacity="0.6" />
+                <Label Text="Animals"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
     <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.
 
