@@ -4,7 +4,8 @@
        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        mc:Ignorable="d"
-       xmlns:local="clr-namespace:CleanXF.Mobile.Views"
+       xmlns:local="clr-namespace:CleanXF.Mobile.Views" 
+       xmlns:controls="clr-namespace:CleanXF.Mobile.Controls"
        Title="CleanXF.Mobile"
        x:Class="CleanXF.Mobile.AppShell">
 
@@ -15,59 +16,22 @@
         <ResourceDictionary Source="ShellStyles.xaml"/>
     </Shell.Resources>
 
-    <!-- Your Pages -->
-    <TabBar>
-        <Tab Title="Browse" Icon="tab_feed.png">
-            <ShellContent ContentTemplate="{DataTemplate local:ItemsPage}" />
-        </Tab>
-        <!--<Tab Title="About" Icon="tab_about.png">
-            <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
-        </Tab>-->
-    </TabBar>
+    <FlyoutItem Title="Animals"
+                FlyoutDisplayOptions="AsMultipleItems">
+        
+        <ShellContent Title="Monkeys"
+                      Icon="tab_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}">           
+        </ShellContent>
+        <ShellContent Title="Elephants"
+                      Icon="tab_feed.png">
+            <local:ItemsPage />
+        </ShellContent>
 
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid BackgroundColor="Black"
-              HeightRequest="200">
-                <Image Aspect="AspectFill"
-                   Source="xamarinstore.jpg"
-                   Opacity="0.6" />
-                <Label Text="Animals"
-                   TextColor="White"
-                   FontAttributes="Bold"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center" />
-            </Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
+    </FlyoutItem>
 
-    <!-- Optional Templates 
-    // These may be provided inline as below or as separate classes.
 
-    // This header appears at the top of the Flyout.
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid>ContentHere</Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
+    <MenuItem Text="Random"
+              IconImageSource="tab_feed.png"
+              Command="{Binding RandomPageCommand}" />
 
-    // ItemTemplate is for ShellItems as displayed in a Flyout
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Title, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    // MenuItemTemplate is for MenuItems as displayed in a Flyout
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Text, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    -->
 </Shell>
