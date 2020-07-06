@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CleanXF.Core\CleanXF.Core.csproj" />
     <ProjectReference Include="..\..\CleanXF.Mobile.Infrastructure\CleanXF.Mobile.Infrastructure.csproj" />
   </ItemGroup>
 

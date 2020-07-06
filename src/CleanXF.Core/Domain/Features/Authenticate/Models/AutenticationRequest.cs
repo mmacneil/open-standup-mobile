@@ -3,7 +3,7 @@
 
 namespace CleanXF.Core.Domain.Features.Authenticate.Models
 {
-    public class AuthenticationRequest : IRequest<AuthenticationResponse>
+    public class AuthenticationRequest : BaseUseCaseRequest<AuthenticationResponse>, IRequest<bool>
     {
     }
 }

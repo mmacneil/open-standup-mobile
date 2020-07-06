@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CleanXF.Core.Domain.Features.Authenticate
 {
-    public class LoginUseCase : IRequestHandler<AuthenticationRequest, AuthenticationResponse>
+    public class LoginUseCase : IRequestHandler<AuthenticationRequest, bool>
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISessionRepository _sessionRepository;
@@ -19,18 +19,27 @@ namespace CleanXF.Core.Domain.Features.Authenticate
             _sessionRepository = sessionRepository;
         }
 
-        public async Task<AuthenticationResponse> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
-            var response = await _authenticator.Authenticate();
+            var authenticationResponse = await _authenticator.Authenticate();
+            bool result = false;
+            AuthenticationResponse useCaseResponse;
 
-            if (response.Succeeded)
+            if (authenticationResponse.Succeeded)
             {
-                await _sessionRepository.Initialize(response.Payload);
-                return new AuthenticationResponse(OperationResult.Succeeded, response.Payload);
+                await _sessionRepository.Initialize(authenticationResponse.Payload);
+                useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
+                // return new AuthenticationResponse(OperationResult.Succeeded, response.Payload);
+                result = true;
+            }
+            else
+            {
+                // Authentication failed
+                useCaseResponse = new AuthenticationResponse(authenticationResponse.OperationResult, null, authenticationResponse.ErrorText);
             }
 
-            // Authentication failed
-            return new AuthenticationResponse(response.OperationResult, null, response.ErrorText);
+            request.OutputPort.Handle(useCaseResponse);
+            return result;
         }
     }
 }
