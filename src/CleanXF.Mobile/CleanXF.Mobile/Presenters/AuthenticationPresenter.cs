@@ -20,7 +20,7 @@ namespace CleanXF.Mobile.Presenters
             {
                 _viewModel.ErrorText = response.ErrorText;
                 _viewModel.IsBusy = false;
-            }
+            } 
         }
     }
 }

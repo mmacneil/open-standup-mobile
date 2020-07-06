@@ -34,6 +34,7 @@ namespace CleanXF.Mobile.Views
 
         private async void Login_Clicked(object sender, System.EventArgs e)
         {
+            _viewModel.ErrorText = "";
             await _viewModel.Login();
         }
 

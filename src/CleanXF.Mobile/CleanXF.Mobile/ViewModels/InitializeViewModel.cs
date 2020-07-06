@@ -3,6 +3,7 @@ using CleanXF.Mobile.Presenters;
 using CleanXF.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.ViewModels
 {
@@ -19,17 +20,19 @@ namespace CleanXF.Mobile.ViewModels
 
         public async Task Initialize()
         {
-            IsBusy = true;
-
-            if (await Login())
-            {
-                _navigator.LoadShell();
-            }
+            await Login();            
         }
 
-        public async Task<bool> Login()
+        public async Task Login()
         {
-            return await _mediator.Send(new AuthenticationRequest(new AuthenticationPresenter(this)));
+            IsBusy = true;
+
+            // Call the Login UseCase, on success we'll load the application shell, error handling
+            // is performed by the presenter
+            if(await _mediator.Send(new AuthenticationRequest(new AuthenticationPresenter(this))))
+            {
+                _navigator.LoadShell();
+            }            
         }
     }
 }

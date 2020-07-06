@@ -29,7 +29,6 @@ namespace CleanXF.Core.Domain.Features.Authenticate
             {
                 await _sessionRepository.Initialize(authenticationResponse.Payload);
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
-                // return new AuthenticationResponse(OperationResult.Succeeded, response.Payload);
                 result = true;
             }
             else
