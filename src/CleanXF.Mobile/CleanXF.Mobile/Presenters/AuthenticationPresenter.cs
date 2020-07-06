@@ -1,32 +1,26 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
 using CleanXF.Core.Interfaces;
+using CleanXF.Mobile.ViewModels;
 
 
 namespace CleanXF.Mobile.Presenters
 {
     public class AuthenticationPresenter : IOutputPort<AuthenticationResponse>
     {
+        private readonly InitializeViewModel _viewModel;
+
+        public AuthenticationPresenter(InitializeViewModel viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
         public void Handle(AuthenticationResponse response)
         {
-            throw new System.NotImplementedException();
+            if (!response.Succeeded)
+            {
+                _viewModel.ErrorText = response.ErrorText;
+                _viewModel.IsBusy = false;
+            }
         }
     }
 }
-
-/*
-  public sealed class LoginPresenter : IOutputPort<LoginResponse>
-  {
-    public JsonContentResult ContentResult { get; }
-
-    public LoginPresenter()
-    {
-      ContentResult = new JsonContentResult();
-    }
-
-    public void Handle(LoginResponse response)
-    {
-      ContentResult.StatusCode = (int)(response.Success ? HttpStatusCode.OK : HttpStatusCode.Unauthorized);
-      ContentResult.Content = response.Success ? JsonSerializer.SerializeObject(response.Token) : JsonSerializer.SerializeObject(response.Errors);
-    }
-  }
-*/
