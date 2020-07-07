@@ -16,6 +16,10 @@
         <ResourceDictionary Source="ShellStyles.xaml"/>
     </Shell.Resources>
 
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
     <FlyoutItem Title="Animals"
                 FlyoutDisplayOptions="AsMultipleItems">
         
