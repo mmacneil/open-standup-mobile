@@ -1,7 +1,7 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
 using CleanXF.Core.Interfaces;
 using CleanXF.Mobile.ViewModels;
-
+ 
 
 namespace CleanXF.Mobile.Presenters
 {
@@ -17,14 +17,14 @@ namespace CleanXF.Mobile.Presenters
         public void Handle(AuthenticationResponse response)
         {
             if (response.Succeeded)
-            {
-                _viewModel.StatusText = "Signed in successfully!";
-            } 
+            {               
+                _viewModel.StatusText = "Signed in!";
+            }
             else
             {
                 _viewModel.StatusText = response.ErrorText;
                 _viewModel.ShowLogin = true;
-                _viewModel.IsBusy = false;               
+                _viewModel.IsBusy = false;
             }
         }
     }

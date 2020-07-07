@@ -47,6 +47,7 @@ namespace CleanXF.Mobile.ViewModels
             // is performed by the presenter
             if (await _mediator.Send(new AuthenticationRequest(new AuthenticationPresenter(this))))
             {
+                await Task.Delay(1);  // UI doesn't completely update on android for some reason
                 _navigator.LoadShell();
             }
         }
