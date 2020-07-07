@@ -6,10 +6,10 @@
              mc:Ignorable="d"
              x:Class="CleanXF.Mobile.Controls.FlyoutHeader"
              HeightRequest="200">
-    <Grid BackgroundColor="Black">
+    <Grid BackgroundColor="{StaticResource NavigationPrimary}">
          <Image Aspect="AspectFit"
                Source="logo.png" 
-               Opacity="0.6" /> 
+               Opacity="0.75" /> 
         <Label Text="CleanXamarinForms" 
                TextColor="White" 
                FontAttributes="Bold" 
