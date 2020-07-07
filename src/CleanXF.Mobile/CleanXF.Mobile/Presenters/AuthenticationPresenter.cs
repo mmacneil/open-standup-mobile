@@ -16,11 +16,16 @@ namespace CleanXF.Mobile.Presenters
 
         public void Handle(AuthenticationResponse response)
         {
-            if (!response.Succeeded)
+            if (response.Succeeded)
             {
-                _viewModel.ErrorText = response.ErrorText;
-                _viewModel.IsBusy = false;
+                _viewModel.StatusText = "Signed in successfully!";
             } 
+            else
+            {
+                _viewModel.StatusText = response.ErrorText;
+                _viewModel.ShowLogin = true;
+                _viewModel.IsBusy = false;               
+            }
         }
     }
 }

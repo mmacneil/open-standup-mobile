@@ -3,7 +3,7 @@ using CleanXF.Mobile.Presenters;
 using CleanXF.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+
 
 namespace CleanXF.Mobile.ViewModels
 {
@@ -17,6 +17,13 @@ namespace CleanXF.Mobile.ViewModels
         {
             get { return _statusText; }
             set { SetProperty(ref _statusText, value); }
+        }
+
+        private bool _showLogin;
+        public bool ShowLogin
+        {
+            get { return _showLogin; }
+            set { SetProperty(ref _showLogin, value); }
         }
 
         public InitializeViewModel(IMediator mediator, INavigator navigator)
@@ -33,7 +40,8 @@ namespace CleanXF.Mobile.ViewModels
         public async Task Login()
         {
             IsBusy = true;
-            StatusText = "Signing in...";
+            ShowLogin = false;
+            StatusText = "Signing in with GitHub...";
 
             // Call the Login UseCase, on success we'll load the application shell, error handling
             // is performed by the presenter
