@@ -6,7 +6,6 @@ namespace CleanXF.Mobile.Views
 {
     public class InitializePage : ContentPage
     {
-
         private InitializeViewModel _viewModel { get; set; } = App.Container.Resolve<InitializeViewModel>();
 
         public InitializePage()
@@ -15,19 +14,17 @@ namespace CleanXF.Mobile.Views
 
             var rootLayout = new StackLayout
             {
-                VerticalOptions = LayoutOptions.Center
+                VerticalOptions = LayoutOptions.Center,
+                Children = { new ActivityIndicator { IsRunning = true }, new Label { HorizontalTextAlignment = TextAlignment.Center, Text = "Starting up..." } }
             };
 
-            rootLayout.Children.Add(new ActivityIndicator { IsRunning = true });
-            rootLayout.Children.Add(new Label { HorizontalTextAlignment = TextAlignment.Center, Text = "Starting up..." });
             Content = rootLayout;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.Initialize();
-            //await _viewModel.Initialize();
+            await _viewModel.Initialize();        
         }
     }
 }
