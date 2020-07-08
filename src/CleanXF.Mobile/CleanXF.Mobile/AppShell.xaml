@@ -20,10 +20,14 @@
         <controls:FlyoutHeader />
     </Shell.FlyoutHeader>
 
-    <!-- Loading/Start Page -->
+    <!-- Initialization Page -->
     <ShellItem Route="initialize">
         <ShellContent ContentTemplate="{DataTemplate local:InitializePage}" />
     </ShellItem>
+
+    <!-- Login Page -->
+    <ShellContent Route="login" ContentTemplate="{DataTemplate local:LoginPage}" />
+    
 
     <FlyoutItem Title="Animals"
                 FlyoutDisplayOptions="AsMultipleItems">

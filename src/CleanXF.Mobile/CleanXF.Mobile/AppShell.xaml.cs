@@ -1,6 +1,7 @@
 ﻿using CleanXF.Core.Domain.Features.Signout.Models;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.ViewModels;
+using CleanXF.Mobile.Views;
 using MediatR;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -26,6 +27,7 @@ namespace CleanXF.Mobile
             InitializeComponent();
             _mediator = mediator;
             _pageFactory = pageFactory;
+            Routing.RegisterRoute("main/login", typeof(LoginPage));
             BindingContext = this;
         }
     }

@@ -9,6 +9,16 @@ namespace CleanXF.Mobile.Views
 
         public LoginPage()
         {
+            //Shell.SetNavBarIsVisible(this, false);
+            Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
+            // Shell.SetTabBarIsVisible(this, false);
+
+            /*  Shell.NavBarIsVisible="True"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.TabBarIsVisible="False"*/
+
+
+
             var rootLayout = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Center,
@@ -63,8 +73,8 @@ namespace CleanXF.Mobile.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel = (LoginViewModel)BindingContext;
-            await _viewModel.Initialize();
+           // _viewModel = (LoginViewModel)BindingContext;
+          //  await _viewModel.Initialize();
         }
     }
 }
