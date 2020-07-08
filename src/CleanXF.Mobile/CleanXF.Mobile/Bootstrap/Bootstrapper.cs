@@ -18,9 +18,8 @@ namespace CleanXF.Mobile.Bootstrap
 
         protected override void ConfigureApplication(IContainer container)
         {           
-            DependencyService.Register<MockDataStore>();          
-            var pageFactory = container.Resolve<IPageFactory>();
-            _app.MainPage = pageFactory.Resolve<LoginViewModel>();
+            DependencyService.Register<MockDataStore>();         
+            _app.MainPage = container.Resolve<AppShell>();
             App.Container = container;            
         }
 

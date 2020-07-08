@@ -3,7 +3,7 @@ using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Services;
 using CleanXF.Mobile.ViewModels;
 using System.Reflection;
-using Xamarin.Forms;
+
 
 namespace CleanXF.Mobile.Bootstrap
 {
@@ -11,9 +11,6 @@ namespace CleanXF.Mobile.Bootstrap
     {
         protected override void Load(ContainerBuilder builder)
         {
-            // app instance
-            builder.RegisterInstance(Application.Current).SingleInstance();
-
             builder.RegisterType<Navigator>().As<INavigator>().SingleInstance();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())

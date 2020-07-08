@@ -19,14 +19,12 @@ namespace CleanXF.Mobile
         });
 
         private readonly IMediator _mediator;
-        private readonly Application _app;
         private readonly IPageFactory _pageFactory;
 
-        public AppShell(IMediator mediator, Application app, IPageFactory pageFactory)
+        public AppShell(IMediator mediator, IPageFactory pageFactory)
         {
             InitializeComponent();
             _mediator = mediator;
-            _app = app;
             _pageFactory = pageFactory;
             BindingContext = this;
         }
