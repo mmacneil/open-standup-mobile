@@ -27,5 +27,10 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
             }
             catch { return false; }
         }
+
+        public async Task Delete()
+        {
+            await _appDb.AsyncDb.ExecuteAsync("delete from session");
+        }
     }
 }

@@ -15,5 +15,11 @@ namespace CleanXF.SharedKernel
             Payload = payload;
             ErrorText = errorText;
         }
+
+        public OperationResponse(OperationResult operationResult, string errorText = "")
+        {
+            OperationResult = operationResult;
+            ErrorText = errorText;
+        }
     }
 }

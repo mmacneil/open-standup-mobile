@@ -3,11 +3,11 @@ using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
 {
-    public class InitializePage : ContentPage
+    public class LoginPage : ContentPage
     {
-        private InitializeViewModel _viewModel;
+        private LoginViewModel _viewModel;
 
-        public InitializePage()
+        public LoginPage()
         {
             var rootLayout = new StackLayout
             {
@@ -33,10 +33,10 @@ namespace CleanXF.Mobile.Views
             activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, nameof(BaseViewModel.IsBusy));
 
             var statusLabel = new Label { HorizontalTextAlignment = TextAlignment.Center };
-            statusLabel.SetBinding(Label.TextProperty, nameof(InitializeViewModel.StatusText));
+            statusLabel.SetBinding(Label.TextProperty, nameof(LoginViewModel.StatusText));
 
             var button = new Button { Text = "Sign in with GitHub", WidthRequest = 120 };
-            button.SetBinding(IsVisibleProperty, nameof(InitializeViewModel.ShowLogin), BindingMode.OneWay);
+            button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
             button.Clicked += Login_Clicked;
 
             var loginLayout = new StackLayout
@@ -63,7 +63,7 @@ namespace CleanXF.Mobile.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel = (InitializeViewModel)BindingContext;
+            _viewModel = (LoginViewModel)BindingContext;
             await _viewModel.Initialize();
         }
     }

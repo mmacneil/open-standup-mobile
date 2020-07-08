@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.ViewModels
 {
-    public class InitializeViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
         private readonly IMediator _mediator;
         private readonly INavigator _navigator;
+        public bool AutoLogin { get; set; } = true;
 
         private string _statusText;
         public string StatusText
@@ -26,7 +27,7 @@ namespace CleanXF.Mobile.ViewModels
             set { SetProperty(ref _showLogin, value); }
         }
 
-        public InitializeViewModel(IMediator mediator, INavigator navigator)
+        public LoginViewModel(IMediator mediator, INavigator navigator)
         {
             _mediator = mediator;
             _navigator = navigator;
@@ -34,6 +35,7 @@ namespace CleanXF.Mobile.ViewModels
 
         public async Task Initialize()
         {
+            if (!AutoLogin) return;
             await Login();
         }
 

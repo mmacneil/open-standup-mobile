@@ -1,10 +1,13 @@
 ﻿using Xamarin.Forms;
 using CleanXF.Mobile.Bootstrap;
+using Autofac;
 
 namespace CleanXF.Mobile
 {
     public partial class App : Application
     {
+        public static IContainer Container { get; set; }
+
         public App()
         {
             InitializeComponent();

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Autofac;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Services
 {
@@ -12,7 +13,7 @@ namespace CleanXF.Mobile.Services
 
         public void LoadShell()
         {
-            _app.MainPage = new AppShell();
+            _app.MainPage = App.Container.Resolve<AppShell>(); // new AppShell();
         }
     }
 }

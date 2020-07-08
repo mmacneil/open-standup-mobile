@@ -7,9 +7,9 @@ namespace CleanXF.Mobile.Presenters
 {
     public class AuthenticationPresenter : IOutputPort<AuthenticationResponse>
     {
-        private readonly InitializeViewModel _viewModel;
+        private readonly LoginViewModel _viewModel;
 
-        public AuthenticationPresenter(InitializeViewModel viewModel)
+        public AuthenticationPresenter(LoginViewModel viewModel)
         {
             _viewModel = viewModel;
         }

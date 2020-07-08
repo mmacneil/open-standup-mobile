@@ -23,6 +23,8 @@ namespace CleanXF.Mobile.Bootstrap
            .Where(t => t.IsSubclassOf(typeof(BaseViewModel)));
 
             builder.RegisterType<PageFactory>().As<IPageFactory>().SingleInstance();
+
+            builder.RegisterType<AppShell>();
         }
     }
 }

@@ -20,12 +20,13 @@ namespace CleanXF.Mobile.Bootstrap
         {           
             DependencyService.Register<MockDataStore>();          
             var pageFactory = container.Resolve<IPageFactory>();
-            _app.MainPage = pageFactory.Resolve<InitializeViewModel>();
+            _app.MainPage = pageFactory.Resolve<LoginViewModel>();
+            App.Container = container;            
         }
 
         protected override void RegisterPages(IPageFactory pageFactory)
         {
-            pageFactory.Register<InitializeViewModel, InitializePage>();
+            pageFactory.Register<LoginViewModel, LoginPage>();
         }
     }
 }

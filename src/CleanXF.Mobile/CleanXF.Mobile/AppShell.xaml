@@ -34,8 +34,8 @@
     </FlyoutItem>
 
 
-    <MenuItem Text="Random"
+    <MenuItem Text="Sign out"
               IconImageSource="tab_feed.png"
-              Command="{Binding RandomPageCommand}" />
+              Command="{Binding SignoutCommand}" />
 
 </Shell>
