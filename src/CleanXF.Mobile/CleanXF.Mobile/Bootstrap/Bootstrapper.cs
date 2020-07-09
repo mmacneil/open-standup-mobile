@@ -2,7 +2,7 @@
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Services;
 using CleanXF.Mobile.ViewModels;
-using CleanXF.Mobile.Views;
+//ing CleanXF.Mobile.Views;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Bootstrap
@@ -18,14 +18,14 @@ namespace CleanXF.Mobile.Bootstrap
 
         protected override void ConfigureApplication(IContainer container)
         {           
-            DependencyService.Register<MockDataStore>();         
-            _app.MainPage = container.Resolve<AppShell>();
-            App.Container = container;            
+            //DependencyService.Register<MockDataStore>();         
+            //_app.MainPage = container.Resolve<AppShell>();
+            //App.Container = container;            
         }
 
         protected override void RegisterPages(IPageFactory pageFactory)
         {
-            pageFactory.Register<LoginViewModel, LoginPage>();
+            //pageFactory.Register<LoginViewModel, LoginPage>();
         }
     }
 }

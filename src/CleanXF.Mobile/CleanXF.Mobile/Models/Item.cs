@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CleanXF.Mobile.Models
+namespace ShellLogin.Models
 {
     public class Item
     {

@@ -3,11 +3,12 @@ using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
 {
-    public class LoginPage : ContentPage
+
+    public class LoginPagexxx : ContentPage
     {
         private LoginViewModel _viewModel;
 
-        public LoginPage()
+        public LoginPagexxx()
         {
             //Shell.SetNavBarIsVisible(this, false);
             Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);

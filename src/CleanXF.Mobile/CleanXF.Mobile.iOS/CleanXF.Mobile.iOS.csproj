@@ -5,16 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FD567C51-578E-426C-BE84-BB42E593C54E}</ProjectGuid>
+    <ProjectGuid>{1EF16954-972E-45EC-92B9-546F56A5A19F}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{89a4fe7c-635d-49c9-8d8c-5cd363c0d68d}</TemplateGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CleanXF.Mobile.iOS</RootNamespace>
+    <RootNamespace>ShellLogin.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>CleanXF.Mobile.iOS</AssemblyName>
+    <AssemblyName>ShellLogin.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <ProvisioningType>automatic</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -132,13 +131,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.968" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\CleanXF.Mobile\CleanXF.Mobile.csproj">
-      <Project>{F3C161C0-DF33-4832-B05E-B695FCAF058D}</Project>
-      <Name>CleanXF.Mobile</Name>
+    <ProjectReference Include="..\ShellLogin\ShellLogin.csproj">
+      <Project>{532AEF5D-F44A-446A-8775-0952BFE6C547}</Project>
+      <Name>ShellLogin</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
