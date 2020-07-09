@@ -4,11 +4,11 @@ using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
 {
-    public class InitializePagexxx : ContentPage
+    public class InitializePage : ContentPage
     {
         private readonly InitializeViewModel _viewModel = App.Container.Resolve<InitializeViewModel>();
 
-        public InitializePagexxx()
+        public InitializePage()
         {
             Shell.SetNavBarIsVisible(this, false);
 
@@ -24,7 +24,7 @@ namespace CleanXF.Mobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel.Initialize();        
+            _viewModel.Initialize();
         }
     }
 }

@@ -2,7 +2,6 @@
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Services;
 using CleanXF.Mobile.ViewModels;
-using ShellLogin;
 using System.Reflection;
 
 

@@ -1,35 +1,51 @@
-﻿using ShellLogin.Services.Routing;
-using Splat;
-using System.Windows.Input;
-using Xamarin.Forms;
+﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
+using CleanXF.Mobile.Presenters;
+using CleanXF.Mobile.Services;
+using MediatR;
+using System.Threading.Tasks;
+
 
 namespace CleanXF.Mobile.ViewModels
 {
-    class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
-        private IRoutingService _navigationService;
+        private readonly IMediator _mediator;
+        private readonly INavigator _navigator;
+        public bool AutoLogin { get; set; } = true;
 
-        public LoginViewModel(IRoutingService navigationService = null)
+        private string _statusText;
+        public string StatusText
         {
-            _navigationService = navigationService ?? Locator.Current.GetService<IRoutingService>();
-            ExecuteLogin = new Command(() => Login());
-            ExecuteRegistration = new Command(() => Register());
+            get { return _statusText; }
+            set { SetProperty(ref _statusText, value); }
         }
 
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public ICommand ExecuteLogin { get; set; }
-        public ICommand ExecuteRegistration { get; set; }
-
-        private void Login()
+        private bool _showLogin;
+        public bool ShowLogin
         {
-            // This is where you would probably check the login and only if valid do the navigation...
-            _navigationService.NavigateTo("///main/home");
+            get { return _showLogin; }
+            set { SetProperty(ref _showLogin, value); }
         }
 
-        private void Register()
+        public LoginViewModel(IMediator mediator, INavigator navigator)
         {
-            Shell.Current.GoToAsync("//login/registration");
+            _mediator = mediator;
+            _navigator = navigator;
+        }        
+
+        public async Task Login()
+        {
+            IsBusy = true;
+            ShowLogin = false;
+            StatusText = "Signing in with GitHub...";
+
+            // Call the Login UseCase, on success we'll load the application shell, error handling
+            // is performed by the presenter
+            if (await _mediator.Send(new AuthenticationRequest(new AuthenticationPresenter(this))))
+            {
+                await Task.Delay(1);  // UI doesn't completely update on android for some reason
+                await _navigator.GoTo("///main");
+            }
         }
     }
 }

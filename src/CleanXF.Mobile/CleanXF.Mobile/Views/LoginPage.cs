@@ -1,24 +1,20 @@
-﻿using CleanXF.Mobile.ViewModels;
+﻿using Autofac;
+using CleanXF.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views
 {
 
-    public class LoginPagexxx : ContentPage
+    public class LoginPage : ContentPage
     {
-        private LoginViewModel _viewModel;
+        private readonly LoginViewModel _viewModel = App.Container.Resolve<LoginViewModel>();
 
-        public LoginPagexxx()
+        public LoginPage()
         {
-            //Shell.SetNavBarIsVisible(this, false);
+            BindingContext = _viewModel;
+
             Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
-            // Shell.SetTabBarIsVisible(this, false);
-
-            /*  Shell.NavBarIsVisible="True"
-             Shell.FlyoutBehavior="Disabled"
-             Shell.TabBarIsVisible="False"*/
-
-
+            Shell.SetNavBarIsVisible(this, false);
 
             var rootLayout = new StackLayout
             {
@@ -29,10 +25,11 @@ namespace CleanXF.Mobile.Views
             var grid = new Grid
             {
                 RowDefinitions =
-            {
-                new RowDefinition { Height = new GridLength(40, GridUnitType.Star) },             
-                new RowDefinition { Height = new GridLength(60, GridUnitType.Star) }
-            }}; 
+                {
+                    new RowDefinition { Height = new GridLength(40, GridUnitType.Star) },
+                    new RowDefinition { Height = new GridLength(60, GridUnitType.Star) }
+                }
+            };
 
             grid.Children.Add(new Image
             {
@@ -47,35 +44,28 @@ namespace CleanXF.Mobile.Views
             statusLabel.SetBinding(Label.TextProperty, nameof(LoginViewModel.StatusText));
 
             var button = new Button { Text = "Sign in with GitHub", WidthRequest = 120 };
-            button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
+           // button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
             button.Clicked += Login_Clicked;
 
             var loginLayout = new StackLayout
             {
-                Padding = new Thickness(0, 20)
+                Padding = new Thickness(0, 20),
+                Children = { activityIndicator, statusLabel, button }
             };
 
-            loginLayout.Children.Add(activityIndicator);
-            loginLayout.Children.Add(statusLabel);
-            loginLayout.Children.Add(button);
-
-            grid.Children.Add(loginLayout, 0, 1);        
-
+            grid.Children.Add(loginLayout, 0, 1);
             rootLayout.Children.Add(grid);
-
             Content = rootLayout;
         }
 
         private async void Login_Clicked(object sender, System.EventArgs e)
-        {          
+        {
             await _viewModel.Login();
         }
 
-        protected override async void OnAppearing()
+        protected override bool OnBackButtonPressed()
         {
-            base.OnAppearing();
-           // _viewModel = (LoginViewModel)BindingContext;
-          //  await _viewModel.Initialize();
+            return true;
         }
     }
 }

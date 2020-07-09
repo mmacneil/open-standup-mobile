@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
- 
+using Xamarin.Forms;
+using CleanXF.Mobile.Models;
+using CleanXF.Mobile.Services;
 
 namespace CleanXF.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
-    {      
+    {
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         private string _errorText;
         public string ErrorText

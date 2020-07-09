@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace ShellLogin.iOS
+namespace CleanXF.Mobile.iOS
 {
     public class Application
     {
