@@ -1,15 +1,17 @@
 ﻿using Autofac;
+using CleanXF.Mobile;
 using CleanXF.Mobile.ViewModels;
+using ShellLogin.ViewModels;
 using Xamarin.Forms;
 
-namespace CleanXF.Mobile.Views
+namespace ShellLogin.Views
 {
 
-    public class LoginPagexxx : ContentPage
+    public class LoginPage : ContentPage
     {
         private readonly LoginViewModel _viewModel = App.Container.Resolve<LoginViewModel>();
 
-        public LoginPagexxx()
+        public LoginPage()
         {
             BindingContext = _viewModel;
 
@@ -53,7 +55,7 @@ namespace CleanXF.Mobile.Views
             statusLabel.SetBinding(Label.TextProperty, nameof(LoginViewModel.StatusText));
 
             var button = new Button { Text = "Sign in with GitHub", WidthRequest = 120 };
-           // button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
+            // button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
             button.Clicked += Login_Clicked;
 
             var loginLayout = new StackLayout

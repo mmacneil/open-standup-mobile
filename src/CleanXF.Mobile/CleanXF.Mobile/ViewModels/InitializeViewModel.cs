@@ -17,17 +17,17 @@ namespace CleanXF.Mobile.ViewModels
 
         public async void Initialize()
         {
-            await Task.Delay(250);
+            await Task.Delay(1337);
 
-             // If we have an access token we're considered logged in, otherwise route to login
-             if(await _sessionRepository.HasAccessToken())
-             {
-                bool here = true;
-             }
+            // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
+            if (await _sessionRepository.HasAccessToken())
+            {
+                await _navigator.GoTo("///main");
+            }
             else
             {
                 await _navigator.GoTo("///login");
             }
-        }       
+        }
     }
 }
