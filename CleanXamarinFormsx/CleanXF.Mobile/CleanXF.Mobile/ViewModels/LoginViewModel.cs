@@ -1,10 +1,13 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
+using CleanXF.Mobile.Infrastructure;
 using CleanXF.Mobile.Presenters;
 using CleanXF.Mobile.Services;
 using MediatR;
 using ShellLogin.ViewModels;
+using System;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.ViewModels
 {

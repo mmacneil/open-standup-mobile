@@ -70,12 +70,6 @@ namespace ShellLogin.Views
             return true;
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            _viewModel.StatusText = "";
-            _viewModel.IsBusy = false;
-            _viewModel.CanLogin = true;
-        }
+      
     }
 }

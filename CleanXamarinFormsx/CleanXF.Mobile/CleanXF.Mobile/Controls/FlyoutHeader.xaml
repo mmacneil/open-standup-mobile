@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CleanXF.Mobile.Controls.FlyoutHeader"
-             HeightRequest="200">
+             HeightRequest="175">
     <Grid BackgroundColor="{StaticResource NavigationPrimary}">
          <Image Aspect="AspectFit"
                Source="logo.png" 
