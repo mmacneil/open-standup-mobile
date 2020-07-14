@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="BaseStyle" TargetType="Element">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="Shell.ForegroundColor" Value="White" />
+        <Setter Property="Shell.TitleColor" Value="White" />
+        <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+        <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="#333333" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+        <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+        <Setter Property="Shell.TabBarTitleColor" Value="White"/>        
+    </Style>
+
+    <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+   
+</ResourceDictionary>
