@@ -16,22 +16,10 @@ namespace ShellLogin.Views
             BindingContext = _viewModel;
 
             Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
-            Shell.SetNavBarIsVisible(this, true);
+            Shell.SetNavBarIsVisible(this, false);
             Shell.SetPresentationMode(this, PresentationMode.ModalAnimated);
             Shell.SetTabBarIsVisible(this, false);
             Visual = VisualMarker.Material;
-
-            /*   
-             Shell.NavBarIsVisible="True"
-             Shell.FlyoutBehavior="Disabled"
-             Shell.TabBarIsVisible="False"
-             Shell.PresentationMode="ModalAnimated"*/
-
-            var rootLayout = new StackLayout
-            {
-                VerticalOptions = LayoutOptions.Center,
-                Margin = 75
-            };
 
             var grid = new Grid
             {
@@ -55,18 +43,21 @@ namespace ShellLogin.Views
             statusLabel.SetBinding(Label.TextProperty, nameof(LoginViewModel.StatusText));
 
             var button = new Button { Text = "Sign in with GitHub", WidthRequest = 120 };
-            // button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.ShowLogin), BindingMode.OneWay);
+            button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.CanLogin), BindingMode.OneWay);
             button.Clicked += Login_Clicked;
 
-            var loginLayout = new StackLayout
+            grid.Children.Add(new StackLayout
             {
                 Padding = new Thickness(0, 20),
                 Children = { activityIndicator, statusLabel, button }
-            };
+            }, 0, 1);
 
-            grid.Children.Add(loginLayout, 0, 1);
-            rootLayout.Children.Add(grid);
-            Content = rootLayout;
+            Content = new StackLayout
+            {
+                VerticalOptions = LayoutOptions.Center,
+                Margin = 75,
+                Children = { grid }
+            };
         }
 
         private async void Login_Clicked(object sender, System.EventArgs e)
@@ -77,6 +68,14 @@ namespace ShellLogin.Views
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.StatusText = "";
+            _viewModel.IsBusy = false;
+            _viewModel.CanLogin = true;
         }
     }
 }

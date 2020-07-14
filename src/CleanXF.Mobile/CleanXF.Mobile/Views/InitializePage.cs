@@ -15,7 +15,8 @@ namespace CleanXF.Mobile.Views
             var rootLayout = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Center,
-                Children = { new ActivityIndicator { IsRunning = true }, new Label { HorizontalTextAlignment = TextAlignment.Center, Text = "Starting up..." } }
+                HorizontalOptions = LayoutOptions.Center,
+                Children = { new ActivityIndicator { IsRunning = true }, new Label { Text = "Starting up..." } }
             };
 
             Content = rootLayout;

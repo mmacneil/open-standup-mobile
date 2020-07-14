@@ -23,7 +23,7 @@ namespace CleanXF.Mobile.Presenters
             else
             {
                 _viewModel.StatusText = response.ErrorText;
-                _viewModel.ShowLogin = true;
+                _viewModel.CanLogin = true;
                 _viewModel.IsBusy = false;
             }
         }

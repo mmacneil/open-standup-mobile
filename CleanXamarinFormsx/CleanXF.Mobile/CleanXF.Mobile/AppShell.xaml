@@ -4,14 +4,19 @@
        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        mc:Ignorable="d"
+       xmlns:controls="clr-namespace:CleanXF.Mobile.Controls"
        xmlns:local="clr-namespace:ShellLogin.Views"
-       Title="ShellLogin"
+       Title="Clean Xamarin.Forms"
        x:Class="CleanXF.Mobile.AppShell">
 
     <!-- Styles and Resources -->
     <Shell.Resources>
         <ResourceDictionary Source="ShellStyles.xaml"/>
     </Shell.Resources>
+
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
 
     <!-- Loading/Start Page -->
     <ShellItem Route="loading">

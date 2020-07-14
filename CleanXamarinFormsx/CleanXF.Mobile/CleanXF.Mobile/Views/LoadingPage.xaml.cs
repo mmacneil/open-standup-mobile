@@ -14,9 +14,9 @@ using Xamarin.Forms.Xaml;
 namespace ShellLogin.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoadingPage : ContentPage
+    public partial class LoadingPagexxx : ContentPage
     {
-        public LoadingPage()
+        public LoadingPagexxx()
         {
             InitializeComponent();
         }
