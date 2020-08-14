@@ -4,13 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="CleanXF.Mobile.Controls.FlyoutHeader"
-             HeightRequest="200">
+             x:Class="CleanXF.Mobile.Controls.FlyoutHeader">
     <Grid BackgroundColor="{StaticResource NavigationPrimary}">
-         <Image Aspect="AspectFit"
-               Source="logo.png" 
+         <Image Source="logo.png" 
                Opacity="0.75" /> 
-        <Label Text="CleanXamarinForms" 
+        <Label Text="Clean Xamarin.Forms" 
                TextColor="White" 
                FontAttributes="Bold" 
                HorizontalTextAlignment="Center"

@@ -6,8 +6,8 @@ namespace CleanXF.Mobile.Droid
 {
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(new[] { Intent.ActionView },
-        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-        DataScheme = "myapp")]
+       Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+       DataScheme = "myapp")]
     public class WebAuthenticatorCallbackActivity : Xamarin.Essentials.WebAuthenticatorCallbackActivity
     {
     }

@@ -25,7 +25,7 @@ namespace CleanXF.Mobile.Bootstrap
             builder.RegisterModule(new InfrastructureModule
             {
                 ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-            });
+            }); 
         }
 
         protected abstract void RegisterPages(IPageFactory pageFactory);

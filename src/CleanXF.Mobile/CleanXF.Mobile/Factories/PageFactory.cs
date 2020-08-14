@@ -1,11 +1,12 @@
 ﻿using Autofac;
-using CleanXF.Mobile.ViewModels;
+//using CleanXF.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Factories
 {
+    /*
     public class PageFactory : IPageFactory
     {
         public readonly IDictionary<Type, Type> Map = new Dictionary<Type, Type>();
@@ -51,5 +52,5 @@ namespace CleanXF.Mobile.Factories
             page.BindingContext = viewModel;
             return page;
         }
-    }
+    }*/
 }

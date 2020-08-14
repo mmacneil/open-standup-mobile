@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="autofac" Version="5.2.0" />
-    <PackageReference Include="mediatr" Version="8.0.1" />
+    <PackageReference Include="mediatr" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>

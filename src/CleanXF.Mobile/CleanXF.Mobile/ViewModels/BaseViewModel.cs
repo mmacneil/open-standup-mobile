@@ -2,35 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
-using CleanXF.Mobile.Models;
-using CleanXF.Mobile.Services;
 
-namespace CleanXF.Mobile.ViewModels
+using Xamarin.Forms;
+
+using ShellLogin.Models;
+
+namespace ShellLogin.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
-        private string _errorText;
-        public string ErrorText
-        {
-            get { return _errorText; }
-            set { SetProperty(ref _errorText, value); }
-        }
-
-        private bool _isBusy = false;
+        bool isBusy = false;
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
         }
 
-        private string _title = string.Empty;
+        string title = string.Empty;
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
@@ -44,11 +36,6 @@ namespace CleanXF.Mobile.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
-        }
-
-        public void SetState<T>(Action<T> action) where T : class
-        {
-            action(this as T);
         }
 
         #region INotifyPropertyChanged

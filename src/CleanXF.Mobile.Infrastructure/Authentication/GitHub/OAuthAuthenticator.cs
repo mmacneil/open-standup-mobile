@@ -34,7 +34,16 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             }
             catch (Exception e)
             {
-                return new OperationResponse<string>(OperationResult.Failed, null, e.Message);
+                string message = null;
+
+                switch (e)
+                {
+                    case TaskCanceledException _:
+                        message = "User canceled login.";
+                        break;
+                }
+
+                return new OperationResponse<string>(OperationResult.Failed, null, message ?? e.Message);
             }
         }
     }

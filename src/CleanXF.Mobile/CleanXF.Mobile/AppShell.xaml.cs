@@ -1,7 +1,7 @@
-﻿using CleanXF.Core.Domain.Features.Signout.Models;
-using CleanXF.Mobile.Factories;
-using CleanXF.Mobile.Views;
-using MediatR;
+﻿//using CleanXF.Mobile.Views;
+using ShellLogin.Views;
+using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -9,23 +9,15 @@ namespace CleanXF.Mobile
 {
     public partial class AppShell : Shell
     {
-        public ICommand SignoutCommand => new Command(async () =>
-        {
-            // Call the signout usecase and if successful, navigate back to login
-           // if (await _mediator.Send(new SignoutRequest()))
-            //{
-                //Application.Current.MainPage = _pageFactory.Resolve<LoginViewModel>(vm => { vm.AutoLogin = false; });
-           //}
-        });
-
-        private readonly IMediator _mediator;      
-
-        public AppShell(/*IMediator mediator, IPageFactory pageFactory*/)
+        public AppShell()
         {
             InitializeComponent();
-           // _mediator = mediator;            
+
+            Routing.RegisterRoute("registration", typeof(RegistrationPage));
             Routing.RegisterRoute("main/login", typeof(LoginPage));
             BindingContext = this;
         }
+
+        public ICommand ExecuteLogout => new Command(async () => await GoToAsync("main/login"));
     }
 }

@@ -1,9 +1,13 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
+using CleanXF.Mobile.Infrastructure;
 using CleanXF.Mobile.Presenters;
 using CleanXF.Mobile.Services;
 using MediatR;
+using ShellLogin.ViewModels;
+using System;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace CleanXF.Mobile.ViewModels
 {
@@ -20,23 +24,23 @@ namespace CleanXF.Mobile.ViewModels
             set { SetProperty(ref _statusText, value); }
         }
 
-        private bool _showLogin;
-        public bool ShowLogin
+        private bool _canLogin = true;
+        public bool CanLogin
         {
-            get { return _showLogin; }
-            set { SetProperty(ref _showLogin, value); }
+            get { return _canLogin; }
+            set { SetProperty(ref _canLogin, value); }
         }
 
         public LoginViewModel(IMediator mediator, INavigator navigator)
         {
             _mediator = mediator;
             _navigator = navigator;
-        }        
+        }
 
         public async Task Login()
         {
             IsBusy = true;
-            ShowLogin = false;
+            CanLogin = false;
             StatusText = "Signing in with GitHub...";
 
             // Call the Login UseCase, on success we'll load the application shell, error handling

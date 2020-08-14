@@ -1,8 +1,9 @@
 ﻿using Autofac;
-using CleanXF.Mobile.ViewModels;
+using CleanXF.Mobile;
+//using CleanXF.Mobile.ViewModels;
 using Xamarin.Forms;
 
-namespace CleanXF.Mobile.Views
+namespace ShellLogin.Views
 {
     public class InitializePage : ContentPage
     {
@@ -15,8 +16,7 @@ namespace CleanXF.Mobile.Views
             var rootLayout = new StackLayout
             {
                 VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center,
-                Children = { new ActivityIndicator { IsRunning = true }, new Label { Text = "Starting up..." } }
+                Children = { new ActivityIndicator { IsRunning = true }, new Label { HorizontalTextAlignment = TextAlignment.Center, Text = "Starting up..." } }
             };
 
             Content = rootLayout;
