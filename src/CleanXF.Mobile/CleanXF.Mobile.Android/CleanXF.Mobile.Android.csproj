@@ -60,7 +60,7 @@
     <PackageReference Include="xamarin.essentials">
       <Version>1.5.3.2</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1080" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

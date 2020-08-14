@@ -37,5 +37,10 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
         {
             return await _appDb.AsyncDb.ExecuteScalarAsync<int>("select 1 from session where AccessToken != '' OR AccessToken is not null") == 1;
         }
+
+        public async Task<string> GetAccessToken()
+        {
+            return await _appDb.AsyncDb.ExecuteScalarAsync<string>("select AccessToken from session").ConfigureAwait(false);
+        }
     }
 }

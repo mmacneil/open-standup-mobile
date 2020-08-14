@@ -20,5 +20,6 @@
     </Style>
 
     <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-   
+    <Style TargetType="ShellContent" BasedOn="{StaticResource BaseStyle}" />
+
 </ResourceDictionary>

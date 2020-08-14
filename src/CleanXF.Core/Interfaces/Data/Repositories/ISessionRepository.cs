@@ -7,5 +7,6 @@ namespace CleanXF.Core.Interfaces.Data.Repositories
         Task<bool> Initialize(string accessToken);
         Task Delete();
         Task<bool> HasAccessToken();
+        Task<string> GetAccessToken();
     }
 }

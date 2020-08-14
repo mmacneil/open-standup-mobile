@@ -5,7 +5,7 @@
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        mc:Ignorable="d"
        xmlns:controls="clr-namespace:CleanXF.Mobile.Controls"
-       xmlns:local="clr-namespace:CleanXF.Mobile.Views"
+       xmlns:views="clr-namespace:CleanXF.Mobile.Views"
        Title="Clean Xamarin.Forms"
        x:Class="CleanXF.Mobile.AppShell">
 
@@ -23,26 +23,25 @@
                 FlyoutDisplayOptions="AsMultipleItems" IsTabStop="False">
         <ShellContent Route="home"
                       IsTabStop="False"
-                      ContentTemplate="{DataTemplate local:MainPage}"
+                      ContentTemplate="{DataTemplate views:MainPage}"
                       Title="Home" />
-
-        <!--<ShellContent Route="bears"
-                      Style="{StaticResource BearsShell}"
-                      Title="Bears"
-                      Icon="bear.png"
-                      ContentTemplate="{DataTemplate views:BearsPage}" />-->
     </FlyoutItem>
+
+    <ShellContent Route="profile"                       
+                      Title="My Profile"                   
+                      ContentTemplate="{DataTemplate views:ProfilePage}" />
+    
     <MenuItem Text="Logout"
               Command="{Binding ExecuteLogout}" />
 
     <!-- Loading/Start Page -->
     <ShellItem Route="loading">
-        <ShellContent ContentTemplate="{DataTemplate local:InitializePage}" />
+        <ShellContent ContentTemplate="{DataTemplate views:InitializePage}" />
     </ShellItem>
 
     <!-- Login and Registration Page -->
     <ShellContent Route="login"
-                  ContentTemplate="{DataTemplate local:LoginPage}">
+                  ContentTemplate="{DataTemplate views:LoginPage}">
     </ShellContent>
     
 </Shell>
