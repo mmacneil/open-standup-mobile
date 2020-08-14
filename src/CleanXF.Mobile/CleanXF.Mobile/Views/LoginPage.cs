@@ -1,12 +1,9 @@
-﻿using Autofac;
-using CleanXF.Mobile;
-using CleanXF.Mobile.ViewModels;
-using ShellLogin.ViewModels;
+﻿using Autofac; 
+using CleanXF.Mobile.ViewModels; 
 using Xamarin.Forms;
 
-namespace ShellLogin.Views
+namespace CleanXF.Mobile.Views
 {
-
     public class LoginPage : ContentPage
     {
         private readonly LoginViewModel _viewModel = App.Container.Resolve<LoginViewModel>();

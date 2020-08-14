@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using Xamarin.Forms;
-
-using ShellLogin.Models;
-
-namespace ShellLogin.ViewModels
+namespace CleanXF.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

@@ -21,7 +21,7 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             try
             {
                 var authenticationResult = await WebAuthenticator.AuthenticateAsync(
-                    new Uri($"https://github.com/login/oauth/authorize?client_id={Configuration.GitHub.ClientId}&scope=user&redirect_uri=myapp://"),
+                    new Uri($"https://github.com/login/oauth/authorize?client_id={Configuration.GitHub.ClientId}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://"),
                     new Uri("myapp://"));
 
                 //code
@@ -29,7 +29,7 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
 
                 // POST https://github.com/login/oauth/access_token                
                 var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={Configuration.GitHub.ClientId}&client_secret={Configuration.GitHub.ClientSecret}"));
-                var content = await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();            
                 return new OperationResponse<string>(OperationResult.Succeeded, content.Split("&")[0].Replace("access_token=", ""));
             }
             catch (Exception e)
@@ -48,3 +48,12 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
         }
     }
 }
+
+ 
+
+
+
+
+
+
+

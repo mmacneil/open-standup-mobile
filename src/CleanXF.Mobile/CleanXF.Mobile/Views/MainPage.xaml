@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              Title="Welcome"
              Shell.TabBarIsVisible="False"
-             x:Class="ShellLogin.Views.MainPage">
+             x:Class="CleanXF.Mobile.Views.MainPage">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to Xamarin.Forms!"

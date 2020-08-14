@@ -1,9 +1,7 @@
 ﻿using Autofac;
-using CleanXF.Mobile;
-//using CleanXF.Mobile.ViewModels;
 using Xamarin.Forms;
 
-namespace ShellLogin.Views
+namespace CleanXF.Mobile.Views
 {
     public class InitializePage : ContentPage
     {

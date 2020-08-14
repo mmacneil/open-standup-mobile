@@ -1,21 +1,16 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
-using CleanXF.Mobile.Infrastructure;
 using CleanXF.Mobile.Presenters;
 using CleanXF.Mobile.Services;
 using MediatR;
-using ShellLogin.ViewModels;
-using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Forms;
+ 
 
 namespace CleanXF.Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly IMediator _mediator;
-        private readonly INavigator _navigator;
-        public bool AutoLogin { get; set; } = true;
+        private readonly INavigator _navigator;      
 
         private string _statusText;
         public string StatusText

@@ -1,6 +1,6 @@
 ﻿using CleanXF.Core.Interfaces.Data.Repositories;
 using CleanXF.Mobile.Services;
-using ShellLogin.ViewModels;
+using CleanXF.Mobile.ViewModels;
 using System.Threading.Tasks;
 
 public class InitializeViewModel : BaseViewModel

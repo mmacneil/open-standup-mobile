@@ -1,7 +1,4 @@
-﻿//using CleanXF.Mobile.Views;
-using ShellLogin.Views;
-using System;
-using System.Collections.Generic;
+﻿using CleanXF.Mobile.Views; 
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,9 +8,7 @@ namespace CleanXF.Mobile
     {
         public AppShell()
         {
-            InitializeComponent();
-
-            Routing.RegisterRoute("registration", typeof(RegistrationPage));
+            InitializeComponent();       
             Routing.RegisterRoute("main/login", typeof(LoginPage));
             BindingContext = this;
         }

@@ -5,7 +5,7 @@
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        mc:Ignorable="d"
        xmlns:controls="clr-namespace:CleanXF.Mobile.Controls"
-       xmlns:local="clr-namespace:ShellLogin.Views"
+       xmlns:local="clr-namespace:CleanXF.Mobile.Views"
        Title="Clean Xamarin.Forms"
        x:Class="CleanXF.Mobile.AppShell">
 
@@ -25,6 +25,12 @@
                       IsTabStop="False"
                       ContentTemplate="{DataTemplate local:MainPage}"
                       Title="Home" />
+
+        <!--<ShellContent Route="bears"
+                      Style="{StaticResource BearsShell}"
+                      Title="Bears"
+                      Icon="bear.png"
+                      ContentTemplate="{DataTemplate views:BearsPage}" />-->
     </FlyoutItem>
     <MenuItem Text="Logout"
               Command="{Binding ExecuteLogout}" />
