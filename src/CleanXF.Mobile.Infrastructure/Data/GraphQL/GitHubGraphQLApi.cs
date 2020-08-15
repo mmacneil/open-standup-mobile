@@ -9,12 +9,6 @@ using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
 {
-    public class GitHubUserGraphQLResponse
-    {
-        public GitHubUser User { get; }
-        public GitHubUserGraphQLResponse(GitHubUser user) => User = user;
-    }
-
     public class GitHubGraphQLApi : IGitHubGraphQLApi
     {
         private readonly GraphQLHttpClient _graphQLHttpClient;
@@ -30,7 +24,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
         {
             var graphQLRequest = new GraphQLRequest
             {
-                Query = "query { user(login: \"" + login + "\"){ name, company, createdAt, followers{ totalCount }}}"
+                Query = "query { user(login: \"" + login + "\"){ name, avatarUrl, company, createdAt, followers{ totalCount }}}"
             };
 
             _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));

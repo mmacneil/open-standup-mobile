@@ -7,6 +7,14 @@ namespace CleanXF.Mobile.ViewModels
     {
         private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
 
+        private string _avatarUrl;
+
+        public string AvatarUrl
+        {
+            get => _avatarUrl;
+            set => SetAndRaisePropertyChanged(ref _avatarUrl, value);
+        }
+
         public ProfileViewModel(IGitHubGraphQLApi gitHubGraphQLApi)
         {
             _gitHubGraphQLApi = gitHubGraphQLApi;
@@ -14,8 +22,8 @@ namespace CleanXF.Mobile.ViewModels
 
         public async Task Initialize()
         {
-           var user = await _gitHubGraphQLApi.GetGitHubUser("mmacneil").ConfigureAwait(false);
-            bool here = true;
+            var user = await _gitHubGraphQLApi.GetGitHubUser("mmacneil").ConfigureAwait(false);
+            AvatarUrl = user.AvatarUrl;            
         }
     }
 }
