@@ -27,18 +27,15 @@ namespace CleanXF.Core.Domain.Features.Authenticate
         public async Task<bool> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticator.Authenticate();
-            var  result = false;
+            var result = false;
             AuthenticationResponse useCaseResponse;
 
-          if (authenticationResponse.Succeeded)
+            if (authenticationResponse.Succeeded)
             {
                 await _sessionRepository.Initialize(authenticationResponse.Payload).ConfigureAwait(false);
 
-                // Fetch and store users's profile info
-                var gitHubViewer = await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false);
-                bool success = await _profileRepository.Insert(gitHubViewer).ConfigureAwait(false); 
-                await _profileRepository.Insert(gitHubViewer).ConfigureAwait(false);
-
+                // Fetch and store users's profile info             
+                await _profileRepository.Insert(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
             }

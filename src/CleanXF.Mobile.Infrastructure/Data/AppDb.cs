@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using CleanXF.Mobile.Infrastructure.Data.Model;
+using SQLite;
 using System;
 using System.IO;
 using System.Linq;
@@ -33,8 +34,16 @@ namespace CleanXF.Mobile.Infrastructure.Data
 
             AsyncDb = new SQLiteAsyncConnection(dbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex);
             AsyncDb.SetBusyTimeoutAsync(_busyTimeout);
+
+            InitializeDatabase(SyncDb);
         }
 
+        private static void InitializeDatabase(SQLiteConnection database)
+        {
+            // create tables if they don't exists
+            database.CreateTable<Profile>();
+            database.CreateTable<Session>();
+        }
 
         private static void LoadFromResources(string name, string path)
         {

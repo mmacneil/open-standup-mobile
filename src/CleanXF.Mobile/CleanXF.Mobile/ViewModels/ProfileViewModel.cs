@@ -1,11 +1,12 @@
 ﻿using CleanXF.Core.Interfaces.Data.GraphQL;
+using CleanXF.Core.Interfaces.Data.Repositories;
 using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
+        private readonly IProfileRepository _profileRepository;
 
         private string _avatarUrl;
 
@@ -15,15 +16,15 @@ namespace CleanXF.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _avatarUrl, value);
         }
 
-        public ProfileViewModel(IGitHubGraphQLApi gitHubGraphQLApi)
+        public ProfileViewModel(IProfileRepository profileRepository)
         {
-            _gitHubGraphQLApi = gitHubGraphQLApi;
+            _profileRepository = profileRepository;
         }
 
         public async Task Initialize()
         {
-            //var user = await _gitHubGraphQLApi.GetGitHubUser("mmacneil").ConfigureAwait(false);
-            //AvatarUrl = user.AvatarUrl;            
+            var me = await _profileRepository.Get();
+            bool here = true;
         }
     }
 }

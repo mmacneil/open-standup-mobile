@@ -1,7 +1,9 @@
 ﻿using CleanXF.Core.Domain.Entities;
+using CleanXF.Core.Domain.Values;
 using CleanXF.Core.Interfaces.Data.Repositories;
-using Polly.Utilities;
+using CleanXF.Mobile.Infrastructure.Data.Model;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.Infrastructure.Data.Repositories
@@ -15,68 +17,33 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
             _appDb = appDb;
         }
 
-        public async Task Delete()
-        {
-            await _appDb.AsyncDb.ExecuteAsync("delete from session");
-        }
-
         public async Task<bool> Insert(GitHubUser user)
         {
-            try
+            return await _appDb.AsyncDb.InsertAsync(new Profile
             {
-                bool result = await _appDb.AsyncDb.ExecuteScalarAsync<int>(@"insert into profile (
-                                                                    Name, 
-                                                                    Login, 
-                                                                    AvatarUrl, 
-                                                                    BioHTML, 
-                                                                    Company, 
-                                                                    Email, 
-                                                                    CreatedAt, 
-                                                                    Location, 
-                                                                    FollowerCount, 
-                                                                    FollowingCount) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                                                                  user.Name,
-                                                                  user.Login,
-                                                                  user.AvatarUrl,
-                                                                  user.BioHTML,
-                                                                  user.Company,
-                                                                  user.Email,
-                                                                  user.CreatedAt,
-                                                                  user.Location,
-                                                                  user.Followers.TotalCount,
-                                                                  user.Following.TotalCount) == 1;
-
-            }
-            catch(Exception e)
-            {
-                var msg = e.ToString();
-            }
-            return await _appDb.AsyncDb.ExecuteScalarAsync<int>(@"insert into profile (
-                                                                    Name, 
-                                                                    Login, 
-                                                                    AvatarUrl, 
-                                                                    BioHTML, 
-                                                                    Company, 
-                                                                    Email, 
-                                                                    CreatedAt, 
-                                                                    Location, 
-                                                                    FollowerCount, 
-                                                                    FollowingCount) VALUES (?,?,?,?,?,?,?,?,?,?)",
-                                                                    user.Name,
-                                                                    user.Login,
-                                                                    user.AvatarUrl,
-                                                                    user.BioHTML,
-                                                                    user.Company,
-                                                                    user.Email,
-                                                                    user.CreatedAt,
-                                                                    user.Location,
-                                                                    user.Followers.TotalCount,
-                                                                    user.Following.TotalCount) == 1;
+                Name = user.Name,
+                Login = user.Login,
+                AvatarUrl = user.AvatarUrl,
+                BioHTML = user.BioHTML,
+                Company = user.Company,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+                Location = user.Location,
+                FollowerCount = user.Followers.TotalCount,
+                FollowingCount = user.Following.TotalCount
+            }) == 1;
         }
 
-        public async Task<string> GetAccessToken()
+        public async Task<GitHubUser> Get()
         {
-            return await _appDb.AsyncDb.ExecuteScalarAsync<string>("select AccessToken from session").ConfigureAwait(false);
+            Profile model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile")).FirstOrDefault();
+
+            if (model != null)
+            {
+                return new GitHubUser(model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount));
+            }
+
+            throw new Exception("No profile exists.");
         }
     }
 }

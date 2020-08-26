@@ -1,4 +1,5 @@
 ﻿using CleanXF.Core.Interfaces.Data.Repositories;
+using CleanXF.Mobile.Infrastructure.Data.Model;
 using System.Threading.Tasks;
 
 namespace CleanXF.Mobile.Infrastructure.Data.Repositories
@@ -20,7 +21,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
                 await _appDb.AsyncDb.RunInTransactionAsync(tran =>
                 {
                     tran.Execute("delete from session");
-                    row = tran.Execute("insert into session values (?)", accessToken);
+                    row = tran.Insert(new Session { AccessToken = accessToken });
                 });
 
                 return row == 1;
