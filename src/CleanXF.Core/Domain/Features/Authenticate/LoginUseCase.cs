@@ -1,5 +1,6 @@
 ﻿using CleanXF.Core.Domain.Features.Authenticate.Models;
 using CleanXF.Core.Interfaces.Authentication;
+using CleanXF.Core.Interfaces.Data.GraphQL;
 using CleanXF.Core.Interfaces.Data.Repositories;
 using CleanXF.SharedKernel;
 using MediatR;
@@ -12,22 +13,27 @@ namespace CleanXF.Core.Domain.Features.Authenticate
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
 
-        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository)
+        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IGitHubGraphQLApi gitHubGraphQLApi)
         {
             _authenticator = authenticator;
             _sessionRepository = sessionRepository;
+            _gitHubGraphQLApi = gitHubGraphQLApi;
         }
 
         public async Task<bool> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticator.Authenticate();
-            bool result = false;
+            var  result = false;
             AuthenticationResponse useCaseResponse;
 
-            if (authenticationResponse.Succeeded)
+          if (authenticationResponse.Succeeded)
             {
-                await _sessionRepository.Initialize(authenticationResponse.Payload);
+                await _sessionRepository.Initialize(authenticationResponse.Payload).ConfigureAwait(false);
+
+                var gitHubViewer = await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false);
+
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
             }

@@ -15,7 +15,7 @@ public class InitializeViewModel : BaseViewModel
 
     public async void Initialize()
     {
-        await Task.Delay(1300);
+        await Task.Delay(700);
 
         // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
         if (await _sessionRepository.HasAccessToken())

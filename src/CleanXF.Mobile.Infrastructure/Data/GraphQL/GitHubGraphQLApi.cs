@@ -28,8 +28,24 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
             };
 
             _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));
+
             var gitHubUserResponse = await _graphQLHttpClient.SendQueryAsync<GitHubUserGraphQLResponse>(graphQLRequest).ConfigureAwait(false);
+
             return gitHubUserResponse.Data.User;
+        }
+
+        public async Task<GitHubViewer> GetGitHubViewer()
+        {
+            var graphQLRequest = new GraphQLRequest
+            {
+                Query = "query { viewer { login, name }}"
+            };
+
+            _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));
+
+            var gitHubViewerResponse = await _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest).ConfigureAwait(false);
+
+            return gitHubViewerResponse.Data.Viewer;
         }
     }
 }

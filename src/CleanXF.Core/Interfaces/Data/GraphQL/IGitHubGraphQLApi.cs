@@ -6,5 +6,6 @@ namespace CleanXF.Core.Interfaces.Data.GraphQL
     public interface IGitHubGraphQLApi
     {
         Task<GitHubUser> GetGitHubUser(string login);
+        Task<GitHubViewer> GetGitHubViewer();
     }
 }
