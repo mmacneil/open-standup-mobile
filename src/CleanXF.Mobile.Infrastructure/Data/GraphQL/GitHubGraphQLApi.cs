@@ -1,6 +1,7 @@
 ﻿using CleanXF.Core.Domain.Entities;
 using CleanXF.Core.Interfaces.Data.GraphQL;
 using CleanXF.Core.Interfaces.Data.Repositories;
+using CleanXF.Mobile.Infrastructure.Data.GraphQL.Responses;
 using GraphQL;
 using GraphQL.Client.Http;
 using System.Net.Http.Headers;
@@ -20,32 +21,32 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
             _sessionRepository = sessionRepository;
         }
 
-        public async Task<GitHubUser> GetGitHubUser(string login)
+        public async Task<GitHubUser> GetGitHubViewer()
         {
             var graphQLRequest = new GraphQLRequest
             {
-                Query = "query { user(login: \"" + login + "\"){ name, avatarUrl, company, createdAt, followers{ totalCount }}}"
+                Query = @"query { viewer 
+                                    { 
+                                        login, 
+                                        name, 
+                                        avatarUrl, 
+                                        bioHTML,
+                                        company,
+                                        email, 
+                                        createdAt,
+                                        location,
+                                        followers {
+                                            totalCount
+                                        },
+                                        following {
+                                            totalCount
+                                        }
+                                    }
+                                }"
             };
 
             _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));
-
-            var gitHubUserResponse = await _graphQLHttpClient.SendQueryAsync<GitHubUserGraphQLResponse>(graphQLRequest).ConfigureAwait(false);
-
-            return gitHubUserResponse.Data.User;
-        }
-
-        public async Task<GitHubViewer> GetGitHubViewer()
-        {
-            var graphQLRequest = new GraphQLRequest
-            {
-                Query = "query { viewer { login, name }}"
-            };
-
-            _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));
-
-            var gitHubViewerResponse = await _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest).ConfigureAwait(false);
-
-            return gitHubViewerResponse.Data.Viewer;
+            return (await _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest).ConfigureAwait(false)).Data.Viewer;
         }
     }
 }

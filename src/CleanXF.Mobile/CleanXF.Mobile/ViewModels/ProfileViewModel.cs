@@ -22,8 +22,8 @@ namespace CleanXF.Mobile.ViewModels
 
         public async Task Initialize()
         {
-            var user = await _gitHubGraphQLApi.GetGitHubUser("mmacneil").ConfigureAwait(false);
-            AvatarUrl = user.AvatarUrl;            
+            //var user = await _gitHubGraphQLApi.GetGitHubUser("mmacneil").ConfigureAwait(false);
+            //AvatarUrl = user.AvatarUrl;            
         }
     }
 }

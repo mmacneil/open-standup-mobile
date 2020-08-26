@@ -20,10 +20,10 @@ namespace CleanXF.Mobile.Infrastructure
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces().SingleInstance();
-      
+
             builder.RegisterType<OAuthAuthenticator>().As<IAuthenticator>().SingleInstance();
 
-            builder.RegisterType<GitHubGraphQLApi>().As<IGitHubGraphQLApi>().SingleInstance();           
+            builder.RegisterType<GitHubGraphQLApi>().As<IGitHubGraphQLApi>().SingleInstance();
 
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
@@ -40,4 +40,4 @@ namespace CleanXF.Mobile.Infrastructure
     }
 }
 
- 
+

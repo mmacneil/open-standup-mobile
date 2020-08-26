@@ -13,12 +13,14 @@ namespace CleanXF.Core.Domain.Features.Authenticate
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IProfileRepository _profileRepository;
         private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
 
-        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IGitHubGraphQLApi gitHubGraphQLApi)
+        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IProfileRepository profileRepository, IGitHubGraphQLApi gitHubGraphQLApi)
         {
             _authenticator = authenticator;
             _sessionRepository = sessionRepository;
+            _profileRepository = profileRepository;
             _gitHubGraphQLApi = gitHubGraphQLApi;
         }
 
@@ -32,7 +34,10 @@ namespace CleanXF.Core.Domain.Features.Authenticate
             {
                 await _sessionRepository.Initialize(authenticationResponse.Payload).ConfigureAwait(false);
 
+                // Fetch and store users's profile info
                 var gitHubViewer = await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false);
+                bool success = await _profileRepository.Insert(gitHubViewer).ConfigureAwait(false); 
+                await _profileRepository.Insert(gitHubViewer).ConfigureAwait(false);
 
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
