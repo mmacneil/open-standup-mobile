@@ -2,6 +2,7 @@
 using CleanXF.Mobile.ViewModels;
 using Xamarin.Forms;
 
+
 namespace CleanXF.Mobile.Views
 {
     public class ProfilePage : ContentPage
@@ -14,42 +15,54 @@ namespace CleanXF.Mobile.Views
 
             Title = "My Profile";
 
-            Grid grid = new Grid
-            {
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = new GridLength(2, GridUnitType.Star) }
-                },
+            Grid header = new Grid
+            {                
+               // BackgroundColor = Color.Green,                
                 ColumnDefinitions =
                 {
-                    new ColumnDefinition(),
-                    new ColumnDefinition()
+                    new ColumnDefinition() { Width = new GridLength(40, GridUnitType.Star) },
+                    new ColumnDefinition() { Width = new GridLength(60, GridUnitType.Star) },
                 }
             };
 
             var image = new Image
             {
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center             
+                VerticalOptions = LayoutOptions.Center
             };
 
             image.SetBinding(Image.SourceProperty, nameof(ProfileViewModel.AvatarUrl));
 
-            StackLayout imageLayout = new StackLayout { Padding = 40 };
-
-            var frame = new Frame
+            StackLayout imageLayout = new StackLayout
             {
-                CornerRadius = 75,
-                HeightRequest = 150,
-                WidthRequest = 150,
-                Padding = 0,
-                HorizontalOptions = LayoutOptions.Center,
-                IsClippedToBounds = true,
-                Content = image
+                Children =
+                {
+                    new Frame
+                    {
+                        CornerRadius = 50,
+                        HeightRequest = 100,
+                        WidthRequest = 100,
+                        Padding = 0,
+                        HorizontalOptions = LayoutOptions.Center,
+                        IsClippedToBounds = true,
+                        Content = image
+                    }
+                }
             };
 
-            imageLayout.Children.Add(frame);
-            Content = imageLayout;
+            header.Children.Add(imageLayout);
+            header.Children.Add(new StackLayout
+            {
+                // VerticalOptions = LayoutOptions.Center,
+
+                Children = 
+                {
+                    new Label { Text = "mmacneil", FontSize = 26, FontAttributes = FontAttributes.Bold },
+                    new Label { Text = "Halifax, NS", FontSize = 20}
+                }
+            }, 1, 0);
+
+            Content = header;
         }
 
         protected async override void OnAppearing()
@@ -59,5 +72,4 @@ namespace CleanXF.Mobile.Views
         }
     }
 }
- 
- 
+
