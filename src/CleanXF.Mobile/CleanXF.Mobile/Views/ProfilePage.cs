@@ -27,14 +27,29 @@ namespace CleanXF.Mobile.Views
                 }
             };
 
-            /*Grid grid = new Grid();
+            var image = new Image
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center             
+            };
 
-            var image = new Image();
             image.SetBinding(Image.SourceProperty, nameof(ProfileViewModel.AvatarUrl));
 
-            grid.Children.Add(image);*/
+            StackLayout imageLayout = new StackLayout { Padding = 40 };
 
-            Content = grid;
+            var frame = new Frame
+            {
+                CornerRadius = 75,
+                HeightRequest = 150,
+                WidthRequest = 150,
+                Padding = 0,
+                HorizontalOptions = LayoutOptions.Center,
+                IsClippedToBounds = true,
+                Content = image
+            };
+
+            imageLayout.Children.Add(frame);
+            Content = imageLayout;
         }
 
         protected async override void OnAppearing()
@@ -44,3 +59,5 @@ namespace CleanXF.Mobile.Views
         }
     }
 }
+ 
+ 
