@@ -17,5 +17,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Model
         public string Location { get; set; }
         public long FollowerCount { get; set; }
         public long FollowingCount { get; set; }
+        public long RepositoryCount { get; set; }
+        public long GistCount { get; set; }
     }
 }

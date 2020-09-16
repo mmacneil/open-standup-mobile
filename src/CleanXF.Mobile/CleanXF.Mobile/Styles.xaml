@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms">
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml"/>
@@ -9,4 +10,32 @@
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource NavigationPrimary}" />
     </Style>
+
+    <Style x:Key="Title" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="FontSize" Value="Title" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="SubTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="FontSize" Value="Subtitle" /> 
+    </Style>
+    
+    <Style x:Key="MicroSubTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkSlateGray" />
+        <Setter Property="FontSize" Value="Micro" />
+    </Style>
+
+    <Style x:Key="ProfileStatValue" TargetType="Label">
+        <Setter Property="TextColor" Value="DarkGreen" />
+        <Setter Property="FontSize" Value="Title" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ProfileStatName" TargetType="Label">
+        <Setter Property="FontSize" Value="Subtitle" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>

@@ -40,7 +40,13 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
                                         },
                                         following {
                                             totalCount
+                                        },
+                                        repositories {
+                                            totalCount
                                         }
+                                        gists {
+                                            totalCount
+                                        }                                       
                                     }
                                 }"
             };

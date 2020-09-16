@@ -15,6 +15,8 @@ namespace CleanXF.Core.Domain.Entities
         public DateTimeOffset CreatedAt { get; }
         public Followers Followers { get; }
         public Following Following { get; }
+        public Repositories Repositories { get; }
+        public Gists Gists { get; }
 
         public GitHubUser(
             string login,
@@ -26,7 +28,9 @@ namespace CleanXF.Core.Domain.Entities
             string email,
             DateTimeOffset createdAt,
             Followers followers,
-            Following following) => (Login, Name, AvatarUrl, BioHTML, Company, Location, Email, CreatedAt, Followers, Following) =
-            (login, name, avatarUrl, bioHTML, company, location, email, createdAt, followers, following);
+            Following following,
+            Repositories repositories,
+            Gists gists) => (Login, Name, AvatarUrl, BioHTML, Company, Location, Email, CreatedAt, Followers, Following, Repositories, Gists) =
+            (login, name, avatarUrl, bioHTML, company, location, email, createdAt, followers, following, repositories, gists);
     }
 }

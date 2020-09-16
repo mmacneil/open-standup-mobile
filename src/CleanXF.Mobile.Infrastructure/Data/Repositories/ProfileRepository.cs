@@ -30,17 +30,19 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
                 CreatedAt = user.CreatedAt,
                 Location = user.Location,
                 FollowerCount = user.Followers.TotalCount,
-                FollowingCount = user.Following.TotalCount
-            }) == 1;
+                FollowingCount = user.Following.TotalCount,
+                RepositoryCount = user.Repositories.TotalCount,
+                GistCount = user.Gists.TotalCount
+            }).ConfigureAwait(false) == 1;
         }
 
         public async Task<GitHubUser> Get()
         {
-            Profile model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile")).FirstOrDefault();
+            Profile model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile").ConfigureAwait(false)).FirstOrDefault();
 
             if (model != null)
             {
-                return new GitHubUser(model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount));
+                return new GitHubUser(model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
             }
 
             throw new Exception("No profile exists.");
