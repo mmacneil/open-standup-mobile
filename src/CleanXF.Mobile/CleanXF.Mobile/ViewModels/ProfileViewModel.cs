@@ -1,12 +1,15 @@
-﻿using CleanXF.Core.Domain.Entities;
+﻿using System.Collections.Generic;
 using CleanXF.Core.Interfaces.Data.Repositories;
 using System.Threading.Tasks;
+using CleanXF.Mobile.Models;
 
 namespace CleanXF.Mobile.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
         private readonly IProfileRepository _profileRepository;
+
+        public IList<StatModel> StatModels { get; private set; }
 
         private string _avatarUrl;
         public string AvatarUrl
@@ -36,34 +39,6 @@ namespace CleanXF.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _joined, value);
         }
 
-        private long _followers;
-        public long Followers
-        {
-            get => _followers;
-            set => SetAndRaisePropertyChanged(ref _followers, value);
-        }
-
-        private long _following;
-        public long Following
-        {
-            get => _following;
-            set => SetAndRaisePropertyChanged(ref _following, value);
-        }
-
-        private long _repositories;
-        public long Repositories
-        {
-            get => _repositories;
-            set => SetAndRaisePropertyChanged(ref _repositories, value);
-        }
-
-        private long _gists;
-        public long Gists
-        {
-            get => _gists;
-            set => SetAndRaisePropertyChanged(ref _gists, value);
-        }
-
         public ProfileViewModel(IProfileRepository profileRepository)
         {
             _profileRepository = profileRepository;
@@ -71,15 +46,19 @@ namespace CleanXF.Mobile.ViewModels
 
         public async Task Initialize()
         {
-            GitHubUser me = await _profileRepository.Get().ConfigureAwait(false);
+            var me = await _profileRepository.Get().ConfigureAwait(false);
             AvatarUrl = me.AvatarUrl;
             Login = me.Login;
             Location = me.Location;
             Joined = $"Joined {me.CreatedAt:MMM dd, yyyy}";
-            Followers = me.Followers.TotalCount;
-            Following = me.Following.TotalCount;
-            Repositories = me.Repositories.TotalCount;
-            Gists = me.Gists.TotalCount;
+
+            StatModels = new List<StatModel>
+            {
+                new StatModel ("followers", me.Followers.TotalCount),
+                new StatModel ("following", me.Following.TotalCount),
+                new StatModel ("repositories", me.Repositories.TotalCount),
+                new StatModel ("gists", me.Gists.TotalCount)
+            };
         }
     }
 }
