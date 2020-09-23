@@ -1,11 +1,7 @@
 ﻿using Autofac;
 using CleanXF.Mobile.ViewModels;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.NetworkInformation;
 using CleanXF.Mobile.Controls;
-using CleanXF.Mobile.Models;
+using CleanXF.Mobile.Converters;
 using Xamarin.Forms;
 
 
@@ -15,7 +11,7 @@ namespace CleanXF.Mobile.Views
     {
         private readonly ProfileViewModel _viewModel = App.Container.Resolve<ProfileViewModel>();
 
-        private FlexLayout _statsLayout = new FlexLayout();
+        private readonly FlexLayout _statsLayout;
 
         public ProfilePage()
         {
@@ -87,13 +83,33 @@ namespace CleanXF.Mobile.Views
 
             image.SetBinding(Image.SourceProperty, nameof(ProfileViewModel.AvatarUrl));
 
+            var email = new IconItem(IconFont.Email);
+            email.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.Email), BindingMode.Default, new StringToBoolConverter()));
+            email.SetBinding(IconItem.TextProperty, new Binding(nameof(ProfileViewModel.Email)));
+
+            var websiteUrl = new IconItem(IconFont.Web);
+            websiteUrl.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl), BindingMode.Default, new StringToBoolConverter()));
+            websiteUrl.SetBinding(IconItem.TextProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl)));
+
             var rootLayout = new StackLayout
             {
                 Children =
                 {
                     header,
                     new BoxView { HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#1690F4") },
-                    _statsLayout
+                    _statsLayout,
+                    new FlexLayout
+                    {
+                        Direction = FlexDirection.Column,
+                        AlignItems = FlexAlignItems.Center,
+                        Padding = new Thickness(0, 25),
+                        JustifyContent = FlexJustify.SpaceEvenly,
+                        Children =
+                        {
+                            email,
+                            websiteUrl
+                        }
+                    }
                 }
             };
 

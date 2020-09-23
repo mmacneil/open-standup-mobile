@@ -25,6 +25,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
                 Login = user.Login,
                 AvatarUrl = user.AvatarUrl,
                 BioHTML = user.BioHTML,
+                WebsiteUrl = user.WebsiteUrl,
                 Company = user.Company,
                 Email = user.Email,
                 CreatedAt = user.CreatedAt,
@@ -38,11 +39,11 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
 
         public async Task<GitHubUser> Get()
         {
-            Profile model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile").ConfigureAwait(false)).FirstOrDefault();
+            var model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile").ConfigureAwait(false)).FirstOrDefault();
 
             if (model != null)
             {
-                return new GitHubUser(model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
+                return new GitHubUser(model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
             }
 
             throw new Exception("No profile exists.");

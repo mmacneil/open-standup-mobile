@@ -39,6 +39,20 @@ namespace CleanXF.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _joined, value);
         }
 
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set => SetAndRaisePropertyChanged(ref _email, value);
+        }
+
+        private string _websiteUrl;
+        public string WebsiteUrl
+        {
+            get => _websiteUrl;
+            set => SetAndRaisePropertyChanged(ref _websiteUrl, value);
+        }
+
         public ProfileViewModel(IProfileRepository profileRepository)
         {
             _profileRepository = profileRepository;
@@ -51,8 +65,10 @@ namespace CleanXF.Mobile.ViewModels
             Login = me.Login;
             Location = me.Location;
             Joined = $"Joined {me.CreatedAt:MMM dd, yyyy}";
+            Email = me.Email;
+            WebsiteUrl = me.WebsiteUrl;
 
-            StatModels = new List<StatModel>
+           StatModels = new List<StatModel>
             {
                 new StatModel ("followers", me.Followers.TotalCount),
                 new StatModel ("following", me.Following.TotalCount),

@@ -12,6 +12,14 @@
         <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons" />
     </OnPlatform>
 
+    <Style TargetType="{x:Type Label}" x:Key="MaterialIcon">
+        <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
+        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="TextColor" Value="LightSkyBlue"/>
+    </Style>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource NavigationPrimary}" />
     </Style>

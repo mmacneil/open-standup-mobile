@@ -31,6 +31,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
                                         name, 
                                         avatarUrl, 
                                         bioHTML,
+                                        websiteUrl,
                                         company,
                                         email, 
                                         createdAt,

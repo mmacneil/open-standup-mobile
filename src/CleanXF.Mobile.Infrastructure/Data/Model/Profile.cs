@@ -11,6 +11,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Model
         public string Login { get; set; }
         public string AvatarUrl { get; set; }
         public string BioHTML { get; set; }
+        public string WebsiteUrl { get; set; }
         public string Company { get; set; }
         public string Email { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
