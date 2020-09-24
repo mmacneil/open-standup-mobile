@@ -34,7 +34,7 @@ namespace CleanXF.Core.Domain.Features.Authenticate
             {
                 await _sessionRepository.Initialize(authenticationResponse.Payload).ConfigureAwait(false);
 
-                // Fetch and store users's profile info             
+                // Fetch and store user's profile info             
                 await _profileRepository.Insert(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
