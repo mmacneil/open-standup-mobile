@@ -27,6 +27,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
             {
                 Query = @"query { viewer 
                                     { 
+                                        id,
                                         login, 
                                         name, 
                                         avatarUrl, 

@@ -7,6 +7,8 @@ namespace CleanXF.Mobile.Infrastructure.Data.Model
     [Table("profile")]
     public class Profile
     {
+        [PrimaryKey]
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Login { get; set; }
         public string AvatarUrl { get; set; }
