@@ -2,7 +2,7 @@
 
 namespace CleanXF.Core.Interfaces
 {
-    public interface IOutputPort<TUseCaseResponse>
+    public interface IOutputPort<in TUseCaseResponse>
     {
         void Handle(TUseCaseResponse response);
     }

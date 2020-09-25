@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using CleanXF.Core.Domain.Features.Authenticate;
 using MediatR;
 using System.Reflection;
 
