@@ -44,7 +44,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
 
             if (model != null)
             {
-                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
+                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
             }
 
             throw new Exception("No profile exists.");

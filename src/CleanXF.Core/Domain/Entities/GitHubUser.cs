@@ -13,6 +13,7 @@ namespace CleanXF.Core.Domain.Entities
         public string WebsiteUrl { get; }
         public string Company { get; }
         public string Location { get; }
+        public long DatabaseId { get; }
         public string Email { get; }
         public DateTimeOffset CreatedAt { get; }
         public Followers Followers { get; }
@@ -29,12 +30,13 @@ namespace CleanXF.Core.Domain.Entities
             string websiteUrl,
             string company,
             string location,
+            long databaseId,
             string email,
             DateTimeOffset createdAt,
             Followers followers,
             Following following,
             Repositories repositories,
-            Gists gists) => (Id, Login, Name, AvatarUrl, BioHTML, WebsiteUrl, Company, Location, Email, CreatedAt, Followers, Following, Repositories, Gists) =
-            (id, login, name, avatarUrl, bioHTML, websiteUrl, company, location, email, createdAt, followers, following, repositories, gists);
+            Gists gists) => (Id, Login, Name, AvatarUrl, BioHTML, WebsiteUrl, Company, Location, DatabaseId, Email, CreatedAt, Followers, Following, Repositories, Gists) =
+            (id, login, name, avatarUrl, bioHTML, websiteUrl, company, location, databaseId, email, createdAt, followers, following, repositories, gists);
     }
 }

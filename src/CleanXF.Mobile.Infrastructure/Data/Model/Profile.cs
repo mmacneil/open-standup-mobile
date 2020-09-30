@@ -18,6 +18,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.Model
         public string Email { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public string Location { get; set; }
+        public long DatabaseId { get; set; }
         public long FollowerCount { get; set; }
         public long FollowingCount { get; set; }
         public long RepositoryCount { get; set; }

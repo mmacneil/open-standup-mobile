@@ -37,6 +37,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
                                         email, 
                                         createdAt,
                                         location,
+                                        databaseId,
                                         followers {
                                             totalCount
                                         },
