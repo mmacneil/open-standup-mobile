@@ -6,6 +6,7 @@ using CleanXF.SharedKernel;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanXF.Core.Interfaces.Apis;
 
 namespace CleanXF.Core.Domain.Features.Authenticate
 {
@@ -15,13 +16,15 @@ namespace CleanXF.Core.Domain.Features.Authenticate
         private readonly ISessionRepository _sessionRepository;
         private readonly IProfileRepository _profileRepository;
         private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
+        private readonly IOpenStandupApi _openStandupApi;
 
-        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IProfileRepository profileRepository, IGitHubGraphQLApi gitHubGraphQLApi)
+        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IProfileRepository profileRepository, IGitHubGraphQLApi gitHubGraphQLApi, IOpenStandupApi openStandupApi)
         {
             _authenticator = authenticator;
             _sessionRepository = sessionRepository;
             _profileRepository = profileRepository;
             _gitHubGraphQLApi = gitHubGraphQLApi;
+            _openStandupApi = openStandupApi;
         }
 
         public async Task<bool> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
@@ -36,6 +39,7 @@ namespace CleanXF.Core.Domain.Features.Authenticate
 
                 // Fetch and store user's profile info             
                 await _profileRepository.Insert(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
+                await _openStandupApi.SaveProfile();
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
             }

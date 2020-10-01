@@ -9,6 +9,8 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using CleanXF.Core.Interfaces.Apis;
+using CleanXF.Mobile.Infrastructure.Apis;
 
 namespace CleanXF.Mobile.Infrastructure
 {
@@ -18,12 +20,13 @@ namespace CleanXF.Mobile.Infrastructure
 
         protected override void Load(ContainerBuilder builder)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<OAuthAuthenticator>().As<IAuthenticator>().SingleInstance();
 
             builder.RegisterType<GitHubGraphQLApi>().As<IGitHubGraphQLApi>().SingleInstance();
+            builder.RegisterType<OpenStandupApi>().As<IOpenStandupApi>().SingleInstance();
 
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
@@ -36,8 +39,19 @@ namespace CleanXF.Mobile.Infrastructure
             {
                 EndPoint = new Uri("https://api.github.com/graphql")
             }, new NewtonsoftJsonSerializer())).SingleInstance();
+
+            builder.Register(ctx => new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                    (message, certificate, chain, sslPolicyErrors) => true
+            })
+            {
+                MaxResponseContentBufferSize = 256000,
+                Timeout = new TimeSpan(0, 0, 0, 15)
+            }).SingleInstance();
         }
     }
 }
+
 
 
