@@ -5,5 +5,6 @@ namespace CleanXF.Core.Interfaces.Apis
     public interface IOpenStandupApi
     {
         Task<bool> SaveProfile();
+        Task<bool> GetConfiguration();
     }
 }

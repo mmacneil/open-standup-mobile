@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using CleanXF.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace CleanXF.Mobile.Views

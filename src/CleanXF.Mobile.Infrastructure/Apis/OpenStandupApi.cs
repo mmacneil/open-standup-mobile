@@ -21,5 +21,13 @@ namespace CleanXF.Mobile.Infrastructure.Apis
 
             return true;
         }
+
+        public async Task<bool> GetConfiguration()
+        {
+            //Now let's call our retry policy each time we want to query the API
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{Configuration.ServiceEndpoint}/api/configuration"));
+
+            return true;
+        }
     }
 }
