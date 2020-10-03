@@ -2,7 +2,7 @@
 
 namespace CleanXF.Mobile.Infrastructure
 {
-    public static class Configuration
+    public static class Configurationx
     {
 #if DEBUG
         public const string ServiceEndpoint = "http://10.0.2.2:5000";

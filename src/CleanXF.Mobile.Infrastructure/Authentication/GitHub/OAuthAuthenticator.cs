@@ -3,6 +3,7 @@ using CleanXF.SharedKernel;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CleanXF.Core.Interfaces;
 using Xamarin.Essentials;
 
 namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
@@ -10,10 +11,12 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
     public class OAuthAuthenticator : IAuthenticator
     {
         private readonly HttpClient _httpClient;
+        private readonly IAppSettings _appSettings;
 
-        public OAuthAuthenticator(HttpClient httpClient)
+        public OAuthAuthenticator(HttpClient httpClient, IAppSettings appSettings)
         {
             _httpClient = httpClient;
+            _appSettings = appSettings;
         }
 
         public async Task<OperationResponse<string>> Authenticate()
@@ -21,7 +24,7 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             try
             {
                 var authenticationResult = await WebAuthenticator.AuthenticateAsync(
-                    new Uri($"https://github.com/login/oauth/authorize?client_id={Configuration.GitHub.ClientId}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://"),
+                    new Uri($"https://github.com/login/oauth/authorize?client_id={_appSettings.}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://"),
                     new Uri("myapp://"));
 
                 //code

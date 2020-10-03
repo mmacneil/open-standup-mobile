@@ -9,8 +9,12 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using CleanXF.Core.Interfaces;
 using CleanXF.Core.Interfaces.Apis;
 using CleanXF.Mobile.Infrastructure.Apis;
+using CleanXF.Mobile.Infrastructure.Configuration;
+using CleanXF.Mobile.Infrastructure.Interfaces;
+
 
 namespace CleanXF.Mobile.Infrastructure
 {
@@ -25,9 +29,13 @@ namespace CleanXF.Mobile.Infrastructure
 
             builder.RegisterType<OAuthAuthenticator>().As<IAuthenticator>().SingleInstance();
 
+            builder.RegisterType<ConfigurationLoader>().As<IConfigurationLoader>().SingleInstance();
+
             builder.RegisterType<GitHubGraphQLApi>().As<IGitHubGraphQLApi>().SingleInstance();
             builder.RegisterType<OpenStandupApi>().As<IOpenStandupApi>().SingleInstance();
 
+            builder.RegisterType<AppSettings>().As<IAppSettings>().SingleInstance();
+            
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
             builder.Register(ctx => new HttpClient(new HttpClientHandler())
