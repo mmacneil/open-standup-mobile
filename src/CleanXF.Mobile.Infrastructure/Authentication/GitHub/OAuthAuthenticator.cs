@@ -23,15 +23,20 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
         {
             try
             {
+                var aaa = await _appSettings.GetGitHubClientId();
+
+                var ss =
+                    $"https://github.com/login/oauth/authorize?client_id={(await _appSettings.GetGitHubClientId())}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://";
+
                 var authenticationResult = await WebAuthenticator.AuthenticateAsync(
-                    new Uri($"https://github.com/login/oauth/authorize?client_id={_appSettings.}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://"),
+                    new Uri($"https://github.com/login/oauth/authorize?client_id={await _appSettings.GetGitHubClientId()}&scope=user%20public_repo%20repo%20repo_deployment%20repo:status%20read:repo_hook%20read:org%20read:public_key%20read:gpg_key&redirect_uri=myapp://"),
                     new Uri("myapp://"));
 
                 //code
                 var code = authenticationResult.Properties["code"];
 
                 // POST https://github.com/login/oauth/access_token                
-                var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={Configuration.GitHub.ClientId}&client_secret={Configuration.GitHub.ClientSecret}"));
+                var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={await _appSettings.GetGitHubClientId()}&client_secret={await _appSettings.GetGitHubClientSecret()}"));
                 var content = await response.Content.ReadAsStringAsync();            
                 return new OperationResponse<string>(OperationResult.Succeeded, content.Split("&")[0].Replace("access_token=", ""));
             }

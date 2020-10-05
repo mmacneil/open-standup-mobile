@@ -15,7 +15,7 @@ namespace CleanXF.Mobile.Infrastructure.Data
 
         public AppDb(string name, string path)
         {
-            string dbPath = Path.Combine(path, name);
+            var dbPath = Path.Combine(path, name);
 
             if (!File.Exists(dbPath)) { LoadFromResources(name, dbPath); }
 
@@ -43,12 +43,13 @@ namespace CleanXF.Mobile.Infrastructure.Data
             // create tables if they don't exists
             database.CreateTable<Profile>();
             database.CreateTable<Session>();
+            database.CreateTable<Model.Configuration>();
         }
 
         private static void LoadFromResources(string name, string path)
         {
-            Type type = typeof(AppDb);
-            Stream stream = type.GetTypeInfo().Assembly.GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().Single(n => n.Contains(name)));
+            var type = typeof(AppDb);
+            var stream = type.GetTypeInfo().Assembly.GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().Single(n => n.Contains(name)));
             using (FileStream fileStream = File.Create(path))
             {
                 if (stream == null)

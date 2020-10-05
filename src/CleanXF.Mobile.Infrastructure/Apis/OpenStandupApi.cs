@@ -4,6 +4,7 @@ using CleanXF.Core.Dto.Api;
 using CleanXF.Core.Interfaces;
 using CleanXF.Core.Interfaces.Apis;
 using CleanXF.SharedKernel;
+using Newtonsoft.Json;
 
 
 namespace CleanXF.Mobile.Infrastructure.Apis
@@ -30,9 +31,12 @@ namespace CleanXF.Mobile.Infrastructure.Apis
         public async Task<OperationResponse<AppConfigDto>> GetConfiguration()
         {
             //Now let's call our retry policy each time we want to query the API
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/api/configuration"));
+            var response = await Policies.AttemptAndRetryPolicy(() =>
+                _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/api/configuration"));
 
-            return null;
+            return !response.IsSuccessStatusCode ? 
+                new OperationResponse<AppConfigDto>(OperationResult.Failed, null) : 
+                new OperationResponse<AppConfigDto>(OperationResult.Succeeded, JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync()));
         }
     }
 }
