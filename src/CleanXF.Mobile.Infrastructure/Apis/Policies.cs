@@ -6,9 +6,9 @@ using Polly;
 
 namespace CleanXF.Mobile.Infrastructure.Apis
 {
-    public class Policies
+    public static class Policies
     {
-        private const int NumberOfTimesToRetry = 7;
+        private const int NumberOfTimesToRetry = 3;
         private const int RetryMultiple = 2;
 
         public static async Task<HttpResponseMessage> AttemptAndRetryPolicy(Func<Task<HttpResponseMessage>> action)

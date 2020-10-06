@@ -22,20 +22,17 @@ namespace CleanXF.Mobile.Infrastructure.Apis
 
         public async Task<bool> SaveProfile()
         {
-            //Now let's call our retry policy each time we want to query the API
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users"));
-
             return true;
         }
 
         public async Task<OperationResponse<AppConfigDto>> GetConfiguration()
         {
-            //Now let's call our retry policy each time we want to query the API
             var response = await Policies.AttemptAndRetryPolicy(() =>
                 _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/api/configuration"));
 
-            return !response.IsSuccessStatusCode ? 
-                new OperationResponse<AppConfigDto>(OperationResult.Failed, null) : 
+            return !response.IsSuccessStatusCode ?
+                new OperationResponse<AppConfigDto>(OperationResult.Failed, null) :
                 new OperationResponse<AppConfigDto>(OperationResult.Succeeded, JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync()));
         }
     }

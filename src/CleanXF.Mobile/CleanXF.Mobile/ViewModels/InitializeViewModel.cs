@@ -7,6 +7,20 @@ namespace CleanXF.Mobile.ViewModels
 {
     public class InitializeViewModel : BaseViewModel
     {
+        private string _status;
+        public string Status
+        {
+            get => _status;
+            set => SetProperty(ref _status, value);
+        }
+
+        private bool _failed;
+        public bool Failed
+        {
+            get => _failed;
+            set => SetProperty(ref _failed, value);
+        }
+
         private readonly ISessionRepository _sessionRepository;
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
@@ -17,20 +31,36 @@ namespace CleanXF.Mobile.ViewModels
             _configurationLoader = configurationLoader;
         }
 
-        public async void Initialize()
+        public async Task Initialize()
         {
-            await Task.Delay(700);
-
-            await _configurationLoader.TryLoad();
-
-            // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
-            if (await _sessionRepository.HasAccessToken())
+            try
             {
-                await _navigator.GoTo("///main");
+                Failed = false;
+                IsBusy = true;
+                Status = "Starting up...";
+
+                await Task.Delay(350);
+
+                if (!await _configurationLoader.TryLoad())
+                {
+                    Failed = true;
+                    Status = "Startup failed, check connection and try again.";
+                    return;
+                }
+
+                // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
+                if (await _sessionRepository.HasAccessToken())
+                {
+                    await _navigator.GoTo("///main");
+                }
+                else
+                {
+                    await _navigator.GoTo("///login");
+                }
             }
-            else
+            finally
             {
-                await _navigator.GoTo("///login");
+                IsBusy = false;
             }
         }
     }

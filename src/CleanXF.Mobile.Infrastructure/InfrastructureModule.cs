@@ -48,6 +48,7 @@ namespace CleanXF.Mobile.Infrastructure
                 EndPoint = new Uri("https://api.github.com/graphql")
             }, new NewtonsoftJsonSerializer())).SingleInstance();
 
+            
             builder.Register(ctx => new HttpClient(new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback =
@@ -55,7 +56,7 @@ namespace CleanXF.Mobile.Infrastructure
             })
             {
                 MaxResponseContentBufferSize = 256000,
-                Timeout = new TimeSpan(0, 0, 0, 15)
+                Timeout = new TimeSpan(0, 0, 0, 10)
             }).SingleInstance();
         }
     }

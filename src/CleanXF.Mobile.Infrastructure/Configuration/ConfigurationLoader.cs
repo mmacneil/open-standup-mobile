@@ -21,23 +21,18 @@ namespace CleanXF.Mobile.Infrastructure.Configuration
 
         public async Task<bool> TryLoad()
         {
-            if (await _appDb.AsyncDb.Table<Data.Model.Configuration>().CountAsync() != 0) return false;
-
             var configurationResponse = await _openStandupApi.GetConfiguration();
 
-            if (configurationResponse.Succeeded)
+            if (!configurationResponse.Succeeded) return false;
+
+            await _secureDataRepository.SetGitHubClientId(configurationResponse.Payload.GitHubClientId);
+            await _secureDataRepository.SetGitHubClientSecret(configurationResponse.Payload.GitHubClientSecret);
+
+            return await _appDb.AsyncDb.InsertOrReplaceAsync(new Data.Model.Configuration
             {
-                await _secureDataRepository.SetGitHubClientId(configurationResponse.Payload.GitHubClientId);
-                await _secureDataRepository.SetGitHubClientSecret(configurationResponse.Payload.GitHubClientSecret);
-
-                return await _appDb.AsyncDb.InsertOrReplaceAsync(new Data.Model.Configuration
-                {
-                    Version = configurationResponse.Payload.Version,
-                    Created = configurationResponse.Payload.Created
-                }) == 1;
-            }
-
-            return false;
+                Version = configurationResponse.Payload.Version,
+                Created = configurationResponse.Payload.Created
+            }) == 1;
         }
     }
 }
