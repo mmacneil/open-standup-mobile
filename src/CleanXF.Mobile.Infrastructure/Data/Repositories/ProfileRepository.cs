@@ -17,9 +17,9 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
             _appDb = appDb;
         }
 
-        public async Task<bool> Insert(GitHubUser user)
+        public async Task<bool> InsertOrReplace(GitHubUser user)
         {
-            return await _appDb.AsyncDb.InsertAsync(new Profile
+            return await _appDb.AsyncDb.InsertOrReplaceAsync(new Profile
             {
                 Id = user.Id,
                 Name = user.Name,

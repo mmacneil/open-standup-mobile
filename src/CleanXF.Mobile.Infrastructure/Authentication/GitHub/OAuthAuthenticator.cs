@@ -39,11 +39,9 @@ namespace CleanXF.Mobile.Infrastructure.Authentication.GitHub
             {
                 string message = null;
 
-                switch (e)
+                if (e is TaskCanceledException)
                 {
-                    case TaskCanceledException _:
-                        message = "User canceled login.";
-                        break;
+                    message = "User canceled login.";
                 }
 
                 return new OperationResponse<string>(OperationResult.Failed, null, message ?? e.Message);

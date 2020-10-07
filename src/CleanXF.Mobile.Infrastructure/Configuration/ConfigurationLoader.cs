@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CleanXF.Core.Interfaces.Apis;
+using CleanXF.Core.Interfaces.Data.Repositories;
 using CleanXF.Mobile.Infrastructure.Data;
 using CleanXF.Mobile.Infrastructure.Interfaces;
 

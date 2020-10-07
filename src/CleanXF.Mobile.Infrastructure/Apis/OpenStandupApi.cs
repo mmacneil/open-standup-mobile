@@ -28,8 +28,7 @@ namespace CleanXF.Mobile.Infrastructure.Apis
 
         public async Task<OperationResponse<AppConfigDto>> GetConfiguration()
         {
-            var response = await Policies.AttemptAndRetryPolicy(() =>
-                _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/api/configuration"));
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/api/configuration"));
 
             return !response.IsSuccessStatusCode ?
                 new OperationResponse<AppConfigDto>(OperationResult.Failed, null) :

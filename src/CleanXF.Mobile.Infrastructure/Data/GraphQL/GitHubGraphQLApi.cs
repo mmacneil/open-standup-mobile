@@ -13,12 +13,12 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
     public class GitHubGraphQLApi : IGitHubGraphQLApi
     {
         private readonly GraphQLHttpClient _graphQLHttpClient;
-        private readonly ISessionRepository _sessionRepository;
+        private readonly ISecureDataRepository _secureDataRepository;
 
-        public GitHubGraphQLApi(GraphQLHttpClient graphQLHttpClient, ISessionRepository sessionRepository)
+        public GitHubGraphQLApi(GraphQLHttpClient graphQLHttpClient, ISecureDataRepository secureDataRepository)
         {
             _graphQLHttpClient = graphQLHttpClient;
-            _sessionRepository = sessionRepository;
+            _secureDataRepository = secureDataRepository;
         }
 
         public async Task<GitHubUser> GetGitHubViewer()
@@ -54,7 +54,7 @@ namespace CleanXF.Mobile.Infrastructure.Data.GraphQL
                                 }"
             };
 
-            _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _sessionRepository.GetAccessToken().ConfigureAwait(false));
+            _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false));
             return (await _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest).ConfigureAwait(false)).Data.Viewer;
         }
     }

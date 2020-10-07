@@ -21,12 +21,12 @@ namespace CleanXF.Mobile.ViewModels
             set => SetProperty(ref _failed, value);
         }
 
-        private readonly ISessionRepository _sessionRepository;
+        private readonly ISecureDataRepository _secureDataRepository;
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
-        public InitializeViewModel(ISessionRepository sessionRepository, INavigator navigator, IConfigurationLoader configurationLoader)
+        public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader)
         {
-            _sessionRepository = sessionRepository;
+            _secureDataRepository = secureDataRepository;
             _navigator = navigator;
             _configurationLoader = configurationLoader;
         }
@@ -49,7 +49,7 @@ namespace CleanXF.Mobile.ViewModels
                 }
 
                 // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
-                if (await _sessionRepository.HasAccessToken())
+                if (await _secureDataRepository.HasAccessToken())
                 {
                     await _navigator.GoTo("///main");
                 }

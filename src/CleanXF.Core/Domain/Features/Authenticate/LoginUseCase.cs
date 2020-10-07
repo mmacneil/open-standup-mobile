@@ -13,15 +13,15 @@ namespace CleanXF.Core.Domain.Features.Authenticate
     public class LoginUseCase : IRequestHandler<AuthenticationRequest, bool>
     {
         private readonly IAuthenticator _authenticator;
-        private readonly ISessionRepository _sessionRepository;
+        private readonly ISecureDataRepository _secureDataRepository;
         private readonly IProfileRepository _profileRepository;
         private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
         private readonly IOpenStandupApi _openStandupApi;
 
-        public LoginUseCase(IAuthenticator authenticator, ISessionRepository sessionRepository, IProfileRepository profileRepository, IGitHubGraphQLApi gitHubGraphQLApi, IOpenStandupApi openStandupApi)
+        public LoginUseCase(IAuthenticator authenticator, ISecureDataRepository secureDataRepository, IProfileRepository profileRepository, IGitHubGraphQLApi gitHubGraphQLApi, IOpenStandupApi openStandupApi)
         {
             _authenticator = authenticator;
-            _sessionRepository = sessionRepository;
+            _secureDataRepository = secureDataRepository;
             _profileRepository = profileRepository;
             _gitHubGraphQLApi = gitHubGraphQLApi;
             _openStandupApi = openStandupApi;
@@ -35,10 +35,10 @@ namespace CleanXF.Core.Domain.Features.Authenticate
 
             if (authenticationResponse.Succeeded)
             {
-                await _sessionRepository.Initialize(authenticationResponse.Payload).ConfigureAwait(false);
+                await _secureDataRepository.SetPersonalAccessToken(authenticationResponse.Payload).ConfigureAwait(false);
 
                 // Fetch and store user's profile info             
-                await _profileRepository.Insert(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
+                await _profileRepository.InsertOrReplace(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
                 await _openStandupApi.SaveProfile();
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
