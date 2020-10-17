@@ -3,6 +3,8 @@ using CleanXF.Core;
 using CleanXF.Mobile.Factories;
 using CleanXF.Mobile.Infrastructure;
 using System;
+using System.Reflection;
+using CleanXF.Mobile.Infrastructure.Mapping;
 
 namespace CleanXF.Mobile.Bootstrap
 {
@@ -25,7 +27,8 @@ namespace CleanXF.Mobile.Bootstrap
             builder.RegisterModule(new InfrastructureModule
             {
                 ApplicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-            }); 
+            });
+            builder.RegisterModule(new AutoMapperModule(Assembly.GetAssembly(typeof(UserProfile))));
         }
 
         protected abstract void RegisterPages(IPageFactory pageFactory);

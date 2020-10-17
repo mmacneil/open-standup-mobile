@@ -11,6 +11,5 @@ namespace CleanXF.Core.Interfaces.Data.Repositories
         Task SetGitHubClientSecret(string value);
         Task SetPersonalAccessToken(string value);
         bool RemovePersonalAccessToken();
-        Task<bool> HasAccessToken();
     }
 }

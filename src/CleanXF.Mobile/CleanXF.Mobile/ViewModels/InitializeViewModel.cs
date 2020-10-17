@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CleanXF.Core.Interfaces.Apis;
 using CleanXF.Core.Interfaces.Data.Repositories;
 using CleanXF.Mobile.Infrastructure.Interfaces;
 using CleanXF.Mobile.Services;
@@ -24,11 +25,13 @@ namespace CleanXF.Mobile.ViewModels
         private readonly ISecureDataRepository _secureDataRepository;
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
-        public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader)
+        private readonly IOpenStandupApi _openStandupApi;
+        public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
         {
             _secureDataRepository = secureDataRepository;
             _navigator = navigator;
             _configurationLoader = configurationLoader;
+            _openStandupApi = openStandupApi;
         }
 
         public async Task Initialize()
@@ -37,19 +40,18 @@ namespace CleanXF.Mobile.ViewModels
             {
                 Failed = false;
                 IsBusy = true;
-                Status = "Starting up...";
+                Status = "Loading...";
 
-                await Task.Delay(350);
-
-                if (!await _configurationLoader.TryLoad())
+                if (!await _configurationLoader.TryLoad().ConfigureAwait(false))
                 {
                     Failed = true;
                     Status = "Startup failed, check connection and try again.";
                     return;
                 }
 
-                // If we have an access token we're considered logged in so proceed to shell, otherwise route to login
-                if (await _secureDataRepository.HasAccessToken())
+                // If we have an access token and it's still valid then proceed to shell, otherwise route to login
+                var accessToken = await _secureDataRepository.GetPersonalAccessToken();
+                if (!string.IsNullOrEmpty(accessToken) && (await _openStandupApi.ValidateGitHubAccessToken(accessToken).ConfigureAwait(false)).Succeeded)
                 {
                     await _navigator.GoTo("///main");
                 }

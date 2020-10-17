@@ -6,8 +6,8 @@ namespace CleanXF.Core.Domain.Entities
     public class GitHubUser
     {
         public string Id { get; }
-        public string Login { get; }
         public string Name { get; }
+        public string Login { get; }
         public string AvatarUrl { get; }
         public string BioHTML { get; }
         public string WebsiteUrl { get; }

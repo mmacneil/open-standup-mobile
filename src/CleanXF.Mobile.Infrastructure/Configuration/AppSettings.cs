@@ -19,7 +19,7 @@ namespace CleanXF.Mobile.Infrastructure.Configuration
             get
             {
 #if DEBUG
-                return "http://10.0.2.2:5000";
+                return "http://192.168.0.141:45455/api"; // "http://10.0.2.2:5000/api";
 #else
                 return "https://openstandup.com/api;
 #endif

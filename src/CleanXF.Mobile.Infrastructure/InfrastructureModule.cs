@@ -56,7 +56,7 @@ namespace CleanXF.Mobile.Infrastructure
             })
             {
                 MaxResponseContentBufferSize = 256000,
-                Timeout = new TimeSpan(0, 0, 0, 10)
+                Timeout = new TimeSpan(0, 0, 0, 5)
             }).SingleInstance();
         }
     }

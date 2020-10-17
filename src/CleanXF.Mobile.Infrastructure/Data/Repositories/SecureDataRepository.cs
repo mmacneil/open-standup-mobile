@@ -44,11 +44,6 @@ namespace CleanXF.Mobile.Infrastructure.Data.Repositories
             return RemoveSecureStorageValue(PersonalAccessToken);
         }
 
-        public async Task<bool> HasAccessToken()
-        {
-            return !string.IsNullOrEmpty(await GetSecureStorageValue(PersonalAccessToken));
-        }
-
         private static async Task SetSecureStorageValue(string key, string value)
         {
             try

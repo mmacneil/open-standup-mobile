@@ -37,9 +37,10 @@ namespace CleanXF.Core.Domain.Features.Authenticate
             {
                 await _secureDataRepository.SetPersonalAccessToken(authenticationResponse.Payload).ConfigureAwait(false);
 
-                // Fetch and store user's profile info             
-                await _profileRepository.InsertOrReplace(await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false)).ConfigureAwait(false);
-                await _openStandupApi.SaveProfile();
+                // Fetch and store user's profile info   
+                var gitHubUser = await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false);
+                await _profileRepository.InsertOrReplace(gitHubUser).ConfigureAwait(false);
+                await _openStandupApi.SaveProfile(gitHubUser).ConfigureAwait(false);
                 useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
                 result = true;
             }
