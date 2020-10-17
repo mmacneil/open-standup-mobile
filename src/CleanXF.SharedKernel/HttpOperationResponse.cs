@@ -7,7 +7,8 @@ namespace CleanXF.SharedKernel
     {
         public HttpStatusCode StatusCode { get; }
 
-        public HttpOperationResponse(HttpStatusCode statusCode, OperationResult operationResult, T payload, string errorText = "") : base(operationResult, payload, errorText)
+        public HttpOperationResponse(HttpStatusCode statusCode, T payload, string errorText = "") : base(
+            statusCode == HttpStatusCode.OK ? OperationResult.Succeeded : OperationResult.Failed, payload, errorText)
         {
             StatusCode = statusCode;
         }

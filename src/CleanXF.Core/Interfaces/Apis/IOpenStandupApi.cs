@@ -8,7 +8,7 @@ namespace CleanXF.Core.Interfaces.Apis
     public interface IOpenStandupApi
     {
         Task<HttpOperationResponse<string>> SaveProfile(GitHubUser gitHubUser);
-        Task<OperationResponse<AppConfigDto>> GetConfiguration();
+        Task<HttpOperationResponse<AppConfigDto>> GetConfiguration();
         Task<HttpOperationResponse<string>> ValidateGitHubAccessToken(string token);
     }
 }

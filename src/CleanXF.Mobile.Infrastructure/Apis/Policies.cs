@@ -9,7 +9,7 @@ namespace CleanXF.Mobile.Infrastructure.Apis
 {
     public static class Policies
     {
-        private const int NumberOfTimesToRetry = 3, DelayMs = 150;
+        private const int NumberOfTimesToRetry = 3, DelayMs = 100;
 
         public static async Task<HttpResponseMessage> AttemptAndRetryPolicy(Func<Task<HttpResponseMessage>> action)
         {
