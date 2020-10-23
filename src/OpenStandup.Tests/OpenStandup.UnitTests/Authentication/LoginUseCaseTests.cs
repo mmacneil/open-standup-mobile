@@ -14,27 +14,35 @@ namespace OpenStandup.UnitTests.Authentication
 {
     public class LoginUseCaseTests
     {
+        private readonly Mock<IAuthenticator> _mockAuthenticator;
+        private readonly Mock<ISecureDataRepository> _mockSecureDataRepository;
+        private readonly Mock<IOutputPort<AuthenticationResponse>> _mockOutputPort;
+
+        public LoginUseCaseTests()
+        {
+            _mockAuthenticator = new Mock<IAuthenticator>();
+            _mockSecureDataRepository = new Mock<ISecureDataRepository>();
+            _mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
+        }
+
         [Fact]
         public async Task ShouldRemoveAccessTokenWhenAuthenticatorFails()
         {
             // arrange
             const string errorText = "login failed";
-            var mockAuthenticator = new Mock<IAuthenticator>();
-            mockAuthenticator.Setup(x => x.Authenticate())
+
+            _mockAuthenticator.Setup(x => x.Authenticate())
                 .ReturnsAsync(new OperationResponse<string>(OperationResult.Failed, null, errorText));
 
-            var mockSecureDataRepository = new Mock<ISecureDataRepository>();
-            mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(""));
+            _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(""));
 
-            var mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
-
-            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object);
+            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object);
 
             // act
-            var response = await useCase.Handle(new AuthenticationRequest(mockOutputPort.Object), new CancellationToken());
+            var response = await useCase.Handle(new AuthenticationRequest(_mockOutputPort.Object), new CancellationToken());
 
             // assert
-            mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(""), Times.Once());
+            _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(""), Times.Once());
             response.ErrorText.Should().Be(errorText);
         }
 
@@ -43,22 +51,19 @@ namespace OpenStandup.UnitTests.Authentication
         {
             // arrange
             const string token = "a1b2c3";
-            var mockAuthenticator = new Mock<IAuthenticator>();
-            mockAuthenticator.Setup(x => x.Authenticate())
+
+            _mockAuthenticator.Setup(x => x.Authenticate())
                 .ReturnsAsync(new OperationResponse<string>(OperationResult.Succeeded, token));
 
-            var mockSecureDataRepository = new Mock<ISecureDataRepository>();
-            mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(token));
+            _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(token));
 
-            var mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
-
-            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object);
+            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object);
 
             // act
-            await useCase.Handle(new AuthenticationRequest(mockOutputPort.Object), new CancellationToken());
+            await useCase.Handle(new AuthenticationRequest(_mockOutputPort.Object), new CancellationToken());
 
             // assert
-            mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(token), Times.Once());
+            _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(token), Times.Once());
         }
     }
 }
