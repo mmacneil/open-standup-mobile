@@ -10,7 +10,7 @@ using OpenStandup.Core.Interfaces.Apis;
 
 namespace OpenStandup.Core.Domain.Features.Authenticate
 {
-    public class LoginUseCase : IRequestHandler<AuthenticationRequest, bool>
+    public class LoginUseCase : IRequestHandler<AuthenticationRequest, AuthenticationResponse>
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISecureDataRepository _secureDataRepository;
@@ -27,31 +27,26 @@ namespace OpenStandup.Core.Domain.Features.Authenticate
             _openStandupApi = openStandupApi;
         }
 
-        public async Task<bool> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
+        public async Task<AuthenticationResponse> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
-            var authenticationResponse = await _authenticator.Authenticate();
-            var result = false;
-            AuthenticationResponse useCaseResponse;
+            var authenticationResponse = await _authenticator.Authenticate().ConfigureAwait(false);
+
+            AuthenticationResponse useCaseResponse = null;
 
             if (authenticationResponse.Succeeded)
             {
                 await _secureDataRepository.SetPersonalAccessToken(authenticationResponse.Payload).ConfigureAwait(false);
-
-                // Fetch and store user's profile info   
-                var gitHubUser = await _gitHubGraphQLApi.GetGitHubViewer().ConfigureAwait(false);
-                await _profileRepository.InsertOrReplace(gitHubUser).ConfigureAwait(false);
-                await _openStandupApi.SaveProfile(gitHubUser).ConfigureAwait(false);
-                useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded, authenticationResponse.Payload);
-                result = true;
+                useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded);
             }
             else
             {
-                // Authentication failed
-                useCaseResponse = new AuthenticationResponse(authenticationResponse.OperationResult, null, authenticationResponse.ErrorText);
+                // Some catastrophic failure during the auth step
+                await _secureDataRepository.SetPersonalAccessToken("").ConfigureAwait(false);
+                useCaseResponse = new AuthenticationResponse(OperationResult.Failed, authenticationResponse.ErrorText);
             }
 
             request.OutputPort.Handle(useCaseResponse);
-            return result;
+            return useCaseResponse;
         }
     }
 }

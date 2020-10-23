@@ -4,24 +4,22 @@ using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses;
 using GraphQL;
 using GraphQL.Client.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using OpenStandup.SharedKernel;
 
 
-namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL
+namespace OpenStandup.Mobile.Infrastructure.Apis
 {
-    public class GitHubGraphQLApi : IGitHubGraphQLApi
+    public class GitHubGraphQLApi : BaseApi, IGitHubGraphQLApi
     {
         private readonly GraphQLHttpClient _graphQLHttpClient;
-        private readonly ISecureDataRepository _secureDataRepository;
 
-        public GitHubGraphQLApi(GraphQLHttpClient graphQLHttpClient, ISecureDataRepository secureDataRepository)
+        public GitHubGraphQLApi(GraphQLHttpClient graphQLHttpClient, ISecureDataRepository secureDataRepository) : base(secureDataRepository)
         {
             _graphQLHttpClient = graphQLHttpClient;
-            _secureDataRepository = secureDataRepository;
         }
 
-        public async Task<GitHubUser> GetGitHubViewer()
+        public async Task<GraphQLOperationResponse<GitHubUser>> GetGitHubViewer()
         {
             var graphQLRequest = new GraphQLRequest
             {
@@ -54,8 +52,17 @@ namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL
                                 }"
             };
 
-            _graphQLHttpClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false));
-            return (await _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest).ConfigureAwait(false)).Data.Viewer;
+            await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest))
+                .ConfigureAwait(false);
+
+            return response.Data.Exception == null
+                ? new GraphQLOperationResponse<GitHubUser>(response.Data.Viewer)
+                : new GraphQLOperationResponse<GitHubUser>(response.Data.Exception.StatusCode, response.Data.Exception);
         }
     }
 }
+
+ 
+ 

@@ -3,7 +3,6 @@ using OpenStandup.Core.Interfaces.Authentication;
 using OpenStandup.Core.Interfaces.Data.GraphQL;
 using OpenStandup.Mobile.Infrastructure.Authentication.GitHub;
 using OpenStandup.Mobile.Infrastructure.Data;
-using OpenStandup.Mobile.Infrastructure.Data.GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using System;

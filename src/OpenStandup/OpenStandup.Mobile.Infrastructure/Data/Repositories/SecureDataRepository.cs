@@ -9,19 +9,20 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
     {
         private const string GitHubClientId = "github_client_id", GitHubClientSecret = "github_client_secret", PersonalAccessToken = "pat";
 
-        public async Task<string> GetGitHubClientId()
+        public Task<string> GetGitHubClientId()
         {
-            return await GetSecureStorageValue(GitHubClientId);
+            return GetSecureStorageValue(GitHubClientId);
         }
 
-        public async Task<string> GetGitHubClientSecret()
+        public Task<string> GetGitHubClientSecret()
         {
-            return await GetSecureStorageValue(GitHubClientSecret);
+            return GetSecureStorageValue(GitHubClientSecret);
         }
 
-        public async Task<string> GetPersonalAccessToken()
+        public Task<string> GetPersonalAccessToken()
         {
-            return await GetSecureStorageValue(PersonalAccessToken);
+             // return GetSecureStorageValue(PersonalAccessToken);
+             return Task.FromResult("34343");
         }
 
         public async Task SetGitHubClientId(string value)
@@ -56,11 +57,11 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
             }
         }
 
-        private static async Task<string> GetSecureStorageValue(string key)
+        private static Task<string> GetSecureStorageValue(string key)
         {
             try
             {
-                return await SecureStorage.GetAsync(key);
+                return SecureStorage.GetAsync(key);
             }
             catch (Exception)
             {

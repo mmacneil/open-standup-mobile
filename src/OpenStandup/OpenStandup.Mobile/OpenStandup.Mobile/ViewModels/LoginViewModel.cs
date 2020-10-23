@@ -3,27 +3,27 @@ using OpenStandup.Mobile.Presenters;
 using OpenStandup.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;
- 
+
 
 namespace OpenStandup.Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly IMediator _mediator;
-        private readonly INavigator _navigator;      
+        private readonly INavigator _navigator;
 
         private string _statusText;
         public string StatusText
         {
-            get { return _statusText; }
-            set { SetProperty(ref _statusText, value); }
+            get => _statusText;
+            set => SetProperty(ref _statusText, value);
         }
 
         private bool _canLogin = true;
         public bool CanLogin
         {
-            get { return _canLogin; }
-            set { SetProperty(ref _canLogin, value); }
+            get => _canLogin;
+            set => SetProperty(ref _canLogin, value);
         }
 
         public LoginViewModel(IMediator mediator, INavigator navigator)

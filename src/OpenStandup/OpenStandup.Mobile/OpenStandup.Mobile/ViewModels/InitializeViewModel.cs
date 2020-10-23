@@ -42,7 +42,7 @@ namespace OpenStandup.Mobile.ViewModels
                 IsBusy = true;
                 Status = "Loading...";
 
-                if (!await _configurationLoader.TryLoad().ConfigureAwait(false))
+                if (!await _configurationLoader.TryLoad()/*.ConfigureAwait(false)*/)
                 {
                     Failed = true;
                     Status = "Startup failed, check connection and try again.";
@@ -50,8 +50,8 @@ namespace OpenStandup.Mobile.ViewModels
                 }
 
                 // If we have an access token and it's still valid then proceed to shell, otherwise route to login
-                var accessToken = await _secureDataRepository.GetPersonalAccessToken();
-                if (!string.IsNullOrEmpty(accessToken) && (await _openStandupApi.ValidateGitHubAccessToken(accessToken).ConfigureAwait(false)).Succeeded)
+                var accessToken = await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false);
+                if (!string.IsNullOrEmpty(accessToken) && (await _openStandupApi.ValidateGitHubAccessToken(accessToken)/*.ConfigureAwait(false)*/).Succeeded)
                 {
                     await _navigator.GoTo("///main");
                 }

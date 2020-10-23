@@ -9,17 +9,18 @@ using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.SharedKernel;
 using Newtonsoft.Json;
+using OpenStandup.Core.Interfaces.Data.Repositories;
 
 
 namespace OpenStandup.Mobile.Infrastructure.Apis
 {
-    public class OpenStandupApi : IOpenStandupApi
+    public class OpenStandupApi : BaseApi, IOpenStandupApi
     {
         private readonly HttpClient _httpClient;
         private readonly IAppSettings _appSettings;
         private readonly IMapper _mapper;
 
-        public OpenStandupApi(HttpClient httpClient, IAppSettings appSettings, IMapper mapper)
+        public OpenStandupApi(HttpClient httpClient, IAppSettings appSettings, IMapper mapper, ISecureDataRepository secureDataRepository) : base(secureDataRepository)
         {
             _httpClient = httpClient;
             _appSettings = appSettings;
@@ -35,7 +36,12 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 Content = new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json")
             };
 
-            return new HttpOperationResponse<string>((await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false)).StatusCode, null);
+            await AddAuthorizationHeader(request);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request))
+                .ConfigureAwait(false);
+
+            return new HttpOperationResponse<string>(response.StatusCode, response, null);
         }
 
         public async Task<HttpOperationResponse<AppConfigDto>> GetConfiguration()
@@ -43,13 +49,14 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/configuration")).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode ?
-                new HttpOperationResponse<AppConfigDto>(response.StatusCode, null) :
-                new HttpOperationResponse<AppConfigDto>(response.StatusCode, JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync()));
+                new HttpOperationResponse<AppConfigDto>(response.StatusCode, response, null) :
+                new HttpOperationResponse<AppConfigDto>(response.StatusCode, response, JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
         }
 
         public async Task<HttpOperationResponse<string>> ValidateGitHubAccessToken(string token)
         {
-            return new HttpOperationResponse<string>((await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken?token={token}")).ConfigureAwait(false)).StatusCode, null);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken?token={token}")).ConfigureAwait(false);
+            return new HttpOperationResponse<string>(response.StatusCode, response, null);
         }
     }
 }
