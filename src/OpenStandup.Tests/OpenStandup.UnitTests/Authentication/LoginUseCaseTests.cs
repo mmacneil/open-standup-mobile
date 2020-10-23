@@ -28,7 +28,7 @@ namespace OpenStandup.UnitTests.Authentication
 
             var mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
 
-            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object, null, null, null);
+            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object);
 
             // act
             var response = await useCase.Handle(new AuthenticationRequest(mockOutputPort.Object), new CancellationToken());
@@ -52,7 +52,7 @@ namespace OpenStandup.UnitTests.Authentication
 
             var mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
 
-            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object, null, null, null);
+            var useCase = new LoginUseCase(mockAuthenticator.Object, mockSecureDataRepository.Object);
 
             // act
             await useCase.Handle(new AuthenticationRequest(mockOutputPort.Object), new CancellationToken());
