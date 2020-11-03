@@ -19,13 +19,10 @@ namespace OpenStandup.Mobile.Infrastructure.Data
 
             if (!File.Exists(dbPath)) { LoadFromResources(name, dbPath); }
 
-            if (SyncDb == null)
+            SyncDb ??= new SQLiteConnection(dbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex)
             {
-                SyncDb = new SQLiteConnection(dbPath, SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.FullMutex)
-                {
-                    BusyTimeout = _busyTimeout
-                };
-            }
+                BusyTimeout = _busyTimeout
+            };
 
             if (AsyncDb != null)
             {
@@ -42,7 +39,6 @@ namespace OpenStandup.Mobile.Infrastructure.Data
         {
             // create tables if they don't exists
             database.CreateTable<Profile>();
-            database.CreateTable<Session>();
             database.CreateTable<Model.Configuration>();
         }
 

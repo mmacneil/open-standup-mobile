@@ -16,13 +16,13 @@ using Xunit;
 
 namespace OpenStandup.UnitTests.Profile
 {
-    public class GetGitHubProfileUseCaseTests
+    public class SaveGitHubProfileUseCaseTests
     {
         private readonly Mock<IGitHubGraphQLApi> _mockGitHubGraphQL;
         private readonly Mock<IOutputPort<Result<bool>>> _mockOutputPort;
         private readonly Mock<IProfileRepository> _mockProfileRepository;
 
-        public GetGitHubProfileUseCaseTests()
+        public SaveGitHubProfileUseCaseTests()
         {
             _mockGitHubGraphQL = new Mock<IGitHubGraphQLApi>();
             _mockOutputPort = new Mock<IOutputPort<Result<bool>>>();
@@ -36,10 +36,10 @@ namespace OpenStandup.UnitTests.Profile
             _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
                 .ReturnsAsync(Result<GitHubUser>.Failed(HttpStatusCode.Unauthorized.ToResultStatus(), new Exception()));
 
-            var useCase = new GetGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object);
+            var useCase = new SaveGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object);
 
             // act
-            var response = await useCase.Handle(new GetGitHubProfileRequest(), new CancellationToken());
+            var response = await useCase.Handle(new SaveGitHubProfileRequest(), new CancellationToken());
 
             // assert
             _mockProfileRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);

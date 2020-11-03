@@ -11,14 +11,14 @@ using OpenStandup.SharedKernel;
 
 namespace OpenStandup.Core.Domain.Features.SaveProfile
 {
-    public class GetGitHubProfileUseCase : IRequestHandler<GetGitHubProfileRequest, Result<bool>>
+    public class SaveGitHubProfileUseCase : IRequestHandler<SaveGitHubProfileRequest, Result<bool>>
     {
         private readonly IGitHubGraphQLApi _gitHubGraphQLApi;
         private readonly IProfileRepository _profileRepository;
         private readonly IOpenStandupApi _openStandupApi;
         private readonly IOutputPort<Result<bool>> _outputPort;
 
-        public GetGitHubProfileUseCase(IGitHubGraphQLApi gitHubGraphQLApi, IProfileRepository profileRepository, IOpenStandupApi openStandupApi, IOutputPort<Result<bool>> outputPort)
+        public SaveGitHubProfileUseCase(IGitHubGraphQLApi gitHubGraphQLApi, IProfileRepository profileRepository, IOpenStandupApi openStandupApi, IOutputPort<Result<bool>> outputPort)
         {
             _gitHubGraphQLApi = gitHubGraphQLApi;
             _profileRepository = profileRepository;
@@ -26,7 +26,7 @@ namespace OpenStandup.Core.Domain.Features.SaveProfile
             _outputPort = outputPort;
         }
 
-        public async Task<Result<bool>> Handle(GetGitHubProfileRequest request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(SaveGitHubProfileRequest request, CancellationToken cancellationToken)
         {
             Result<bool> useCaseResponse;
 

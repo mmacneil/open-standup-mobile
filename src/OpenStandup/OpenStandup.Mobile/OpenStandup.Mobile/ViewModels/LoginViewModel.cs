@@ -45,7 +45,7 @@ namespace OpenStandup.Mobile.ViewModels
             if ((await _mediator.Send(new AuthenticationRequest())).Succeeded)
             {
                 // Fetch & save github profile
-                if ((await _mediator.Send(new GetGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
+                if ((await _mediator.Send(new SaveGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
                 {
                     await Task.Delay(1); // UI doesn't completely update on android for some reason
                     await _navigator.GoTo("///main");

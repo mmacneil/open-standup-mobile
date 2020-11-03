@@ -13,6 +13,7 @@ using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Infrastructure.Apis;
 using OpenStandup.Mobile.Infrastructure.Configuration;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
+using OpenStandup.Mobile.Infrastructure.Services;
 
 
 namespace OpenStandup.Mobile.Infrastructure
@@ -34,7 +35,7 @@ namespace OpenStandup.Mobile.Infrastructure
             builder.RegisterType<OpenStandupApi>().As<IOpenStandupApi>().SingleInstance();
 
             builder.RegisterType<AppSettings>().As<IAppSettings>().SingleInstance();
-            
+
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
             builder.Register(ctx => new HttpClient(new HttpClientHandler())
@@ -47,7 +48,6 @@ namespace OpenStandup.Mobile.Infrastructure
                 EndPoint = new Uri("https://api.github.com/graphql")
             }, new NewtonsoftJsonSerializer())).SingleInstance();
 
-            
             builder.Register(ctx => new HttpClient(new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback =
@@ -57,6 +57,8 @@ namespace OpenStandup.Mobile.Infrastructure
                 MaxResponseContentBufferSize = 256000,
                 Timeout = new TimeSpan(0, 0, 0, 5)
             }).SingleInstance();
+
+            builder.RegisterType<LocationService>().As<ILocationService>().SingleInstance();
         }
     }
 }

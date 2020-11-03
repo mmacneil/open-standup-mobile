@@ -5,11 +5,11 @@ using OpenStandup.SharedKernel;
 
 namespace OpenStandup.Mobile.Presenters
 {
-    public class GetGitHubProfilePresenter : IOutputPort<Result<bool>>
+    public class SaveGitHubProfilePresenter : IOutputPort<Result<bool>>
     {
         private readonly LoginViewModel _viewModel;
 
-        public GetGitHubProfilePresenter(LoginViewModel viewModel)
+        public SaveGitHubProfilePresenter(LoginViewModel viewModel)
         {
             _viewModel = viewModel;
         }
