@@ -3,7 +3,7 @@
 
 namespace OpenStandup.Core.Domain.Features.Signout.Models
 {
-    public class SignoutRequest : BaseUseCaseRequest<bool>, IRequest<bool>
+    public class SignoutRequest : IRequest<bool>
     {
     }
 }

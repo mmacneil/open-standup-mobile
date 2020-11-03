@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -10,19 +11,20 @@ using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.SharedKernel;
 using Xunit;
 
+
 namespace OpenStandup.UnitTests.Authentication
 {
     public class LoginUseCaseTests
     {
         private readonly Mock<IAuthenticator> _mockAuthenticator;
         private readonly Mock<ISecureDataRepository> _mockSecureDataRepository;
-        private readonly Mock<IOutputPort<AuthenticationResponse>> _mockOutputPort;
+        private readonly Mock<IOutputPort<Result<string>>> _mockOutputPort;
 
         public LoginUseCaseTests()
         {
             _mockAuthenticator = new Mock<IAuthenticator>();
             _mockSecureDataRepository = new Mock<ISecureDataRepository>();
-            _mockOutputPort = new Mock<IOutputPort<AuthenticationResponse>>();
+            _mockOutputPort = new Mock<IOutputPort<Result<string>>>();
         }
 
         [Fact]
@@ -32,19 +34,20 @@ namespace OpenStandup.UnitTests.Authentication
             const string errorText = "login failed";
 
             _mockAuthenticator.Setup(x => x.Authenticate())
-                .ReturnsAsync(new OperationResponse<string>(OperationResult.Failed, null, errorText));
+                .ReturnsAsync(Result<string>.Failed(errorText));
 
             _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(""));
 
-            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object);
+            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object, _mockOutputPort.Object);
 
             // act
-            var response = await useCase.Handle(new AuthenticationRequest(_mockOutputPort.Object), new CancellationToken());
+            var response = await useCase.Handle(new AuthenticationRequest(), new CancellationToken());
 
             // assert
             _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(""), Times.Once());
-            response.ErrorText.Should().Be(errorText);
+            response.Errors.First().Should().Be(errorText);
         }
+
 
         [Fact]
         public async Task ShouldSetAccessTokenWhenAuthenticatorSucceeds()
@@ -53,14 +56,14 @@ namespace OpenStandup.UnitTests.Authentication
             const string token = "a1b2c3";
 
             _mockAuthenticator.Setup(x => x.Authenticate())
-                .ReturnsAsync(new OperationResponse<string>(OperationResult.Succeeded, token));
+                .ReturnsAsync(Result<string>.Success(token));
 
             _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(token));
 
-            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object);
+            var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object, _mockOutputPort.Object);
 
             // act
-            await useCase.Handle(new AuthenticationRequest(_mockOutputPort.Object), new CancellationToken());
+            await useCase.Handle(new AuthenticationRequest(), new CancellationToken());
 
             // assert
             _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(token), Times.Once());

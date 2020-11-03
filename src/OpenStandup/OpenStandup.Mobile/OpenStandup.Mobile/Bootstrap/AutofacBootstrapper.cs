@@ -15,8 +15,6 @@ namespace OpenStandup.Mobile.Bootstrap
             var builder = new ContainerBuilder();
             ConfigureContainer(builder);
             var container = builder.Build();
-            //var pageFactory = container.Resolve<IPageFactory>();
-            //RegisterPages(pageFactory);
             ConfigureApplication(container);
         }
 

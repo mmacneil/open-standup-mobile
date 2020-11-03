@@ -2,10 +2,10 @@
 
 namespace OpenStandup.SharedKernel
 {
-    public enum OperationResult
+    public enum ResultStatus
     {
+        Success,
         Failed,
-        Succeeded,
-        Unknown
+        Unauthorized
     }
 }

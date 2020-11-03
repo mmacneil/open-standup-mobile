@@ -10,6 +10,7 @@ using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.SharedKernel;
 using Newtonsoft.Json;
 using OpenStandup.Core.Interfaces.Data.Repositories;
+using OpenStandup.SharedKernel.Extensions;
 
 
 namespace OpenStandup.Mobile.Infrastructure.Apis
@@ -27,7 +28,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             _mapper = mapper;
         }
 
-        public async Task<HttpOperationResponse<string>> SaveProfile(GitHubUser gitHubUser)
+        public async Task<Result<bool>> SaveProfile(GitHubUser gitHubUser)
         {
             var userDto = _mapper.Map<UserDto>(gitHubUser);
 
@@ -41,22 +42,27 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request))
                 .ConfigureAwait(false);
 
-            return new HttpOperationResponse<string>(response.StatusCode, response, null);
+            return response.IsSuccessStatusCode
+                ? Result<bool>.Success(true)
+                : Result<bool>.Failed(response.StatusCode.ToResultStatus(), response.ReasonPhrase);
         }
 
-        public async Task<HttpOperationResponse<AppConfigDto>> GetConfiguration()
+        public async Task<Result<AppConfigDto>> GetConfiguration()
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/configuration")).ConfigureAwait(false);
 
-            return !response.IsSuccessStatusCode ?
-                new HttpOperationResponse<AppConfigDto>(response.StatusCode, response, null) :
-                new HttpOperationResponse<AppConfigDto>(response.StatusCode, response, JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
+            return response.IsSuccessStatusCode
+                ? Result<AppConfigDto>.Success(JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)))
+                : Result<AppConfigDto>.Failed(response.StatusCode.ToResultStatus(), response.ReasonPhrase);
         }
 
-        public async Task<HttpOperationResponse<string>> ValidateGitHubAccessToken(string token)
+        public async Task<Result<string>> ValidateGitHubAccessToken(string token)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken?token={token}")).ConfigureAwait(false);
-            return new HttpOperationResponse<string>(response.StatusCode, response, null);
+
+            return response.IsSuccessStatusCode
+                ? Result<string>.Success(response.StatusCode.ToString())
+                : Result<string>.Failed(response.StatusCode.ToResultStatus());
         }
     }
 }

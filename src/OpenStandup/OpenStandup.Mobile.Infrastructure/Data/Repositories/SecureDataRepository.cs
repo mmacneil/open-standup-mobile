@@ -21,8 +21,8 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
         public Task<string> GetPersonalAccessToken()
         {
-             // return GetSecureStorageValue(PersonalAccessToken);
-             return Task.FromResult("34343");
+             return GetSecureStorageValue(PersonalAccessToken);
+             //return Task.FromResult("34343");
         }
 
         public async Task SetGitHubClientId(string value)

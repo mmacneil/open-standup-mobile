@@ -1,11 +1,12 @@
-﻿using OpenStandup.Core.Domain.Features.Authenticate.Models;
+﻿using System.Linq;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Mobile.ViewModels;
+using OpenStandup.SharedKernel;
 
 
 namespace OpenStandup.Mobile.Presenters
 {
-    public class AuthenticationPresenter : IOutputPort<AuthenticationResponse>
+    public class AuthenticationPresenter : IOutputPort<Result<string>>
     {
         private readonly LoginViewModel _viewModel;
 
@@ -14,7 +15,7 @@ namespace OpenStandup.Mobile.Presenters
             _viewModel = viewModel;
         }
 
-        public void Handle(AuthenticationResponse response)
+        public void Handle(Result<string> response)
         {
             if (response.Succeeded)
             {
@@ -22,7 +23,7 @@ namespace OpenStandup.Mobile.Presenters
             }
             else
             {
-                _viewModel.StatusText = response.ErrorText;
+                _viewModel.StatusText = response.Errors.First();
                 _viewModel.CanLogin = true;
                 _viewModel.IsBusy = false;
             }

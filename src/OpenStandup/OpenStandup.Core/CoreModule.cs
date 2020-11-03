@@ -21,7 +21,6 @@ namespace OpenStandup.Core
                 return t => c.Resolve(t);
             });
 
-            //builder.RegisterAssemblyTypes(typeof(LoginUseCase).GetTypeInfo().Assembly).AsImplementedInterfaces(); // via assembly scan
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("UseCase")).AsImplementedInterfaces();
         }
     }

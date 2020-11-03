@@ -8,6 +8,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 {
     public abstract class BaseApi
     {
+        private const string Scheme = "bearer";
         private readonly ISecureDataRepository _secureDataRepository;
 
         protected BaseApi(ISecureDataRepository secureDataRepository)
@@ -17,12 +18,12 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         public async Task AddAuthorizationHeader(HttpRequestMessage request)
         {
-            request.Headers.Add("Authorization", await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false));
+            request.Headers.Add("Authorization", $"{Scheme} {await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false)}");
         }
 
         public async Task AddAuthorizationHeader(HttpClient client)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Scheme, await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false));
         }
     }
 }

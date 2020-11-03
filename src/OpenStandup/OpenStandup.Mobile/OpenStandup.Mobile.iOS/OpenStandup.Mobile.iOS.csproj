@@ -133,7 +133,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenStandup.Mobile\OpenStandup.Mobile.csproj">

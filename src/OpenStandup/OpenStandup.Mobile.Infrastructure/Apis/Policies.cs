@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Client.Http;
@@ -14,38 +14,24 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
     {
         private const int NumberOfTimesToRetry = 3, DelayMs = 100;
 
-         public static async Task<HttpResponseMessage> AttemptAndRetryPolicy(Func<Task<HttpResponseMessage>> action)
-         {
-             var retryPolicy = Policy
-                 .Handle<Exception>()
-                 .RetryAsync(NumberOfTimesToRetry, async (exception, retryCount) =>
-                 {
-                     await Task.Delay(DelayMs).ConfigureAwait(false);
-                 });
+        public static async Task<HttpResponseMessage> AttemptAndRetryPolicy(Func<Task<HttpResponseMessage>> action)
+        {
+            var retryPolicy = Policy
+                .Handle<Exception>()
+                .RetryAsync(NumberOfTimesToRetry, async (exception, retryCount) =>
+                {
+                    await Task.Delay(DelayMs).ConfigureAwait(false);
+                });
 
-             var fallbackPolicy = Policy<HttpResponseMessage>
-                 .Handle<Exception>()
-                 .FallbackAsync(HttpFallbackAction, OnHttpFallbackAsync);
+            var fallbackPolicy = Policy<HttpResponseMessage>
+                .Handle<Exception>()
+                .FallbackAsync((result, context, arg3) => Task.FromResult(result.Result ?? new HttpResponseMessage(HttpStatusCode.RequestTimeout) { ReasonPhrase = result.Exception.Message }), (result, context) => Task.CompletedTask);
 
-             return await fallbackPolicy
-                 .WrapAsync(retryPolicy)
-                 .ExecuteAsync(async () => await action().ConfigureAwait(false))
-                 .ConfigureAwait(false);
-         }
-
-         private static Task OnHttpFallbackAsync(DelegateResult<HttpResponseMessage> response, Context context)
-         {
-             return Task.CompletedTask;
-         }
-
-         private static Task<HttpResponseMessage> HttpFallbackAction(DelegateResult<HttpResponseMessage> responseToFailedRequest, Context context, CancellationToken cancellationToken)
-         {
-            var httpResponseMessage = new HttpResponseMessage(responseToFailedRequest.Result.StatusCode)
-            {
-                Content = new StringContent($"The fallback executed, the original error was {responseToFailedRequest.Result.ReasonPhrase}")
-            };
-            return Task.FromResult(httpResponseMessage);
-         }
+            return await fallbackPolicy
+                .WrapAsync(retryPolicy)
+                .ExecuteAsync(async () => await action().ConfigureAwait(false))
+               .ConfigureAwait(false);
+        }
 
         public static async Task<GraphQLResponse<T>> AttemptAndRetryPolicy<T>(Func<Task<GraphQLResponse<T>>> action) where T : BaseGraphQLResponse, new()
         {
@@ -58,25 +44,26 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
             var fallbackPolicy = Policy<GraphQLResponse<T>>
                 .Handle<Exception>()
-                .FallbackAsync(FallbackAction, OnFallbackAsync);
+                .FallbackAsync((result, context, arg3) =>
+                {
+                    var exception = result.Exception switch
+                    {
+                        GraphQLHttpRequestException gqlRequestException => gqlRequestException,
+                        HttpRequestException httpRequestException => new GraphQLHttpRequestException(
+                            HttpStatusCode.RequestTimeout, null, httpRequestException.Message),
+                        _ => null
+                    };
+
+                    return Task.FromResult(new GraphQLResponse<T>
+                    {
+                        Data = new T { Exception = exception }
+                    });
+                }, (result, context) => Task.CompletedTask);
 
             return await fallbackPolicy
                 .WrapAsync(retryPolicy)
                 .ExecuteAsync(async () => await action().ConfigureAwait(false))
                 .ConfigureAwait(false);
-        }
-
-        private static Task<GraphQLResponse<T>> FallbackAction<T>(DelegateResult<GraphQLResponse<T>> responseToFailedRequest, Context context, CancellationToken cancellationToken) where T : BaseGraphQLResponse, new()
-        {
-            return Task.FromResult(new GraphQLResponse<T>
-            {
-                Data = new T { Exception = (GraphQLHttpRequestException)responseToFailedRequest.Exception }
-            });
-        }
-
-        private static Task OnFallbackAsync<T>(DelegateResult<GraphQLResponse<T>> response, Context context) where T : BaseGraphQLResponse
-        {
-            return Task.CompletedTask;
         }
     }
 }

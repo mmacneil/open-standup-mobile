@@ -7,8 +7,8 @@ namespace OpenStandup.Core.Interfaces.Apis
 {
     public interface IOpenStandupApi
     {
-        Task<HttpOperationResponse<string>> SaveProfile(GitHubUser gitHubUser);
-        Task<HttpOperationResponse<AppConfigDto>> GetConfiguration();
-        Task<HttpOperationResponse<string>> ValidateGitHubAccessToken(string token);
+        Task<Result<bool>> SaveProfile(GitHubUser gitHubUser);
+        Task<Result<AppConfigDto>> GetConfiguration();
+        Task<Result<string>> ValidateGitHubAccessToken(string token);
     }
 }

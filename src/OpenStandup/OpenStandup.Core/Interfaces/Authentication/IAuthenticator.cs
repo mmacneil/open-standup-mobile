@@ -5,6 +5,6 @@ namespace OpenStandup.Core.Interfaces.Authentication
 {
     public interface IAuthenticator
     {
-        Task<OperationResponse<string>> Authenticate();
+        Task<Result<string>> Authenticate();
     }
 }

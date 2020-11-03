@@ -1,11 +1,21 @@
-﻿using Autofac; 
-using OpenStandup.Mobile.ViewModels; 
+﻿using System;
+using Autofac;
+using OpenStandup.Mobile.ViewModels;
 using Xamarin.Forms;
+
 
 namespace OpenStandup.Mobile.Views
 {
+    [QueryProperty("Logout", "logout")]
     public class LoginPage : ContentPage
     {
+        private string _logout;
+        public string Logout
+        {
+            get => _logout;
+            set => _logout = Uri.UnescapeDataString(value);
+        }
+
         private readonly LoginViewModel _viewModel = App.Container.Resolve<LoginViewModel>();
 
         public LoginPage()
@@ -57,7 +67,7 @@ namespace OpenStandup.Mobile.Views
             };
         }
 
-        private async void Login_Clicked(object sender, System.EventArgs e)
+        private async void Login_Clicked(object sender, EventArgs e)
         {
             await _viewModel.Login();
         }
@@ -67,6 +77,10 @@ namespace OpenStandup.Mobile.Views
             return true;
         }
 
-      
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.Initialize(Logout == "1");
+        }
     }
 }

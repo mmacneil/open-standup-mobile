@@ -26,13 +26,13 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
 
             if (!configurationResponse.Succeeded) return false;
 
-            await _secureDataRepository.SetGitHubClientId(configurationResponse.Payload.GitHubClientId);
-            await _secureDataRepository.SetGitHubClientSecret(configurationResponse.Payload.GitHubClientSecret);
+            await _secureDataRepository.SetGitHubClientId(configurationResponse.Value.GitHubClientId);
+            await _secureDataRepository.SetGitHubClientSecret(configurationResponse.Value.GitHubClientSecret);
 
             return await _appDb.AsyncDb.InsertOrReplaceAsync(new Data.Model.Configuration
             {
-                Version = configurationResponse.Payload.Version,
-                Created = configurationResponse.Payload.Created
+                Version = configurationResponse.Value.Version,
+                Created = configurationResponse.Value.Created
             }) == 1;
         }
     }

@@ -1,8 +1,8 @@
 ﻿using OpenStandup.Core.Domain.Features.Authenticate.Models;
-using OpenStandup.Mobile.Presenters;
 using OpenStandup.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;
+using OpenStandup.Core.Domain.Features.SaveProfile.Models;
 
 
 namespace OpenStandup.Mobile.ViewModels
@@ -13,6 +13,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly INavigator _navigator;
 
         private string _statusText;
+
         public string StatusText
         {
             get => _statusText;
@@ -20,6 +21,7 @@ namespace OpenStandup.Mobile.ViewModels
         }
 
         private bool _canLogin = true;
+
         public bool CanLogin
         {
             get => _canLogin;
@@ -40,11 +42,23 @@ namespace OpenStandup.Mobile.ViewModels
 
             // Call the Login UseCase, on success we'll load the application shell, error handling
             // is performed by the presenter
-            if (await _mediator.Send(new AuthenticationRequest(new AuthenticationPresenter(this))))
+            if ((await _mediator.Send(new AuthenticationRequest())).Succeeded)
             {
-                await Task.Delay(1);  // UI doesn't completely update on android for some reason
-                await _navigator.GoTo("///main");
+                // Fetch & save github profile
+                if ((await _mediator.Send(new GetGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
+                {
+                    await Task.Delay(1); // UI doesn't completely update on android for some reason
+                    await _navigator.GoTo("///main");
+                }
             }
+        }
+
+        public void Initialize(bool logout)
+        {
+            if (!logout) return;
+            IsBusy = false;
+            CanLogin = true;
+            StatusText = "";
         }
     }
 }

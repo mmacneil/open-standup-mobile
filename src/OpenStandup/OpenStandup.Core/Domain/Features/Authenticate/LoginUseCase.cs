@@ -5,41 +5,40 @@ using OpenStandup.SharedKernel;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenStandup.Core.Interfaces;
 
 
 namespace OpenStandup.Core.Domain.Features.Authenticate
 {
-    public class LoginUseCase : IRequestHandler<AuthenticationRequest, AuthenticationResponse>
+    public class LoginUseCase : IRequestHandler<AuthenticationRequest, Result<string>>
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISecureDataRepository _secureDataRepository;
+        private readonly IOutputPort<Result<string>> _outputPort;
 
 
-        public LoginUseCase(IAuthenticator authenticator, ISecureDataRepository secureDataRepository)
+        public LoginUseCase(IAuthenticator authenticator, ISecureDataRepository secureDataRepository, IOutputPort<Result<string>> outputPort)
         {
             _authenticator = authenticator;
             _secureDataRepository = secureDataRepository;
+            _outputPort = outputPort;
         }
 
-        public async Task<AuthenticationResponse> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticator.Authenticate().ConfigureAwait(false);
 
-            AuthenticationResponse useCaseResponse;
-
             if (authenticationResponse.Succeeded)
             {
-                await _secureDataRepository.SetPersonalAccessToken(authenticationResponse.Payload).ConfigureAwait(false);
-                useCaseResponse = new AuthenticationResponse(OperationResult.Succeeded);
+                await _secureDataRepository.SetPersonalAccessToken(authenticationResponse.Value).ConfigureAwait(false);
             }
             else
             {
                 await _secureDataRepository.SetPersonalAccessToken("").ConfigureAwait(false);
-                useCaseResponse = new AuthenticationResponse(OperationResult.Failed, authenticationResponse.ErrorText);
             }
 
-            request.OutputPort.Handle(useCaseResponse);
-            return useCaseResponse;
+            _outputPort.Handle(authenticationResponse);
+            return authenticationResponse;
         }
     }
 }

@@ -11,9 +11,12 @@ namespace OpenStandup.Mobile.Bootstrap
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-           .Where(t => t.IsSubclassOf(typeof(BaseViewModel)));
+           .Where(t => t.IsSubclassOf(typeof(BaseViewModel))).SingleInstance();
 
             builder.RegisterType<Navigator>().As<INavigator>().SingleInstance();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter"))
+                .AsImplementedInterfaces().SingleInstance();
         }
     }
 }

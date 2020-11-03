@@ -6,6 +6,7 @@ using GraphQL;
 using GraphQL.Client.Http;
 using System.Threading.Tasks;
 using OpenStandup.SharedKernel;
+using OpenStandup.SharedKernel.Extensions;
 
 
 namespace OpenStandup.Mobile.Infrastructure.Apis
@@ -19,7 +20,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             _graphQLHttpClient = graphQLHttpClient;
         }
 
-        public async Task<GraphQLOperationResponse<GitHubUser>> GetGitHubViewer()
+        public async Task<Result<GitHubUser>> GetGitHubViewer()
         {
             var graphQLRequest = new GraphQLRequest
             {
@@ -58,11 +59,10 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 .ConfigureAwait(false);
 
             return response.Data.Exception == null
-                ? new GraphQLOperationResponse<GitHubUser>(response.Data.Viewer)
-                : new GraphQLOperationResponse<GitHubUser>(response.Data.Exception.StatusCode, response.Data.Exception);
+                ? Result<GitHubUser>.Success(response.Data.Viewer)
+                : Result<GitHubUser>.Failed(response.Data.Exception.StatusCode.ToResultStatus(), response.Data.Exception);
         }
     }
 }
 
- 
- 
+
