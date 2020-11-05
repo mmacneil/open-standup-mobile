@@ -1,20 +1,20 @@
 ﻿using System.Linq;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Mobile.ViewModels;
-using OpenStandup.SharedKernel;
+using Vessel;
 
 namespace OpenStandup.Mobile.Presenters
 {
-    public class SaveGitHubProfilePresenter : IOutputPort<Result<bool>>
+    public class UpdateGitHubProfilePresenter : IOutputPort<Dto<bool>>
     {
         private readonly LoginViewModel _viewModel;
 
-        public SaveGitHubProfilePresenter(LoginViewModel viewModel)
+        public UpdateGitHubProfilePresenter(LoginViewModel viewModel)
         {
             _viewModel = viewModel;
         }
 
-        public void Handle(Result<bool> response)
+        public void Handle(Dto<bool> response)
         {
             if (response.Succeeded) return;
             _viewModel.StatusText = response.Errors.First();

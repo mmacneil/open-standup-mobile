@@ -7,10 +7,9 @@ using OpenStandup.Core.Dto;
 using OpenStandup.Core.Dto.Api;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
-using OpenStandup.SharedKernel;
 using Newtonsoft.Json;
 using OpenStandup.Core.Interfaces.Data.Repositories;
-using OpenStandup.SharedKernel.Extensions;
+using Vessel;
 
 
 namespace OpenStandup.Mobile.Infrastructure.Apis
@@ -28,7 +27,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             _mapper = mapper;
         }
 
-        public async Task<Result<bool>> SaveProfile(GitHubUser gitHubUser)
+        public async Task<Dto<bool>> UpdateProfile(GitHubUser gitHubUser)
         {
             var userDto = _mapper.Map<UserDto>(gitHubUser);
 
@@ -43,26 +42,43 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 .ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
-                ? Result<bool>.Success(true)
-                : Result<bool>.Failed(response.StatusCode.ToResultStatus(), response.ReasonPhrase);
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
-        public async Task<Result<AppConfigDto>> GetConfiguration()
+        public async Task<Dto<bool>> UpdateLocation(double latitude, double longitude)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Patch, $"{_appSettings.ApiEndpoint}/users/Location")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(new { latitude, longitude }), Encoding.UTF8, "application/json")
+            };
+
+            await AddAuthorizationHeader(request);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request))
+                .ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
+        public async Task<Dto<AppConfigDto>> GetConfiguration()
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/configuration")).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
-                ? Result<AppConfigDto>.Success(JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)))
-                : Result<AppConfigDto>.Failed(response.StatusCode.ToResultStatus(), response.ReasonPhrase);
+                ? Dto<AppConfigDto>.Success(JsonConvert.DeserializeObject<AppConfigDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false)))
+                : Dto<AppConfigDto>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
-        public async Task<Result<string>> ValidateGitHubAccessToken(string token)
+        public async Task<Dto<string>> ValidateGitHubAccessToken(string token)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken?token={token}")).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
-                ? Result<string>.Success(response.StatusCode.ToString())
-                : Result<string>.Failed(response.StatusCode.ToResultStatus());
+                ? Dto<string>.Success(response.StatusCode.ToString())
+                : Dto<string>.Failed(response.StatusCode);
         }
     }
 }

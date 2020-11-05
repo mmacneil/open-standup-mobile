@@ -22,6 +22,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="vessel" Version="1.0.3" />
     <PackageReference Include="xamarin.essentials" Version="1.5.3.2" />
   </ItemGroup>
 

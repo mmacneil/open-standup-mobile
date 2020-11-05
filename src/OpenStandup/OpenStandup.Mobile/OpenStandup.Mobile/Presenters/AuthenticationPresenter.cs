@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Mobile.ViewModels;
-using OpenStandup.SharedKernel;
+using Vessel;
 
 
 namespace OpenStandup.Mobile.Presenters
 {
-    public class AuthenticationPresenter : IOutputPort<Result<string>>
+    public class AuthenticationPresenter : IOutputPort<Dto<string>>
     {
         private readonly LoginViewModel _viewModel;
 
@@ -15,7 +15,7 @@ namespace OpenStandup.Mobile.Presenters
             _viewModel = viewModel;
         }
 
-        public void Handle(Result<string> response)
+        public void Handle(Dto<string> response)
         {
             if (response.Succeeded)
             {

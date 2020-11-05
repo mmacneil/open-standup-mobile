@@ -1,11 +1,11 @@
 ﻿using OpenStandup.Core.Domain.Entities;
 using System.Threading.Tasks;
-using OpenStandup.SharedKernel;
+using Vessel;
 
 namespace OpenStandup.Core.Interfaces.Data.GraphQL
 {
     public interface IGitHubGraphQLApi
     {
-        Task<Result<GitHubUser>> GetGitHubViewer();
+        Task<Dto<GitHubUser>> GetGitHubViewer();
     }
 }

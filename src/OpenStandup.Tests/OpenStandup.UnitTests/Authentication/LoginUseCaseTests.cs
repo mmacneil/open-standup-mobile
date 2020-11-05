@@ -8,7 +8,7 @@ using OpenStandup.Core.Domain.Features.Authenticate.Models;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Authentication;
 using OpenStandup.Core.Interfaces.Data.Repositories;
-using OpenStandup.SharedKernel;
+using Vessel;
 using Xunit;
 
 
@@ -18,13 +18,13 @@ namespace OpenStandup.UnitTests.Authentication
     {
         private readonly Mock<IAuthenticator> _mockAuthenticator;
         private readonly Mock<ISecureDataRepository> _mockSecureDataRepository;
-        private readonly Mock<IOutputPort<Result<string>>> _mockOutputPort;
+        private readonly Mock<IOutputPort<Dto<string>>> _mockOutputPort;
 
         public LoginUseCaseTests()
         {
             _mockAuthenticator = new Mock<IAuthenticator>();
             _mockSecureDataRepository = new Mock<ISecureDataRepository>();
-            _mockOutputPort = new Mock<IOutputPort<Result<string>>>();
+            _mockOutputPort = new Mock<IOutputPort<Dto<string>>>();
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace OpenStandup.UnitTests.Authentication
             const string errorText = "login failed";
 
             _mockAuthenticator.Setup(x => x.Authenticate())
-                .ReturnsAsync(Result<string>.Failed(errorText));
+                .ReturnsAsync(Dto<string>.Failed(errorText));
 
             _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(""));
 
@@ -56,7 +56,7 @@ namespace OpenStandup.UnitTests.Authentication
             const string token = "a1b2c3";
 
             _mockAuthenticator.Setup(x => x.Authenticate())
-                .ReturnsAsync(Result<string>.Success(token));
+                .ReturnsAsync(Dto<string>.Success(token));
 
             _mockSecureDataRepository.Setup(x => x.SetPersonalAccessToken(token));
 

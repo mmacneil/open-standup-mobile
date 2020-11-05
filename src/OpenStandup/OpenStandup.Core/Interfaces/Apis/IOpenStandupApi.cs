@@ -1,14 +1,15 @@
 ﻿using System.Threading.Tasks;
 using OpenStandup.Core.Domain.Entities;
 using OpenStandup.Core.Dto.Api;
-using OpenStandup.SharedKernel;
+using Vessel;
 
 namespace OpenStandup.Core.Interfaces.Apis
 {
     public interface IOpenStandupApi
     {
-        Task<Result<bool>> SaveProfile(GitHubUser gitHubUser);
-        Task<Result<AppConfigDto>> GetConfiguration();
-        Task<Result<string>> ValidateGitHubAccessToken(string token);
+        Task<Dto<bool>> UpdateProfile(GitHubUser gitHubUser);
+        Task<Dto<AppConfigDto>> GetConfiguration();
+        Task<Dto<string>> ValidateGitHubAccessToken(string token);
+        Task<Dto<bool>> UpdateLocation(double latitude, double longitude);
     }
 }

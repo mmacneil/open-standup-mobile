@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using OpenStandup.SharedKernel;
-
+using Vessel;
 
 namespace OpenStandup.Core.Domain.Features.Authenticate.Models
 {
-    public class AuthenticationRequest : IRequest<Result<string>>
+    public class AuthenticationRequest : IRequest<Dto<string>>
     {
     }
 }

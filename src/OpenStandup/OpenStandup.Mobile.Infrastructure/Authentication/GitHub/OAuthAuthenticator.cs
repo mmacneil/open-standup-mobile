@@ -1,9 +1,9 @@
 ﻿using OpenStandup.Core.Interfaces.Authentication;
-using OpenStandup.SharedKernel;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using OpenStandup.Core.Interfaces;
+using Vessel;
 using Xamarin.Essentials;
 
 namespace OpenStandup.Mobile.Infrastructure.Authentication.GitHub
@@ -19,7 +19,7 @@ namespace OpenStandup.Mobile.Infrastructure.Authentication.GitHub
             _appSettings = appSettings;
         }
 
-        public async Task<Result<string>> Authenticate()
+        public async Task<Dto<string>> Authenticate()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace OpenStandup.Mobile.Infrastructure.Authentication.GitHub
                 // POST https://github.com/login/oauth/access_token                
                 var response = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, $"https://github.com/login/oauth/access_token?code={code}&client_id={await _appSettings.GetGitHubClientId()}&client_secret={await _appSettings.GetGitHubClientSecret()}"));
                 var content = await response.Content.ReadAsStringAsync();
-                return Result<string>.Success(content.Split("&")[0].Replace("access_token=", ""));
+                return Dto<string>.Success(content.Split("&")[0].Replace("access_token=", ""));
             }
             catch (Exception e)
             {
@@ -44,7 +44,7 @@ namespace OpenStandup.Mobile.Infrastructure.Authentication.GitHub
                     message = "User canceled login.";
                 }
 
-                return Result<string>.Failed(message ?? e.Message);
+                return Dto<string>.Failed(message ?? e.Message);
             }
         }
     }

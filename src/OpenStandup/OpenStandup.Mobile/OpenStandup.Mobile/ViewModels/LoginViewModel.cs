@@ -2,7 +2,7 @@
 using OpenStandup.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;
-using OpenStandup.Core.Domain.Features.SaveProfile.Models;
+using OpenStandup.Core.Domain.Features.Profile.Models;
 
 
 namespace OpenStandup.Mobile.ViewModels
@@ -45,8 +45,9 @@ namespace OpenStandup.Mobile.ViewModels
             if ((await _mediator.Send(new AuthenticationRequest())).Succeeded)
             {
                 // Fetch & save github profile
-                if ((await _mediator.Send(new SaveGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
+                if ((await _mediator.Send(new UpdateGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
                 {
+                    await _mediator.Send(new UpdateLocationRequest());
                     await Task.Delay(1); // UI doesn't completely update on android for some reason
                     await _navigator.GoTo("///main");
                 }

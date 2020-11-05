@@ -1,10 +1,10 @@
-﻿using OpenStandup.SharedKernel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Vessel;
 
 namespace OpenStandup.Core.Interfaces.Authentication
 {
     public interface IAuthenticator
     {
-        Task<Result<string>> Authenticate();
+        Task<Dto<string>> Authenticate();
     }
 }
