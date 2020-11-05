@@ -35,7 +35,7 @@ namespace OpenStandup.UnitTests.Profile
             _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
                 .ReturnsAsync(Dto<GitHubUser>.Failed(HttpStatusCode.Unauthorized, new Exception()));
 
-            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object);
+            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object, null);
 
             // act
             var response = await useCase.Handle(new UpdateGitHubProfileRequest(), new CancellationToken());

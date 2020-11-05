@@ -22,6 +22,7 @@ namespace OpenStandup.Core
             });
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("UseCase")).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Handler")).AsImplementedInterfaces();
         }
     }
 }

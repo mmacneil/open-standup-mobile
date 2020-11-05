@@ -23,5 +23,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Model
         public long FollowingCount { get; set; }
         public long RepositoryCount { get; set; }
         public long GistCount { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
     }
 }

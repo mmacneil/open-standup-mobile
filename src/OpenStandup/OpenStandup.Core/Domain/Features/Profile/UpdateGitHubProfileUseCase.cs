@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using OpenStandup.Core.Domain.Events;
 using OpenStandup.Core.Domain.Features.Profile.Models;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
@@ -16,13 +17,15 @@ namespace OpenStandup.Core.Domain.Features.Profile
         private readonly IProfileRepository _profileRepository;
         private readonly IOpenStandupApi _openStandupApi;
         private readonly IOutputPort<Dto<bool>> _outputPort;
+        private readonly IMediator _mediator;
 
-        public UpdateGitHubProfileUseCase(IGitHubGraphQLApi gitHubGraphQLApi, IProfileRepository profileRepository, IOpenStandupApi openStandupApi, IOutputPort<Dto<bool>> outputPort)
+        public UpdateGitHubProfileUseCase(IGitHubGraphQLApi gitHubGraphQLApi, IProfileRepository profileRepository, IOpenStandupApi openStandupApi, IOutputPort<Dto<bool>> outputPort, IMediator mediator)
         {
             _gitHubGraphQLApi = gitHubGraphQLApi;
             _profileRepository = profileRepository;
             _openStandupApi = openStandupApi;
             _outputPort = outputPort;
+            _mediator = mediator;
         }
 
         public async Task<Dto<bool>> Handle(UpdateGitHubProfileRequest request, CancellationToken cancellationToken)
@@ -36,6 +39,7 @@ namespace OpenStandup.Core.Domain.Features.Profile
             {
                 await _profileRepository.InsertOrReplace(gitHubUserResponse.Payload).ConfigureAwait(false);
                 useCaseResponse = await _openStandupApi.UpdateProfile(gitHubUserResponse.Payload).ConfigureAwait(false);
+                await _mediator.Publish(new ProfileUpdated(), cancellationToken).ConfigureAwait(false);
             }
             else
             {

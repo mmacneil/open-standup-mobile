@@ -44,10 +44,18 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
             if (model != null)
             {
-                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount));
+                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount), new Gists(model.GistCount), model.Latitude ?? 0, model.Longitude ?? 0);
             }
 
             throw new Exception("No profile exists.");
+        }
+
+        public async Task<bool> UpdateLocation(string id, double latitude, double longitude)
+        {
+            var user = await _appDb.AsyncDb.GetAsync<Profile>(id);
+            user.Latitude = latitude;
+            user.Longitude = longitude;
+            return await _appDb.AsyncDb.UpdateAsync(user).ConfigureAwait(false) == 1;
         }
     }
 }

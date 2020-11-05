@@ -7,5 +7,6 @@ namespace OpenStandup.Core.Interfaces.Data.Repositories
     {
         Task<bool> InsertOrReplace(GitHubUser user);
         Task<GitHubUser> Get();
+        Task<bool> UpdateLocation(string id, double latitude, double longitude);
     }
 }

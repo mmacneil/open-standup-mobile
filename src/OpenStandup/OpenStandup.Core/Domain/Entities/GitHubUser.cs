@@ -20,6 +20,8 @@ namespace OpenStandup.Core.Domain.Entities
         public Following Following { get; }
         public Repositories Repositories { get; }
         public Gists Gists { get; }
+        public double Latitude { get; }
+        public double Longitude { get; }
 
         public GitHubUser(
             string id,
@@ -36,7 +38,7 @@ namespace OpenStandup.Core.Domain.Entities
             Followers followers,
             Following following,
             Repositories repositories,
-            Gists gists) => (Id, Login, Name, AvatarUrl, BioHTML, WebsiteUrl, Company, Location, DatabaseId, Email, CreatedAt, Followers, Following, Repositories, Gists) =
-            (id, login, name, avatarUrl, bioHTML, websiteUrl, company, location, databaseId, email, createdAt, followers, following, repositories, gists);
+            Gists gists, double latitude, double longitude) => (Id, Login, Name, AvatarUrl, BioHTML, WebsiteUrl, Company, Location, DatabaseId, Email, CreatedAt, Followers, Following, Repositories, Gists, Latitude, Longitude) =
+            (id, login, name, avatarUrl, bioHTML, websiteUrl, company, location, databaseId, email, createdAt, followers, following, repositories, gists, latitude, longitude);
     }
 }

@@ -31,6 +31,8 @@ namespace OpenStandup.Mobile.Infrastructure
 
             builder.RegisterType<ConfigurationLoader>().As<IConfigurationLoader>().SingleInstance();
 
+            builder.RegisterType<AppContext>().As<IAppContext>().SingleInstance();
+
             builder.RegisterType<GitHubGraphQLApi>().As<IGitHubGraphQLApi>().SingleInstance();
             builder.RegisterType<OpenStandupApi>().As<IOpenStandupApi>().SingleInstance();
 
