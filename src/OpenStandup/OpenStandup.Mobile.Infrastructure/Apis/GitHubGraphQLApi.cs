@@ -23,7 +23,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var graphQLRequest = new GraphQLRequest
             {
-                Query = @"query { viewer 
+                Query = @"query GitHubUser($first: Int!) { viewer 
                                     { 
                                         id,
                                         login, 
@@ -42,14 +42,25 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                                         following {
                                             totalCount
                                         },
-                                        repositories {
-                                            totalCount
+                                        repositories(first: $first) {
+                                            totalCount,
+                                            nodes {
+                                                databaseId,
+                                                name,
+                                                url,
+                                                isPrivate
+                                            }  
                                         }
                                         gists {
                                             totalCount
                                         }                                       
                                     }
-                                }"
+                                }",
+                OperationName = "GitHubUser",
+                Variables = new
+                {
+                    first = 100
+                }
             };
 
             await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
@@ -57,9 +68,9 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<GitHubViewerGraphQLResponse>(graphQLRequest))
                 .ConfigureAwait(false);
 
-            return response.Data.Exception == null
+            return response.IsSuccess()
                 ? Dto<GitHubUser>.Success(response.Data.Viewer)
-                : Dto<GitHubUser>.Failed(response.Data.Exception.StatusCode, response.Data.Exception);
+                : response.GenerateFailedResponse<GitHubViewerGraphQLResponse, GitHubUser>();
         }
     }
 }

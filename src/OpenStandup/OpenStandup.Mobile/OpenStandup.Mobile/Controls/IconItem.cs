@@ -16,23 +16,39 @@ namespace OpenStandup.Mobile.Controls
 
         private static void HandleTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var targetView = (IconItem)bindable;
+            var view = (IconItem)bindable;
 
-            if (targetView == null) return;
+            if (view == null) return;
 
             var value = (string)newValue;
-            targetView._text.Text = value;
+            view._text.Text = value;
 
+            // Format email
+            TryFormatEmail(view, value);
+            // Format url
+            TryFormatUrl(view, value);
+        }
 
-            if (!Url.IsValidUrl(value)) return;
+        private static void TryFormatEmail(IconItem view, string value)
+        {
+            if (!Validation.IsValidEmail(value)) return;
+            FormatLink(view, $"mailto:{value}?subject=Hi from OpenStandup");
+        }
 
-            // Convert to hyperlink if handling a url
-            targetView._text.TextDecorations = TextDecorations.Underline;
-            targetView._text.TextColor = Color.Blue;
+        private static void TryFormatUrl(IconItem view, string value)
+        {
+            if (!Validation.IsValidUrl(value)) return;
+            FormatLink(view, value);
+        }
 
-            targetView._text.GestureRecognizers.Add(new TapGestureRecognizer
+        private static void FormatLink(IconItem view, string link)
+        {
+            view._text.TextDecorations = TextDecorations.Underline;
+            view._text.TextColor = Color.Blue;
+
+            view.GestureRecognizers.Add(new TapGestureRecognizer
             {
-                Command = new Command(async () => await Launcher.OpenAsync(value))
+                Command = new Command(async () => await Launcher.OpenAsync(link))
             });
         }
 

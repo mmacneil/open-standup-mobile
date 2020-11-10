@@ -6,9 +6,8 @@ using OpenStandup.Core.Domain.Events;
 using OpenStandup.Core.Domain.Features.Profile.Models;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
-using OpenStandup.Core.Interfaces.Data.GraphQL;
 using OpenStandup.Core.Interfaces.Data.Repositories;
-using OpenStandup.SharedKernel;
+using OpenStandup.Core.Interfaces.Services;
 using Vessel;
 
 namespace OpenStandup.Core.Domain.Features.Profile

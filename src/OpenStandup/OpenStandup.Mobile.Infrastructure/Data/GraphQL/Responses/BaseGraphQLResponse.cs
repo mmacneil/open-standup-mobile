@@ -9,3 +9,5 @@ namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses
     }
 }
 
+
+

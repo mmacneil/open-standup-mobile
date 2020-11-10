@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using OpenStandup.Core.Domain.Events;
@@ -43,7 +44,10 @@ namespace OpenStandup.Core.Domain.Features.Profile
             }
             else
             {
-                useCaseResponse = Dto<bool>.Failed(gitHubUserResponse.Status, gitHubUserResponse.Exception.Message);
+                useCaseResponse = Dto<bool>.Failed(gitHubUserResponse.Status,
+                    gitHubUserResponse.Exception != null
+                        ? gitHubUserResponse.Exception.Message
+                        : gitHubUserResponse.Errors.FirstOrDefault());
             }
 
             _outputPort.Handle(useCaseResponse);

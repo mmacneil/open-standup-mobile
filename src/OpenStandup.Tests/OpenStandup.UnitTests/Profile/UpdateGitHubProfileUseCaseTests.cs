@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace OpenStandup.UnitTests.Profile
         }
 
         [Fact]
-        public async Task ShouldNotPersistLocallyWhenGitHubApiCallFails()
+        public async Task ShouldNotPersistLocallyWhenGQLApiCallFailsWithUnauthorizedException()
         {
             // arrange
             _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
@@ -43,6 +44,25 @@ namespace OpenStandup.UnitTests.Profile
             // assert
             _mockProfileRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
             Assert.Equal(Status.Unauthorized, response.Status); // Received unauthorized status code from GQL call was mapped to result.
+        }
+
+        [Fact]
+        public async Task ShouldNotPersistLocallyWhenGQLApiCallFailsWithQueryErrors()
+        {
+            // arrange
+            const string error = "query failure";
+            _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
+                .ReturnsAsync(Dto<GitHubUser>.Failed(error));
+
+            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object, null);
+
+            // act
+            var response = await useCase.Handle(new UpdateGitHubProfileRequest(), new CancellationToken());
+
+            // assert
+            _mockProfileRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
+            Assert.Equal(Status.Failed, response.Status); // Received unauthorized status code from GQL call was mapped to result.
+            Assert.Equal(error, response.Errors.First());
         }
     }
 }

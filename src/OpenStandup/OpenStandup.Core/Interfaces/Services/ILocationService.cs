@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OpenStandup.Core.Interfaces
+namespace OpenStandup.Core.Interfaces.Services
 {
     public interface ILocationService
     {

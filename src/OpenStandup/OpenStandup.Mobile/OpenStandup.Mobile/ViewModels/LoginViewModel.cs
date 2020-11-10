@@ -44,6 +44,8 @@ namespace OpenStandup.Mobile.ViewModels
             // is performed by the presenter
             if ((await _mediator.Send(new AuthenticationRequest())).Succeeded)
             {
+                StatusText = "Getting things ready...";
+
                 // Fetch & save github profile
                 if ((await _mediator.Send(new UpdateGitHubProfileRequest())).Succeeded) /*.ConfigureAwait(false);*/
                 {

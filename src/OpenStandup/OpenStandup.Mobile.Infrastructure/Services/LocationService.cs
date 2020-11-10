@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using OpenStandup.Core.Interfaces;
+using OpenStandup.Core.Interfaces.Services;
 using Xamarin.Essentials;
 
 namespace OpenStandup.Mobile.Infrastructure.Services

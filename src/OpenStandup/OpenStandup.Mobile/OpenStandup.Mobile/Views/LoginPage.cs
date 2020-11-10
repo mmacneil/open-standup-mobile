@@ -39,7 +39,7 @@ namespace OpenStandup.Mobile.Views
 
             grid.Children.Add(new Image
             {
-                Source = "github_logo.png",
+                Source = "github_security_logo.png",
                 HeightRequest = 200
             });
 

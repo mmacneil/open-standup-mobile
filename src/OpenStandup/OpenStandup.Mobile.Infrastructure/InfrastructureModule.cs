@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Reflection;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
+using OpenStandup.Core.Interfaces.Services;
 using OpenStandup.Mobile.Infrastructure.Apis;
 using OpenStandup.Mobile.Infrastructure.Configuration;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
@@ -61,6 +62,8 @@ namespace OpenStandup.Mobile.Infrastructure
             }).SingleInstance();
 
             builder.RegisterType<LocationService>().As<ILocationService>().SingleInstance();
+
+            builder.RegisterType<CameraService>().As<ICameraService>().SingleInstance();
         }
     }
 }

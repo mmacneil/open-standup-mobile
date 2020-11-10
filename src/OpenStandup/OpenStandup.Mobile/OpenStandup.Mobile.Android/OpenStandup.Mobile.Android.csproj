@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xamarin.essentials">
-      <Version>1.5.3.2</Version>
+      <Version>1.6.0-pre3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1558-pre3" />
   </ItemGroup>
@@ -98,20 +98,22 @@
     <AndroidResource Include="Resources\drawable\tab_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\github_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\OpenStandup.Mobile\OpenStandup.Mobile.csproj">
       <Project>{499B2650-0B09-401E-98EA-1ABE27BF4661}</Project>
       <Name>OpenStandup.Mobile</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\github_logo_white.png" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
     <AndroidResource Include="Resources\xml\auto_backup_rules.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logo_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\github_security_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

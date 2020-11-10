@@ -51,4 +51,11 @@
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="FloatingActionButton" TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="CornerRadius" Value="40" />
+        <Setter Property="HeightRequest" Value="55" />
+        <Setter Property="WidthRequest" Value="55" />
+    </Style>
+
 </ResourceDictionary>
