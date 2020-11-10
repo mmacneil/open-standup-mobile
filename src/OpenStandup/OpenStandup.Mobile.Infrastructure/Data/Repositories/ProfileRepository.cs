@@ -19,23 +19,41 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
         public async Task<bool> InsertOrReplace(GitHubUser user)
         {
-            return await _appDb.AsyncDb.InsertOrReplaceAsync(new Profile
+            await _appDb.AsyncDb.RunInTransactionAsync(tran =>
             {
-                Id = user.Id,
-                Name = user.Name,
-                Login = user.Login,
-                AvatarUrl = user.AvatarUrl,
-                BioHTML = user.BioHTML,
-                WebsiteUrl = user.WebsiteUrl,
-                Company = user.Company,
-                Email = user.Email,
-                CreatedAt = user.CreatedAt,
-                Location = user.Location,
-                FollowerCount = user.Followers.TotalCount,
-                FollowingCount = user.Following.TotalCount,
-                RepositoryCount = user.Repositories.TotalCount,
-                GistCount = user.Gists.TotalCount
-            }).ConfigureAwait(false) == 1;
+                tran.InsertOrReplace(new Profile
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Login = user.Login,
+                    AvatarUrl = user.AvatarUrl,
+                    BioHTML = user.BioHTML,
+                    WebsiteUrl = user.WebsiteUrl,
+                    Company = user.Company,
+                    Email = user.Email,
+                    CreatedAt = user.CreatedAt,
+                    Location = user.Location,
+                    FollowerCount = user.Followers.TotalCount,
+                    FollowingCount = user.Following.TotalCount,
+                    RepositoryCount = user.Repositories.TotalCount,
+                    GistCount = user.Gists.TotalCount
+                });
+
+                tran.Execute("DELETE from repository");
+
+                foreach (var repository in user.Repositories.Nodes)
+                {
+                    tran.Insert(new Model.Repository
+                    {
+                        Id = repository.DatabaseId,
+                        Name = repository.Name,
+                        Url = repository.Url,
+                        IsPrivate = repository.IsPrivate
+                    });
+                }
+            }).ConfigureAwait(false);
+
+            return true;
         }
 
         public async Task<GitHubUser> Get()
