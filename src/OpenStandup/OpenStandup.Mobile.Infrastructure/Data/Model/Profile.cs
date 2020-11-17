@@ -12,7 +12,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Model
         public string Name { get; set; }
         public string Login { get; set; }
         public string AvatarUrl { get; set; }
-        public string BioHTML { get; set; }
+        public string BioHtml { get; set; }
         public string WebsiteUrl { get; set; }
         public string Company { get; set; }
         public string Email { get; set; }

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Client.Http;
+using Newtonsoft.Json;
 using OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses;
 using Polly;
 
@@ -46,16 +47,27 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 .Handle<Exception>()
                 .FallbackAsync((result, context, arg3) =>
                 {
-                    var exception = result.Exception switch
+                    GraphQLError error = null;
+                    GraphQLHttpRequestException exception = null;
+
+                    if (result.Exception is JsonSerializationException jsonSerializationException)
                     {
-                        GraphQLHttpRequestException gqlRequestException => gqlRequestException,
-                        HttpRequestException httpRequestException => new GraphQLHttpRequestException(
-                            HttpStatusCode.RequestTimeout, null, httpRequestException.Message),
-                        _ => null
-                    };
+                        error = new GraphQLError {Message = jsonSerializationException.Message};
+                    }
+                    else
+                    {
+                       exception = result.Exception switch
+                        {
+                            GraphQLHttpRequestException gqlRequestException => gqlRequestException,
+                            HttpRequestException httpRequestException => new GraphQLHttpRequestException(
+                                HttpStatusCode.BadRequest, null, httpRequestException.Message),
+                            _ => null
+                        };
+                    }
 
                     return Task.FromResult(new GraphQLResponse<T>
                     {
+                        Errors = new[] {error},
                         Data = new T { Exception = exception }
                     });
                 }, (result, context) => Task.CompletedTask);

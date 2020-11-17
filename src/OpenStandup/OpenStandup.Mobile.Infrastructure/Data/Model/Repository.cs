@@ -1,8 +1,9 @@
 ﻿using SQLite;
 
+
 namespace OpenStandup.Mobile.Infrastructure.Data.Model
 {
-    [Table("repository")]
+    [Table("repositories")]
     public class Repository
     {
         [PrimaryKey]
@@ -12,5 +13,3 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Model
         public bool IsPrivate { get; set; }
     }
 }
-
-

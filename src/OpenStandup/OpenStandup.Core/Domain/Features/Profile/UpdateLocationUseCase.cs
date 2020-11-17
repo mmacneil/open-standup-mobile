@@ -17,15 +17,15 @@ namespace OpenStandup.Core.Domain.Features.Profile
         private readonly ILocationService _locationService;
         private readonly IOpenStandupApi _openStandupApi;
         private readonly IAppContext _appContext;
-        private readonly IProfileRepository _profileRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMediator _mediator;
 
-        public UpdateLocationUseCase(ILocationService locationService, IOpenStandupApi openStandupApi, IAppContext appContext, IProfileRepository profileRepository, IMediator mediator)
+        public UpdateLocationUseCase(ILocationService locationService, IOpenStandupApi openStandupApi, IAppContext appContext, IUserRepository userRepository, IMediator mediator)
         {
             _locationService = locationService;
             _openStandupApi = openStandupApi;
             _appContext = appContext;
-            _profileRepository = profileRepository;
+            _userRepository = userRepository;
             _mediator = mediator;
         }
 
@@ -33,7 +33,7 @@ namespace OpenStandup.Core.Domain.Features.Profile
         {
             var (latitude, longitude) = await _locationService.GetCurrentLocation(new CancellationTokenSource()).ConfigureAwait(false);
             await _openStandupApi.UpdateLocation(latitude, longitude).ConfigureAwait(false);
-            await _profileRepository.UpdateLocation(_appContext.User.Id, latitude, longitude).ConfigureAwait(false);
+            await _userRepository.UpdateLocation(_appContext.User.Id, latitude, longitude).ConfigureAwait(false);
             await _mediator.Publish(new ProfileUpdated(), cancellationToken).ConfigureAwait(false);
             return Dto<bool>.Success(true);
         }

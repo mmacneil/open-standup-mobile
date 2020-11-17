@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OpenStandup.Core.Domain.Entities;
-
+using OpenStandup.Mobile.Infrastructure.Data.GraphQL.Types;
 
 namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses
 {

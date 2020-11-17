@@ -7,7 +7,7 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly IProfileRepository _profileRepository;
+        private readonly IUserRepository _userRepository;
 
         public IList<StatModel> StatModels { get; private set; }
 
@@ -53,14 +53,14 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _websiteUrl, value);
         }
 
-        public ProfileViewModel(IProfileRepository profileRepository)
+        public ProfileViewModel(IUserRepository userRepository)
         {
-            _profileRepository = profileRepository;
+            _userRepository = userRepository;
         }
 
         public async Task Initialize()
         {
-            var me = await _profileRepository.Get().ConfigureAwait(false);
+            var me = await _userRepository.Get().ConfigureAwait(false);
             AvatarUrl = me.AvatarUrl;
             Login = me.Login;
             Location = me.Location;
@@ -68,12 +68,12 @@ namespace OpenStandup.Mobile.ViewModels
             Email = me.Email;
             WebsiteUrl = me.WebsiteUrl;
 
-           StatModels = new List<StatModel>
+            StatModels = new List<StatModel>
             {
-                new StatModel ("followers", me.Followers.TotalCount),
-                new StatModel ("following", me.Following.TotalCount),
-                new StatModel ("repositories", me.Repositories.TotalCount),
-                new StatModel ("gists", me.Gists.TotalCount)
+                new StatModel ("followers", me.FollowerCount),
+                new StatModel ("following", me.FollowingCount),
+                new StatModel ("repositories", me.RepositoryCount),
+                new StatModel ("gists", me.GistCount)
             };
         }
     }

@@ -1,8 +1,6 @@
 ﻿
 
-using System.Collections.Generic;
-
-namespace OpenStandup.Core.Domain.Values
+namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL.Types
 {
     public class Repository
     {
@@ -18,11 +16,5 @@ namespace OpenStandup.Core.Domain.Values
             Url = url;
             IsPrivate = isPrivate;
         }
-    }
-    public class Repositories
-    {
-        public Repositories(long totalCount, ICollection<Repository> nodes) => (TotalCount, Nodes) = (totalCount, nodes);
-        public long TotalCount { get; }
-        public ICollection<Repository> Nodes { get; }
     }
 }

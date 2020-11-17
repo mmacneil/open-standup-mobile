@@ -37,7 +37,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data
 
         private static void InitializeDatabase(SQLiteConnection database)
         {
-            // create tables if they don't exists
+            // create tables if they don't exist
             database.CreateTable<Model.Configuration>();
             database.CreateTable<Profile>();
             database.CreateTable<Repository>();
@@ -47,16 +47,14 @@ namespace OpenStandup.Mobile.Infrastructure.Data
         {
             var type = typeof(AppDb);
             var stream = type.GetTypeInfo().Assembly.GetManifestResourceStream(Assembly.GetExecutingAssembly().GetManifestResourceNames().Single(n => n.Contains(name)));
-            using (FileStream fileStream = File.Create(path))
+            using var fileStream = File.Create(path);
+            if (stream == null)
             {
-                if (stream == null)
-                {
-                    throw new NullReferenceException($"Failed to read local sqlite data: {path}");
-                }
-
-                stream.Seek(0, SeekOrigin.Begin);
-                stream.CopyTo(fileStream);
+                throw new NullReferenceException($"Failed to read local sqlite data: {path}");
             }
+
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.CopyTo(fileStream);
         }
     }
 }

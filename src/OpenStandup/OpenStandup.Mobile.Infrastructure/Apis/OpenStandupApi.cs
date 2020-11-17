@@ -3,11 +3,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using OpenStandup.Core.Domain.Entities;
-using OpenStandup.Core.Dto;
-using OpenStandup.Core.Dto.Api;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 using Newtonsoft.Json;
+using OpenStandup.Common.Dto;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using Vessel;
 

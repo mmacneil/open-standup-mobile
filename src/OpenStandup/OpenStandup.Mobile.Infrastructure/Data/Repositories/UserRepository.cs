@@ -1,22 +1,22 @@
 ﻿using OpenStandup.Core.Domain.Entities;
-using OpenStandup.Core.Domain.Values;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Data.Model;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 {
-    public class ProfileRepository : IProfileRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AppDb _appDb;
 
-        public ProfileRepository(AppDb appDb)
+        public UserRepository(AppDb appDb)
         {
             _appDb = appDb;
         }
 
+        #region User
         public async Task<bool> InsertOrReplace(GitHubUser user)
         {
             await _appDb.AsyncDb.RunInTransactionAsync(tran =>
@@ -27,32 +27,23 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
                     Name = user.Name,
                     Login = user.Login,
                     AvatarUrl = user.AvatarUrl,
-                    BioHTML = user.BioHTML,
+                    BioHtml = user.BioHtml,
                     WebsiteUrl = user.WebsiteUrl,
                     Company = user.Company,
                     Email = user.Email,
                     CreatedAt = user.CreatedAt,
                     Location = user.Location,
-                    FollowerCount = user.Followers.TotalCount,
-                    FollowingCount = user.Following.TotalCount,
-                    RepositoryCount = user.Repositories.TotalCount,
-                    GistCount = user.Gists.TotalCount
+                    FollowerCount = user.FollowerCount,
+                    FollowingCount = user.FollowingCount,
+                    RepositoryCount = user.RepositoryCount,
+                    GistCount = user.GistCount
                 });
 
-                tran.Execute("DELETE from repository");
-
-                foreach (var repository in user.Repositories.Nodes)
-                {
-                    tran.Insert(new Model.Repository
-                    {
-                        Id = repository.DatabaseId,
-                        Name = repository.Name,
-                        Url = repository.Url,
-                        IsPrivate = repository.IsPrivate
-                    });
-                }
+                if (!user.Repositories.Any()) return;
+                tran.Execute("DELETE from repositories");
+                tran.InsertAll(user.Repositories.Select(r=> new Model.Repository {Id = r.Id, Name = r.Name, Url = r.Url, IsPrivate = r.IsPrivate}));
             }).ConfigureAwait(false);
-
+          
             return true;
         }
 
@@ -62,7 +53,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
             if (model != null)
             {
-                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHTML, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, new Followers(model.FollowerCount), new Following(model.FollowingCount), new Core.Domain.Values.Repositories(model.RepositoryCount,null), new Gists(model.GistCount), model.Latitude ?? 0, model.Longitude ?? 0);
+                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHtml, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, model.FollowerCount, model.RepositoryCount, model.FollowingCount, model.GistCount, model.Latitude ?? 0, model.Longitude ?? 0, null);
             }
 
             throw new Exception("No profile exists.");
@@ -75,5 +66,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
             user.Longitude = longitude;
             return await _appDb.AsyncDb.UpdateAsync(user).ConfigureAwait(false) == 1;
         }
+
+        #endregion
     }
 }

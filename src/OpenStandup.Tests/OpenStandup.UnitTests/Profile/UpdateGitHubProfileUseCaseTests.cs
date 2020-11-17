@@ -20,29 +20,29 @@ namespace OpenStandup.UnitTests.Profile
     {
         private readonly Mock<IGitHubGraphQLApi> _mockGitHubGraphQL;
         private readonly Mock<IOutputPort<Dto<bool>>> _mockOutputPort;
-        private readonly Mock<IProfileRepository> _mockProfileRepository;
+        private readonly Mock<IUserRepository> _mockUserRepository;
 
         public UpdateGitHubProfileUseCaseTests()
         {
             _mockGitHubGraphQL = new Mock<IGitHubGraphQLApi>();
             _mockOutputPort = new Mock<IOutputPort<Dto<bool>>>();
-            _mockProfileRepository = new Mock<IProfileRepository>();
+            _mockUserRepository = new Mock<IUserRepository>();
         }
 
         [Fact]
         public async Task ShouldNotPersistLocallyWhenGQLApiCallFailsWithUnauthorizedException()
         {
             // arrange
-            _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
+            _mockGitHubGraphQL.Setup(x => x.GetViewer())
                 .ReturnsAsync(Dto<GitHubUser>.Failed(HttpStatusCode.Unauthorized, new Exception()));
 
-            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object, null);
+            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockUserRepository.Object, null, _mockOutputPort.Object, null);
 
             // act
             var response = await useCase.Handle(new UpdateGitHubProfileRequest(), new CancellationToken());
 
             // assert
-            _mockProfileRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
+            _mockUserRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
             Assert.Equal(Status.Unauthorized, response.Status); // Received unauthorized status code from GQL call was mapped to result.
         }
 
@@ -51,16 +51,16 @@ namespace OpenStandup.UnitTests.Profile
         {
             // arrange
             const string error = "query failure";
-            _mockGitHubGraphQL.Setup(x => x.GetGitHubViewer())
+            _mockGitHubGraphQL.Setup(x => x.GetViewer())
                 .ReturnsAsync(Dto<GitHubUser>.Failed(error));
 
-            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockProfileRepository.Object, null, _mockOutputPort.Object, null);
+            var useCase = new UpdateGitHubProfileUseCase(_mockGitHubGraphQL.Object, _mockUserRepository.Object, null, _mockOutputPort.Object, null);
 
             // act
             var response = await useCase.Handle(new UpdateGitHubProfileRequest(), new CancellationToken());
 
             // assert
-            _mockProfileRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
+            _mockUserRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
             Assert.Equal(Status.Failed, response.Status); // Received unauthorized status code from GQL call was mapped to result.
             Assert.Equal(error, response.Errors.First());
         }

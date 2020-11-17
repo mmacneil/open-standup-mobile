@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using OpenStandup.Common.Dto;
 using OpenStandup.Core.Domain.Entities;
-using OpenStandup.Core.Dto.Api;
 using Vessel;
 
 namespace OpenStandup.Core.Interfaces.Apis

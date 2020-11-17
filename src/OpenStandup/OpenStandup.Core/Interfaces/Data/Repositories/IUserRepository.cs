@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace OpenStandup.Core.Interfaces.Data.Repositories
 {
-    public interface IProfileRepository
+    public interface IUserRepository
     {
         Task<bool> InsertOrReplace(GitHubUser user);
         Task<GitHubUser> Get();

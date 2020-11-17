@@ -6,6 +6,6 @@ namespace OpenStandup.Core.Interfaces.Data.GraphQL
 {
     public interface IGitHubGraphQLApi
     {
-        Task<Dto<GitHubUser>> GetGitHubViewer();
+        Task<Dto<GitHubUser>> GetViewer();
     }
 }

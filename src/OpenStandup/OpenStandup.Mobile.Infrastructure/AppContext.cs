@@ -9,16 +9,16 @@ namespace OpenStandup.Mobile.Infrastructure
     {
         public GitHubUser User { get; private set; }
 
-        private readonly IProfileRepository _profileRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AppContext(IProfileRepository profileRepository)
+        public AppContext(IUserRepository userRepository)
         {
-            _profileRepository = profileRepository;
+            _userRepository = userRepository;
         }
 
         public async Task Refresh()
         {
-            User = await _profileRepository.Get().ConfigureAwait(false);
+            User = await _userRepository.Get().ConfigureAwait(false);
         }
     }
 }
