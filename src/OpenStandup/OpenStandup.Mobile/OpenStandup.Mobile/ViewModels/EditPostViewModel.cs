@@ -42,7 +42,6 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task Initialize()
         {
-             Text = "I was using 10445 for the longest time creating PCRs. I was trying to Override mandatory reasons but they did not appear [DB: Believed to be a configuration issue]. then I noticed my vehicle number was not populating on a new PCR [DB: http://jira.medusamedical.com:8080/browse/IFU-2625] so I went back to the patient list screen where I saw it pre populated and hit log off. that’s when the crash occurred";
         }
 
         public async Task TakePhoto()

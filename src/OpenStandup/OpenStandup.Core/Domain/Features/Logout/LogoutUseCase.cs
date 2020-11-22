@@ -1,21 +1,21 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using OpenStandup.Core.Domain.Features.Signout.Models;
+using OpenStandup.Core.Domain.Features.Logout.Models;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using MediatR;
 
-namespace OpenStandup.Core.Domain.Features.Signout
+namespace OpenStandup.Core.Domain.Features.Logout
 {
-    public class SignoutUseCase : IRequestHandler<SignoutRequest, bool>
+    public class LogoutUseCase : IRequestHandler<LogoutRequest, bool>
     {
         private readonly ISecureDataRepository _secureDataRepository;
 
-        public SignoutUseCase(ISecureDataRepository secureDataRepository)
+        public LogoutUseCase(ISecureDataRepository secureDataRepository)
         {
             _secureDataRepository = secureDataRepository;
         }
 
-        public Task<bool> Handle(SignoutRequest request, CancellationToken cancellationToken)
+        public Task<bool> Handle(LogoutRequest request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_secureDataRepository.RemovePersonalAccessToken());
         }

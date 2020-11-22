@@ -1,4 +1,4 @@
-﻿using OpenStandup.Core.Domain.Features.Authenticate.Models;
+﻿using OpenStandup.Core.Domain.Features.Login.Models;
 using OpenStandup.Mobile.Services;
 using MediatR;
 using System.Threading.Tasks;

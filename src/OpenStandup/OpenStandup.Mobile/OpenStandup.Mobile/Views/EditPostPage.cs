@@ -21,7 +21,6 @@ namespace OpenStandup.Mobile.Views
         {
             Title = "Post an Update";
             BindingContext = _viewModel;
-            // to close: await Navigation.PopAsync();
 
             var postButton = new ActionButton { Text = "Post", HorizontalOptions = LayoutOptions.End };
 
@@ -72,11 +71,22 @@ namespace OpenStandup.Mobile.Views
             editorLayout.Children.Add(_editor);
             editorLayout.Children.Add(previewImage);
 
+            var cancelButton = new Button
+            {
+                Text = "Cancel",
+                HorizontalOptions = LayoutOptions.EndAndExpand
+            };
+
+            cancelButton.Clicked += async (s, a) =>
+            {
+                await Navigation.PopAsync();
+            };
+
             var buttonsLayout = new StackLayout
             {
                 Margin = new Thickness(0, 15, 0, 0),
                 Orientation = StackOrientation.Horizontal,
-                Children = { new Button { Text = "Cancel", HorizontalOptions = LayoutOptions.EndAndExpand }, postButton }
+                Children = { cancelButton, postButton }
             };
 
             var cameraIcon = new Label { Style = (Style)Application.Current.Resources["MaterialIcon"], Text = IconFont.Camera, FontSize = 40 };
@@ -99,12 +109,12 @@ namespace OpenStandup.Mobile.Views
             var stackLayout = new StackLayout
             {
                 Margin = new Thickness(10, 50),
-                Children = {
-                new Label {Text = "What are you working on?", FontSize = Device.GetNamedSize(NamedSize.Title, typeof(Label)),  HorizontalTextAlignment = TextAlignment.Center},
-                editorLayout,
-                toolbarLayout,
-                buttonsLayout
-                }
+                Children = {                    
+                    new Label {Text = "What are you working on?", FontSize = Device.GetNamedSize(NamedSize.Title, typeof(Label)),  HorizontalTextAlignment = TextAlignment.Center},
+                    editorLayout,
+                    toolbarLayout,
+                    buttonsLayout
+               }
             };
 
             Content = stackLayout;

@@ -2,12 +2,12 @@
 using System.Windows.Input;
 using Autofac;
 using MediatR;
-using OpenStandup.Core.Domain.Features.Signout.Models;
+using OpenStandup.Core.Domain.Features.Logout.Models;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile
 {
-    public partial class AppShell : Shell
+    public partial class AppShell
     {
         private readonly IMediator _mediator = App.Container.Resolve<IMediator>();
 
@@ -20,7 +20,7 @@ namespace OpenStandup.Mobile
 
         public ICommand ExecuteLogout => new Command(async () =>
         {
-            await _mediator.Send(new SignoutRequest());
+            await _mediator.Send(new LogoutRequest());
             await GoToAsync("///main/login?logout=1");
             //await GoToAsync("main/login");
         });

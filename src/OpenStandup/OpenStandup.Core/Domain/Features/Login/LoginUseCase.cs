@@ -1,4 +1,4 @@
-﻿using OpenStandup.Core.Domain.Features.Authenticate.Models;
+﻿using OpenStandup.Core.Domain.Features.Login.Models;
 using OpenStandup.Core.Interfaces.Authentication;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using MediatR;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using OpenStandup.Core.Interfaces;
 using Vessel;
 
-namespace OpenStandup.Core.Domain.Features.Authenticate
+namespace OpenStandup.Core.Domain.Features.Login
 {
     public class LoginUseCase : IRequestHandler<AuthenticationRequest, Dto<string>>
     {
