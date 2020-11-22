@@ -2,6 +2,7 @@
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using System.Threading.Tasks;
 using OpenStandup.Mobile.Models;
+using OpenStandup.SharedKernel.Extensions;
 
 namespace OpenStandup.Mobile.ViewModels
 {
@@ -62,7 +63,7 @@ namespace OpenStandup.Mobile.ViewModels
         {
             var me = await _userRepository.Get().ConfigureAwait(false);
             AvatarUrl = me.AvatarUrl;
-            Login = me.Login;
+            Login = me.Login.Truncate(13,true);
             Location = me.Location;
             Joined = $"Joined {me.CreatedAt:MMM dd, yyyy}";
             Email = me.Email;

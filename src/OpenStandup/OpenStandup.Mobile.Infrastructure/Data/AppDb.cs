@@ -38,9 +38,9 @@ namespace OpenStandup.Mobile.Infrastructure.Data
         private static void InitializeDatabase(SQLiteConnection database)
         {
             // create tables if they don't exist
-            database.CreateTable<Model.Configuration>();
-            database.CreateTable<Profile>();
-            database.CreateTable<Repository>();
+            database.CreateTable<ConfigurationData>();
+            database.CreateTable<ProfileData>();
+            database.CreateTable<RepositoryData>();
         }
 
         private static void LoadFromResources(string name, string path)

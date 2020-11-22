@@ -47,7 +47,7 @@ namespace OpenStandup.Mobile.Infrastructure.Mapping
                     user.RepositoryCount,
                     user.GistCount,
                     user.DatabaseId,
-                    user.Id));
+                    user.Id, user.Repositories.Select(r => new RepositoryDto(r.Id, r.Name, r.Url, r.IsPrivate)).ToList()));
         }
     }
 }

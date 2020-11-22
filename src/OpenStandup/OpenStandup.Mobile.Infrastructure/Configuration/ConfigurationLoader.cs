@@ -2,6 +2,7 @@
 using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Data;
+using OpenStandup.Mobile.Infrastructure.Data.Model;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
 
 
@@ -29,7 +30,7 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
             await _secureDataRepository.SetGitHubClientId(configurationResponse.Payload.GitHubClientId);
             await _secureDataRepository.SetGitHubClientSecret(configurationResponse.Payload.GitHubClientSecret);
 
-            return await _appDb.AsyncDb.InsertOrReplaceAsync(new Data.Model.Configuration
+            return await _appDb.AsyncDb.InsertOrReplaceAsync(new ConfigurationData
             {
                 Version = configurationResponse.Payload.Version,
                 Created = configurationResponse.Payload.Created

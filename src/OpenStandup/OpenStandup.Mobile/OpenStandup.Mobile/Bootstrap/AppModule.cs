@@ -1,7 +1,10 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using OpenStandup.Mobile.Services;
 using OpenStandup.Mobile.ViewModels;
 using System.Reflection;
+using OpenStandup.Mobile.Interfaces;
+using Xamarin.Forms;
 
 
 namespace OpenStandup.Mobile.Bootstrap
@@ -17,6 +20,15 @@ namespace OpenStandup.Mobile.Bootstrap
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).Where(t => t.Name.EndsWith("Presenter"))
                 .AsImplementedInterfaces().SingleInstance();
+
+            // Current PageProxy
+            builder.RegisterType<PageProxy>().As<IDialogProvider>().SingleInstance();
+
+            builder.RegisterInstance<Func<Page>>(() =>
+            {
+                var currentPage = Application.Current.MainPage;
+                return currentPage.Navigation.ModalStack.Count == 1 ? currentPage.Navigation.ModalStack[0] : currentPage;
+            });
         }
     }
 }

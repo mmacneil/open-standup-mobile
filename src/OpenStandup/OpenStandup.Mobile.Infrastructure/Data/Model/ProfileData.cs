@@ -5,7 +5,7 @@ using System;
 namespace OpenStandup.Mobile.Infrastructure.Data.Model
 {
     [Table("profile")]
-    public class Profile
+    public class ProfileData
     {
         [PrimaryKey]
         public string Id { get; set; }

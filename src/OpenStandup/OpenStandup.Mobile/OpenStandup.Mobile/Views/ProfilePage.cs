@@ -36,23 +36,6 @@ namespace OpenStandup.Mobile.Views
                 VerticalOptions = LayoutOptions.Center
             };
 
-            var imageLayout = new StackLayout
-            {
-                Children =
-                {
-                    new Frame
-                    {
-                        CornerRadius = 50,
-                        HeightRequest = 100,
-                        WidthRequest = 100,
-                        Padding = 0,
-                        HorizontalOptions = LayoutOptions.Center,
-                        IsClippedToBounds = true,
-                        Content = image
-                    }
-                }
-            };
-
             var login = new Label { Style = (Style)Application.Current.Resources["Title"] };
             login.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Login));
 
@@ -62,7 +45,7 @@ namespace OpenStandup.Mobile.Views
             var joined = new Label { Style = (Style)Application.Current.Resources["MicroSubTitle"] };
             joined.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Joined));
 
-            header.Children.Add(imageLayout);
+            header.Children.Add(new RoundImage(image));
             header.Children.Add(new StackLayout
             {
                 Children =
@@ -96,7 +79,7 @@ namespace OpenStandup.Mobile.Views
                 Children =
                 {
                     header,
-                    new BoxView { HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#1690F4") },
+                    new BoxView { HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.LightGray},
                     _statsLayout,
                     new FlexLayout
                     {

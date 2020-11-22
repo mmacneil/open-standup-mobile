@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.ViewModels;
 using Xamarin.Forms;
 
@@ -49,7 +50,7 @@ namespace OpenStandup.Mobile.Views
             var statusLabel = new Label { HorizontalTextAlignment = TextAlignment.Center };
             statusLabel.SetBinding(Label.TextProperty, nameof(LoginViewModel.StatusText));
 
-            var button = new Button { Text = "Sign in with GitHub", WidthRequest = 120 };
+            var button = new NavigationButton { Text = "Sign in with GitHub", WidthRequest = 120 };
             button.SetBinding(IsVisibleProperty, nameof(LoginViewModel.CanLogin), BindingMode.OneWay);
             button.Clicked += Login_Clicked;
 

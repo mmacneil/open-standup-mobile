@@ -8,35 +8,33 @@ namespace OpenStandup.Mobile.Infrastructure.Services
 {
     public class CameraService : ICameraService
     {
-        public async Task TakePhotoAsync()
+        public async Task<string> TakePhotoAsync()
         {
             try
             {
                 var photo = await MediaPicker.CapturePhotoAsync();
-                await LoadPhotoAsync(photo);
-                //Console.WriteLine($"CapturePhotoAsync COMPLETED: {PhotoPath}");
+                return await LoadPhotoAsync(photo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
+                return null;
             }
         }
 
-        private static async Task LoadPhotoAsync(FileBase photo)
+        private static async Task<string> LoadPhotoAsync(FileBase photo)
         {
             // canceled
             if (photo == null)
             {
-                //PhotoPath = null;
-                return;
+                return null;
             }
+
             // save the file into local storage
             var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
             await using var stream = await photo.OpenReadAsync();
             await using var newStream = File.OpenWrite(newFile);
             await stream.CopyToAsync(newStream);
-
-            //PhotoPath = newFile;
+            return newFile;
         }
     }
 }

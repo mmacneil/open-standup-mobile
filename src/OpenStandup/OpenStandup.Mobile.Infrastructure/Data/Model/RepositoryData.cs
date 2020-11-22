@@ -4,7 +4,7 @@
 namespace OpenStandup.Mobile.Infrastructure.Data.Model
 {
     [Table("repositories")]
-    public class Repository
+    public class RepositoryData
     {
         [PrimaryKey]
         public int Id { get; set; }

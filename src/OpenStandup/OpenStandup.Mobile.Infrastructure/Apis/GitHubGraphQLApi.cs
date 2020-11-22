@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using OpenStandup.Core.Interfaces.Data.GraphQL;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses;
@@ -71,11 +70,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
             // Use a separate sub-query method to extract repos
             var repos = await GetViewerRepositories();
-            if (repos.Succeeded)
-            {
-                response.Data.Viewer.Repositories = new RepositoriesConnection(repos.Payload, null, repos.Payload.Count);
-            }
-
+            response.Data.Viewer.Repositories = new RepositoriesConnection(repos.Payload, null, repos.Payload.Count);
             return Dto<GitHubUser>.Success(_mapper.Map<GitHubUser>(response.Data.Viewer));
         }
 
@@ -133,9 +128,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 }
             }
 
-            return results.Any()
-                ? Dto<ICollection<Repository>>.Success(results)
-                : Dto<ICollection<Repository>>.Failed();
+            return Dto<ICollection<Repository>>.Success(results);
         }
     }
 }

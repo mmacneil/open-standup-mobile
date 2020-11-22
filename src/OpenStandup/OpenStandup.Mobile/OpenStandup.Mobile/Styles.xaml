@@ -17,7 +17,7 @@
         <Setter Property="FontSize" Value="Large"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="TextColor" Value="LightSkyBlue"/>
+        <Setter Property="TextColor" Value="{StaticResource ControlAccent}"/>
     </Style>
 
     <Style TargetType="ActivityIndicator">
@@ -56,6 +56,16 @@
         <Setter Property="CornerRadius" Value="40" />
         <Setter Property="HeightRequest" Value="55" />
         <Setter Property="WidthRequest" Value="55" />
+    </Style>
+
+    <Style x:Key="ActionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource ControlPrimary}" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <Style x:Key="NavigationButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+        <Setter Property="TextColor" Value="White" />
     </Style>
 
 </ResourceDictionary>

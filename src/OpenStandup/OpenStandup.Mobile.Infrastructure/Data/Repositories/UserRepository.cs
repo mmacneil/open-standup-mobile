@@ -16,12 +16,11 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
             _appDb = appDb;
         }
 
-        #region User
         public async Task<bool> InsertOrReplace(GitHubUser user)
         {
             await _appDb.AsyncDb.RunInTransactionAsync(tran =>
             {
-                tran.InsertOrReplace(new Profile
+                tran.InsertOrReplace(new ProfileData
                 {
                     Id = user.Id,
                     Name = user.Name,
@@ -41,15 +40,15 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
                 if (!user.Repositories.Any()) return;
                 tran.Execute("DELETE from repositories");
-                tran.InsertAll(user.Repositories.Select(r=> new Model.Repository {Id = r.Id, Name = r.Name, Url = r.Url, IsPrivate = r.IsPrivate}));
+                tran.InsertAll(user.Repositories.Select(r => new RepositoryData { Id = r.Id, Name = r.Name, Url = r.Url, IsPrivate = r.IsPrivate }));
             }).ConfigureAwait(false);
-          
+
             return true;
         }
 
         public async Task<GitHubUser> Get()
         {
-            var model = (await _appDb.AsyncDb.QueryAsync<Profile>("select * from profile").ConfigureAwait(false)).FirstOrDefault();
+            var model = (await _appDb.AsyncDb.QueryAsync<ProfileData>("select * from profile").ConfigureAwait(false)).FirstOrDefault();
 
             if (model != null)
             {
@@ -61,12 +60,10 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
         public async Task<bool> UpdateLocation(string id, double latitude, double longitude)
         {
-            var user = await _appDb.AsyncDb.GetAsync<Profile>(id);
+            var user = await _appDb.AsyncDb.GetAsync<ProfileData>(id);
             user.Latitude = latitude;
             user.Longitude = longitude;
             return await _appDb.AsyncDb.UpdateAsync(user).ConfigureAwait(false) == 1;
         }
-
-        #endregion
     }
 }
