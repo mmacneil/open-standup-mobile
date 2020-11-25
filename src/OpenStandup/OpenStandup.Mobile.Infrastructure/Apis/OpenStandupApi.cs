@@ -79,5 +79,22 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 ? Dto<string>.Success(response.StatusCode.ToString())
                 : Dto<string>.Failed(response.StatusCode);
         }
+
+        public async Task<Dto<bool>> PublishPost(string text, byte[] image)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(new PostDto(text, image)), Encoding.UTF8, "application/json")
+            };
+
+            await AddAuthorizationHeader(request);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request))
+                .ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
     }
 }

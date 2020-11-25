@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace OpenStandup.Core.Interfaces.Services
 {
-    public interface ILocationService
+    public interface IGeoLocationService
     {
         Task<Tuple<double, double>> GetCurrentLocation(CancellationTokenSource cts);
     }

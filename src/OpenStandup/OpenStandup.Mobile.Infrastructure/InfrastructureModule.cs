@@ -8,13 +8,13 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using OpenStandup.Common.Infrastructure;
+using OpenStandup.Common.Interfaces.Infrastructure;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
-using OpenStandup.Core.Interfaces.Services;
 using OpenStandup.Mobile.Infrastructure.Apis;
 using OpenStandup.Mobile.Infrastructure.Configuration;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
-using OpenStandup.Mobile.Infrastructure.Services;
 
 
 namespace OpenStandup.Mobile.Infrastructure
@@ -26,7 +26,12 @@ namespace OpenStandup.Mobile.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
+            // Repositories
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces().SingleInstance();
+            // Services
+            builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<FileUtilities>().As<IFileUtilities>().SingleInstance();
 
             builder.RegisterType<OAuthAuthenticator>().As<IAuthenticator>().SingleInstance();
 
@@ -58,12 +63,8 @@ namespace OpenStandup.Mobile.Infrastructure
             })
             {
                 MaxResponseContentBufferSize = 256000,
-                Timeout = new TimeSpan(0, 0, 0, 5)
+                Timeout = new TimeSpan(0, 0, 0, 250)
             }).SingleInstance();
-
-            builder.RegisterType<LocationService>().As<ILocationService>().SingleInstance();
-
-            builder.RegisterType<CameraService>().As<ICameraService>().SingleInstance();
         }
     }
 }

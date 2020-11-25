@@ -9,7 +9,7 @@ using Vessel;
 
 namespace OpenStandup.Core.Domain.Features.Login
 {
-    public class LoginUseCase : IRequestHandler<AuthenticationRequest, Dto<string>>
+    public class LoginUseCase : IRequestHandler<LoginRequest, Dto<string>>
     {
         private readonly IAuthenticator _authenticator;
         private readonly ISecureDataRepository _secureDataRepository;
@@ -23,7 +23,7 @@ namespace OpenStandup.Core.Domain.Features.Login
             _outputPort = outputPort;
         }
 
-        public async Task<Dto<string>> Handle(AuthenticationRequest request, CancellationToken cancellationToken)
+        public async Task<Dto<string>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             var authenticationResponse = await _authenticator.Authenticate().ConfigureAwait(false);
 

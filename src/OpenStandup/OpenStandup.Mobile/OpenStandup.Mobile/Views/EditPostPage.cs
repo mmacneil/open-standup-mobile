@@ -32,6 +32,11 @@ namespace OpenStandup.Mobile.Views
 
             postButton.SetBinding(IsEnabledProperty, nameof(EditPostViewModel.CanPost));
 
+            postButton.Clicked += async (sender, args) =>
+            {
+                await _viewModel.PublishPost();
+            };
+
             _editor.SetBinding(Editor.TextProperty, nameof(EditPostViewModel.Text));
 
             var charactersLabel = new Label { Text = $"{MaxLength} characters remaining", FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)) };
@@ -58,7 +63,7 @@ namespace OpenStandup.Mobile.Views
             previewImage.SetBinding(IsVisibleProperty, new Binding(nameof(EditPostViewModel.PhotoPath), BindingMode.Default, new StringToBoolConverter()));
 
             var photoTapGestureRecognizer = new TapGestureRecognizer();
-            photoTapGestureRecognizer.Tapped += async (s, e) =>
+            photoTapGestureRecognizer.Tapped += async (sender,args) =>
             {
                 await _viewModel.DeletePhoto();
             };

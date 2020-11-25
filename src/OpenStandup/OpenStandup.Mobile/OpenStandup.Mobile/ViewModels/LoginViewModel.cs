@@ -42,7 +42,7 @@ namespace OpenStandup.Mobile.ViewModels
 
             // Call the Login UseCase, on success we'll load the application shell, error handling
             // is performed by the presenter
-            if ((await _mediator.Send(new AuthenticationRequest())).Succeeded)
+            if ((await _mediator.Send(new LoginRequest())).Succeeded)
             {
                 StatusText = "Getting things ready...";
 

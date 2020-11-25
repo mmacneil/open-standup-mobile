@@ -14,13 +14,13 @@ namespace OpenStandup.Core.Domain.Features.Profile
 {
     public class UpdateLocationUseCase : IRequestHandler<UpdateLocationRequest, Dto<bool>>
     {
-        private readonly ILocationService _locationService;
+        private readonly IGeoLocationService _locationService;
         private readonly IOpenStandupApi _openStandupApi;
         private readonly IAppContext _appContext;
         private readonly IUserRepository _userRepository;
         private readonly IMediator _mediator;
 
-        public UpdateLocationUseCase(ILocationService locationService, IOpenStandupApi openStandupApi, IAppContext appContext, IUserRepository userRepository, IMediator mediator)
+        public UpdateLocationUseCase(IGeoLocationService locationService, IOpenStandupApi openStandupApi, IAppContext appContext, IUserRepository userRepository, IMediator mediator)
         {
             _locationService = locationService;
             _openStandupApi = openStandupApi;

@@ -6,7 +6,7 @@ using Xamarin.Essentials;
 
 namespace OpenStandup.Mobile.Infrastructure.Services
 {
-    public class LocationService : ILocationService
+    public class GeoLocationService : IGeoLocationService
     {
         public async Task<Tuple<double, double>> GetCurrentLocation(CancellationTokenSource cts)
         {

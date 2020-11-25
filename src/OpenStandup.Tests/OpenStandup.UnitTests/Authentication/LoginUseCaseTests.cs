@@ -41,7 +41,7 @@ namespace OpenStandup.UnitTests.Authentication
             var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object, _mockOutputPort.Object);
 
             // act
-            var response = await useCase.Handle(new AuthenticationRequest(), new CancellationToken());
+            var response = await useCase.Handle(new LoginRequest(), new CancellationToken());
 
             // assert
             _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(""), Times.Once());
@@ -63,7 +63,7 @@ namespace OpenStandup.UnitTests.Authentication
             var useCase = new LoginUseCase(_mockAuthenticator.Object, _mockSecureDataRepository.Object, _mockOutputPort.Object);
 
             // act
-            await useCase.Handle(new AuthenticationRequest(), new CancellationToken());
+            await useCase.Handle(new LoginRequest(), new CancellationToken());
 
             // assert
             _mockSecureDataRepository.Verify(x => x.SetPersonalAccessToken(token), Times.Once());

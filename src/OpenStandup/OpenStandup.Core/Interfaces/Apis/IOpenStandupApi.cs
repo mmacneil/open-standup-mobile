@@ -11,5 +11,6 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<AppConfigDto>> GetConfiguration();
         Task<Dto<string>> ValidateGitHubAccessToken(string token);
         Task<Dto<bool>> UpdateLocation(double latitude, double longitude);
+        Task<Dto<bool>> PublishPost(string text, byte[] image);
     }
 }
