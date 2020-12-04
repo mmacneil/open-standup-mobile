@@ -29,6 +29,19 @@ namespace OpenStandup.Mobile.Bootstrap
                 var currentPage = Application.Current.MainPage;
                 return currentPage.Navigation.ModalStack.Count == 1 ? currentPage.Navigation.ModalStack[0] : currentPage;
             });
+
+            builder.RegisterInstance(GetPlatformDependency<IIndicatorPageService>()).As<IIndicatorPageService>().SingleInstance();
+        }
+
+        public static T GetPlatformDependency<T>() where T : class
+        {
+            var dependency = DependencyService.Get<T>();
+            if (dependency == null)
+            {
+                throw new InvalidOperationException($"Missing '{typeof(T).FullName}' implementation! Implementation is required.");
+            }
+            return dependency;
         }
     }
 }
+

@@ -63,7 +63,7 @@ namespace OpenStandup.Mobile.Views
             previewImage.SetBinding(IsVisibleProperty, new Binding(nameof(EditPostViewModel.PhotoPath), BindingMode.Default, new StringToBoolConverter()));
 
             var photoTapGestureRecognizer = new TapGestureRecognizer();
-            photoTapGestureRecognizer.Tapped += async (sender,args) =>
+            photoTapGestureRecognizer.Tapped += async (sender, args) =>
             {
                 await _viewModel.DeletePhoto();
             };
@@ -114,7 +114,7 @@ namespace OpenStandup.Mobile.Views
             var stackLayout = new StackLayout
             {
                 Margin = new Thickness(10, 50),
-                Children = {                    
+                Children = {
                     new Label {Text = "What are you working on?", FontSize = Device.GetNamedSize(NamedSize.Title, typeof(Label)),  HorizontalTextAlignment = TextAlignment.Center},
                     editorLayout,
                     toolbarLayout,
@@ -130,7 +130,6 @@ namespace OpenStandup.Mobile.Views
             base.OnAppearing();
             await Task.Delay(100); // ugh: https://forums.xamarin.com/discussion/100354/entry-focus-not-working-for-android
             _editor.Focus();
-            await _viewModel.Initialize();
         }
     }
 }

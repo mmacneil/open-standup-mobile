@@ -19,9 +19,9 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
             get
             {
 #if DEBUG
-                return "https://192.168.0.141:45455/api"; // "http://10.0.2.2:5000/api";
+                return "https://192.168.0.141:45455/api";
 #else
-                return "https://openstandup.com/api;
+                return "https://192.168.0.141:45455/api"; // "https://openstandup.com/api;
 #endif
             }
         }

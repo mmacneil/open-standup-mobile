@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 using OpenStandup.Core.Domain.Entities;
 using OpenStandup.Core.Domain.Features.Profile;
@@ -43,7 +44,7 @@ namespace OpenStandup.UnitTests.Profile
 
             // assert
             _mockUserRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
-            Assert.Equal(Status.Unauthorized, response.Status); // Received unauthorized status code from GQL call was mapped to result.
+            response.Status.Should().Be(Status.Unauthorized); // Received unauthorized status code from GQL call was mapped to result.
         }
 
         [Fact]
@@ -61,8 +62,8 @@ namespace OpenStandup.UnitTests.Profile
 
             // assert
             _mockUserRepository.Verify(x => x.InsertOrReplace(It.IsAny<GitHubUser>()), Times.Never);
-            Assert.Equal(Status.Failed, response.Status); // Received unauthorized status code from GQL call was mapped to result.
-            Assert.Equal(error, response.Errors.First());
+            response.Status.Should().Be(Status.Failed);  // Received unauthorized status code from GQL call was mapped to result.
+            response.Errors.First().Should().Be(error);
         }
     }
 }

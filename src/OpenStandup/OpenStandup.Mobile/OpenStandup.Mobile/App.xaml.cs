@@ -1,15 +1,14 @@
-﻿using Xamarin.Forms;
-using OpenStandup.Mobile.Bootstrap;
+﻿using OpenStandup.Mobile.Bootstrap;
 using Autofac;
 
 namespace OpenStandup.Mobile
 {
-    public partial class App : Application
+    public partial class App
     {
         public static IContainer Container { get; set; }
 
         public App()
-        {            
+        {
             InitializeComponent();
             var bootstrapper = new Bootstrapper(this);
             bootstrapper.Run();

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Mobile.ViewModels;
 using Vessel;
@@ -6,16 +7,16 @@ using Vessel;
 
 namespace OpenStandup.Mobile.Presenters
 {
-    public class AuthenticationPresenter : IOutputPort<Dto<string>>
+    public class LoginPresenter : IOutputPort<Dto<string>>
     {
         private readonly LoginViewModel _viewModel;
 
-        public AuthenticationPresenter(LoginViewModel viewModel)
+        public LoginPresenter(LoginViewModel viewModel)
         {
             _viewModel = viewModel;
         }
 
-        public void Handle(Dto<string> response)
+        public Task Handle(Dto<string> response)
         {
             if (response.Succeeded)
             {
@@ -27,6 +28,8 @@ namespace OpenStandup.Mobile.Presenters
                 _viewModel.CanLogin = true;
                 _viewModel.IsBusy = false;
             }
+
+            return Task.CompletedTask;
         }
     }
 }

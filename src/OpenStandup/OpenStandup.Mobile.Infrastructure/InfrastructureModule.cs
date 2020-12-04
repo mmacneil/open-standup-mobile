@@ -8,6 +8,7 @@ using GraphQL.Client.Serializer.Newtonsoft;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using MediatR;
 using OpenStandup.Common.Infrastructure;
 using OpenStandup.Common.Interfaces.Infrastructure;
 using OpenStandup.Core.Interfaces;
@@ -56,7 +57,7 @@ namespace OpenStandup.Mobile.Infrastructure
                 EndPoint = new Uri("https://api.github.com/graphql")
             }, new NewtonsoftJsonSerializer())).SingleInstance();
 
-            builder.Register(ctx => new HttpClient(new HttpClientHandler
+            builder.Register(ctx => new HttpClient(new AuthorizedRequestHandler(ctx.Resolve<IMediator>())
             {
                 ServerCertificateCustomValidationCallback =
                     (message, certificate, chain, sslPolicyErrors) => true

@@ -5,5 +5,6 @@ namespace OpenStandup.Mobile.Services
     public interface INavigator
     {
         Task GoTo(string route);
+        Task PopAsync();
     }
 }

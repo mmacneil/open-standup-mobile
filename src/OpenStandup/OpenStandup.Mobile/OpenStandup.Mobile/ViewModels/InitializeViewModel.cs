@@ -4,6 +4,7 @@ using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
 using OpenStandup.Mobile.Services;
 
+
 namespace OpenStandup.Mobile.ViewModels
 {
     public class InitializeViewModel : BaseViewModel
@@ -26,6 +27,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
         private readonly IOpenStandupApi _openStandupApi;
+
         public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
         {
             _secureDataRepository = secureDataRepository;
@@ -36,12 +38,12 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task Initialize()
         {
+            Failed = false;
+            IsBusy = true;
+            Status = "Loading...";
+
             try
             {
-                Failed = false;
-                IsBusy = true;
-                Status = "Loading...";
-
                 if (!await _configurationLoader.TryLoad()/*.ConfigureAwait(false)*/)
                 {
                     Failed = true;

@@ -4,6 +4,7 @@ using OpenStandup.Core.Domain.Features.Posts.Models;
 using OpenStandup.Core.Interfaces.Services;
 using OpenStandup.Mobile.Interfaces;
 
+
 namespace OpenStandup.Mobile.ViewModels
 {
     public class EditPostViewModel : BaseViewModel
@@ -11,6 +12,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly ICameraService _cameraService;
         private readonly IDialogProvider _dialogProvider;
         private readonly IMediator _mediator;
+        private readonly IIndicatorPageService _indicatorPageService;
 
         private string _photoPath;
         public string PhotoPath
@@ -37,15 +39,12 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _canPost, value);
         }
 
-        public EditPostViewModel(ICameraService cameraService, IDialogProvider dialogProvider, IMediator mediator)
+        public EditPostViewModel(ICameraService cameraService, IDialogProvider dialogProvider, IMediator mediator, IIndicatorPageService indicatorPageService)
         {
             _cameraService = cameraService;
             _dialogProvider = dialogProvider;
             _mediator = mediator;
-        }
-
-        public async Task Initialize()
-        {
+            _indicatorPageService = indicatorPageService;
         }
 
         public async Task TakePhoto()
@@ -55,7 +54,9 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task PublishPost()
         {
-             await _mediator.Send(new PublishPostRequest(Text, PhotoPath));
+            _indicatorPageService.ShowIndicatorPage();
+            await _mediator.Send(new PublishPostRequest(Text, PhotoPath));
+            _indicatorPageService.HideIndicatorPage();
         }
 
         public async Task DeletePhoto()

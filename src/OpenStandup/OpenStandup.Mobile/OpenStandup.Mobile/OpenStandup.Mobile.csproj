@@ -8,12 +8,24 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="mediatr" Version="8.0.2" />
-    <PackageReference Include="vessel" Version="1.0.3" />
+    <PackageReference Include="Vessel" Version="1.0.4" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1709-pre4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\OpenStandup.Core\OpenStandup.Core.csproj" />
     <ProjectReference Include="..\..\OpenStandup.Mobile.Infrastructure\OpenStandup.Mobile.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\IndicatorPage.xaml.cs">
+      <DependentUpon>IndicatorPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\IndicatorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

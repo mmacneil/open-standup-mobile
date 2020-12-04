@@ -44,7 +44,7 @@ namespace OpenStandup.Core.Domain.Features.Profile
                 if (apiResponse.Succeeded)
                 {
                     await _mediator.Publish(new ProfileUpdated(), cancellationToken).ConfigureAwait(false);
-                    _outputPort.Handle(apiResponse);
+                    await _outputPort.Handle(apiResponse);
                     return apiResponse;
                 }
 
@@ -58,7 +58,7 @@ namespace OpenStandup.Core.Domain.Features.Profile
                         : gitHubUserResponse.Errors.FirstOrDefault());
             }
 
-            _outputPort.Handle(useCaseResponse);
+            await _outputPort.Handle(useCaseResponse);
             return useCaseResponse;
         }
     }

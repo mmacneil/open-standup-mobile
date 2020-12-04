@@ -3,7 +3,7 @@ using Vessel;
 
 namespace OpenStandup.Core.Domain.Features.Posts.Models
 {
-    public class PublishPostRequest : IRequest<Dto<bool>>
+    public class PublishPostRequest : IRequest<Dto<bool>>, IRequest<Unit>
     {
         public string Text { get; }
         public string PhotoPath { get; }

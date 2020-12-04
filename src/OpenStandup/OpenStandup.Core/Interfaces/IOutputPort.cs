@@ -1,9 +1,9 @@
-﻿
+﻿using System.Threading.Tasks;
 
 namespace OpenStandup.Core.Interfaces
 {
-    public interface IOutputPort<in TUseCaseResponse>
+    public interface IOutputPort<in T>
     {
-        void Handle(TUseCaseResponse response);
+        Task Handle(T response);
     }
 }

@@ -89,8 +89,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
             await AddAuthorizationHeader(request);
 
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request))
-                .ConfigureAwait(false);
+            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
                 ? Dto<bool>.Success(true)
