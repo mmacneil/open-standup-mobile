@@ -14,13 +14,6 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetProperty(ref _isBusy, value);
         }
 
-        string _title = string.Empty;
-        public string Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-
         protected void SetAndRaisePropertyChanged<TRef>(ref TRef field, TRef value, [CallerMemberName] string propertyName = null)
         {
             field = value;
@@ -38,6 +31,11 @@ namespace OpenStandup.Mobile.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public void SetState<T>(Action<T> action) where T : class
+        {
+            action(this as T);
         }
 
         #region INotifyPropertyChanged

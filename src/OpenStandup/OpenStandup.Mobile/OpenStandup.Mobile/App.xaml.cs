@@ -10,7 +10,7 @@ namespace OpenStandup.Mobile
         public App()
         {
             InitializeComponent();
-            var bootstrapper = new Bootstrapper(this);
+            var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
             MainPage = new AppShell();
         } 

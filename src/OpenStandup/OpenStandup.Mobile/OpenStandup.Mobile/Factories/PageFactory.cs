@@ -1,12 +1,12 @@
 ﻿using Autofac;
-//using OpenStandup.Mobile.ViewModels;
 using System;
 using System.Collections.Generic;
+using OpenStandup.Mobile.ViewModels;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Factories
 {
-    /*
+    
     public class PageFactory : IPageFactory
     {
         public readonly IDictionary<Type, Type> Map = new Dictionary<Type, Type>();
@@ -35,7 +35,7 @@ namespace OpenStandup.Mobile.Factories
 
             if (!(_componentContext.Resolve(pageType) is Page page) || viewModel == null)
             {
-                throw new InvalidOperationException("View/ViewModel not registered or View Model does not extend BaseViewModel or View is a ContentView instead of ContentPage");
+                throw new InvalidOperationException();
             }
 
             if (setStateAction != null)
@@ -44,13 +44,5 @@ namespace OpenStandup.Mobile.Factories
             page.BindingContext = viewModel;
             return page;
         }
-
-        public Page Resolve<TViewModel>(TViewModel viewModel) where TViewModel : BaseViewModel
-        {
-            var pageType = Map[typeof(TViewModel)];
-            if (!(_componentContext.Resolve(pageType) is Page page)) throw new InvalidOperationException("Cannot resolve viewModel");
-            page.BindingContext = viewModel;
-            return page;
-        }
-    }*/
+    }
 }

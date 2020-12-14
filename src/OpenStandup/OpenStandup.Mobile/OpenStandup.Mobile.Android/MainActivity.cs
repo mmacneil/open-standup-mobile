@@ -15,11 +15,11 @@ namespace OpenStandup.Mobile.Droid
 
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this);
+
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
-            
 
             LoadApplication(new App());
         }
@@ -28,6 +28,15 @@ namespace OpenStandup.Mobile.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+
+        public override void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+                // Do something if there are some pages in the `PopupStack`
+            }
         }
 
         protected override void OnResume()

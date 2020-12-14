@@ -40,7 +40,9 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
                 if (!user.Repositories.Any()) return;
                 tran.Execute("DELETE from repositories");
-                tran.InsertAll(user.Repositories.Select(r => new RepositoryData { Id = r.Id, Name = r.Name, Url = r.Url, IsPrivate = r.IsPrivate }));
+                tran.InsertAll(user.Repositories.Select(r => new RepositoryData
+                { Id = r.Id, Name = r.Name, Url = r.Url, IsPrivate = r.IsPrivate }));
+
             }).ConfigureAwait(false);
 
             return true;

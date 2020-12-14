@@ -36,7 +36,7 @@ namespace OpenStandup.Core.Domain.Features.Login
                 await _secureDataRepository.SetPersonalAccessToken("").ConfigureAwait(false);
             }
 
-            _outputPort.Handle(authenticationResponse);
+            await _outputPort.Handle(authenticationResponse);
             return authenticationResponse;
         }
     }

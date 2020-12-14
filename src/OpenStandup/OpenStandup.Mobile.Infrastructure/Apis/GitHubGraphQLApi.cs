@@ -25,6 +25,30 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             _mapper = mapper;
         }
 
+        public async Task<Dto<bool>> CanFollow(string login)
+        {
+            var graphQLRequest = new GraphQLRequest
+            {
+                Query = @"query ViewerCanFollow($login: String!) {
+                          user(login:$login) {
+                                viewerCanFollow
+                              }
+                        }",
+                OperationName = "ViewerCanFollow",
+                Variables = new
+                {
+                    login
+                }
+            };
+
+            await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<GitHubUserGraphQLResponse>(graphQLRequest))
+                .ConfigureAwait(false);
+
+            return !response.IsSuccess() ? response.GenerateFailedResponse<GitHubUserGraphQLResponse, bool>() : Dto<bool>.Success(response.Data.User.ViewerCanFollow);
+        }
+
         public async Task<Dto<GitHubUser>> GetViewer()
         {
             var graphQLRequest = new GraphQLRequest

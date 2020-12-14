@@ -13,6 +13,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly IDialogProvider _dialogProvider;
         private readonly IMediator _mediator;
         private readonly IIndicatorPageService _indicatorPageService;
+       
 
         private string _photoPath;
         public string PhotoPath

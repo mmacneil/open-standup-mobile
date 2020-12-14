@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using OpenStandup.Core.Interfaces.Data.Repositories;
 using System.Threading.Tasks;
+using OpenStandup.Core.Interfaces;
+using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Models;
 using OpenStandup.SharedKernel.Extensions;
 
@@ -8,8 +9,6 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly IUserRepository _userRepository;
-
         public IList<StatModel> StatModels { get; private set; }
 
         private string _avatarUrl;
@@ -54,28 +53,42 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _websiteUrl, value);
         }
 
-        public ProfileViewModel(IUserRepository userRepository)
+        public string AuthorLogin;
+
+        private readonly IAppContext _appContext;
+        private readonly IOpenStandupApi _openStandupApi;
+
+        public ProfileViewModel(IAppContext appContext, IOpenStandupApi openStandupApi)
         {
-            _userRepository = userRepository;
+            _appContext = appContext;
+            _openStandupApi = openStandupApi;
         }
 
         public async Task Initialize()
         {
-            var me = await _userRepository.Get().ConfigureAwait(false);
-            AvatarUrl = me.AvatarUrl;
-            Login = me.Login.Truncate(13,true);
-            Location = me.Location;
-            Joined = $"Joined {me.CreatedAt:MMM dd, yyyy}";
-            Email = me.Email;
-            WebsiteUrl = me.WebsiteUrl;
-
-            StatModels = new List<StatModel>
+            if (AuthorLogin == null || AuthorLogin == _appContext.User.Login)
             {
-                new StatModel ("followers", me.FollowerCount),
-                new StatModel ("following", me.FollowingCount),
-                new StatModel ("repositories", me.RepositoryCount),
-                new StatModel ("gists", me.GistCount)
-            };
+                AvatarUrl = _appContext.User.AvatarUrl;
+                Login = _appContext.User.Login.Truncate(13, true);
+                Location = _appContext.User.Location;
+                Joined = $"Joined {_appContext.User.CreatedAt:MMM dd, yyyy}";
+                Email = _appContext.User.Email;
+                WebsiteUrl = _appContext.User.WebsiteUrl;
+
+                StatModels = new List<StatModel>
+                {
+                    new StatModel ("followers", _appContext.User.FollowerCount),
+                    new StatModel ("following", _appContext.User.FollowingCount),
+                    new StatModel ("repositories", _appContext.User.RepositoryCount),
+                    new StatModel ("gists", _appContext.User.GistCount)
+                };
+            }
+            else
+            {
+                await _openStandupApi.GetUser(AuthorLogin);
+            }
+
+            AuthorLogin = null; // fix me so "local" view doesn't need this reset
         }
     }
 }

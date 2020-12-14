@@ -27,7 +27,8 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
         private readonly IOpenStandupApi _openStandupApi;
-
+     
+        
         public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
         {
             _secureDataRepository = secureDataRepository;

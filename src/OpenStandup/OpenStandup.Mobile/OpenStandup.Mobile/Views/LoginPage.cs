@@ -84,5 +84,11 @@ namespace OpenStandup.Mobile.Views
             _viewModel.Initialize(Logout == "1");
             Logout = "";
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            _viewModel.Uninitialize();
+        }
     }
 }

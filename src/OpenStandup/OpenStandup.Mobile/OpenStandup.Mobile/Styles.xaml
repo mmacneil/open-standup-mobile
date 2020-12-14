@@ -35,7 +35,7 @@
         <Setter Property="FontSize" Value="Subtitle" />
     </Style>
 
-    <Style x:Key="MicroSubTitle" TargetType="Label">
+    <Style x:Key="MetaLabel"  TargetType="Label">
         <Setter Property="TextColor" Value="DarkSlateGray" />
         <Setter Property="FontSize" Value="Micro" />
     </Style>

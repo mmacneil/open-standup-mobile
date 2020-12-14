@@ -7,5 +7,7 @@ namespace OpenStandup.Core.Interfaces
     {
         GitHubUser User { get; }
         Task Refresh();
+        bool RequiresRefresh { get; }
+        bool RequiresLocation { get; }
     }
 }

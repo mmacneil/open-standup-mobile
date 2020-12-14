@@ -2,19 +2,23 @@
 using OpenStandup.Mobile.ViewModels;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 
 namespace OpenStandup.Mobile.Views
 {
-    public class ProfilePage : ContentPage
+    public class ProfilePage : PopupPage
     {
+        private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
         private readonly ProfileViewModel _viewModel = App.Container.Resolve<ProfileViewModel>();
 
         private readonly FlexLayout _statsLayout;
 
         public ProfilePage()
         {
+            BackgroundColor = Color.White;
             Padding = new Thickness(5, 20);
 
             BindingContext = _viewModel;
@@ -26,7 +30,7 @@ namespace OpenStandup.Mobile.Views
                 ColumnDefinitions =
                 {
                     new ColumnDefinition { Width = new GridLength(30, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(70, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(70, GridUnitType.Star) }
                 }
             };
 
@@ -42,7 +46,7 @@ namespace OpenStandup.Mobile.Views
             var location = new Label { Style = (Style)Application.Current.Resources["SubTitle"] };
             location.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Location));
 
-            var joined = new Label { Style = (Style)Application.Current.Resources["MicroSubTitle"] };
+            var joined = new Label { Style = (Style)Application.Current.Resources["MetaLabel"] };
             joined.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Joined));
 
             header.Children.Add(new RoundImage(image));
@@ -74,6 +78,12 @@ namespace OpenStandup.Mobile.Views
             websiteUrl.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl), BindingMode.Default, new StringToBoolConverter()));
             websiteUrl.SetBinding(IconItem.TextProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl)));
 
+            var closeButton = new Button{Text = "Close"};
+            closeButton.Clicked += async (sender, args) =>
+            {
+                await _popupNavigation.PopAsync();
+            };
+
             var rootLayout = new StackLayout
             {
                 Children =
@@ -92,6 +102,12 @@ namespace OpenStandup.Mobile.Views
                             email,
                             websiteUrl
                         }
+                    },
+                    new StackLayout
+                    {
+                        BackgroundColor = Color.Aqua,
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { closeButton }
                     }
                 }
             };

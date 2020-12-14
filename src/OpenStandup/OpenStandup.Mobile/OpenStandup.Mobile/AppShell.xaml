@@ -33,7 +33,7 @@
     </FlyoutItem> 
 
     <ShellContent Route="profile"                       
-                      Title="My Profile"                   
+                      Title="My Profile"   
                       ContentTemplate="{DataTemplate views:ProfilePage}" />
     
     <MenuItem Text="Logout"

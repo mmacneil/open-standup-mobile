@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -73,7 +74,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         public async Task<Dto<string>> ValidateGitHubAccessToken(string token)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken?token={token}")).ConfigureAwait(false);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.PostAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken", new StringContent(token))).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
                 ? Dto<string>.Success(response.StatusCode.ToString())
@@ -94,6 +95,34 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             return response.IsSuccessStatusCode
                 ? Dto<bool>.Success(true)
                 : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
+        public async Task<Dto<IEnumerable<PostSummaryDto>>> GetPostSummaries()
+        {
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries")).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Dto<IEnumerable<PostSummaryDto>>.Success(
+                    JsonConvert.DeserializeObject<IEnumerable<PostSummaryDto>>(
+                        await response.Content.ReadAsStringAsync()));
+            }
+
+            return null;
+        }
+
+        public async Task<Dto<UserDto>> GetUser(string login)
+        {
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users?login={login}")).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Dto<UserDto>.Success(
+                    JsonConvert.DeserializeObject<UserDto>(
+                        await response.Content.ReadAsStringAsync()));
+            }
+
+            return null;
         }
     }
 }

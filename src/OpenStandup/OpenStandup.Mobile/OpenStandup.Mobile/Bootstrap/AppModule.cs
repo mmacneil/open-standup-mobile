@@ -3,7 +3,9 @@ using Autofac;
 using OpenStandup.Mobile.Services;
 using OpenStandup.Mobile.ViewModels;
 using System.Reflection;
+using OpenStandup.Mobile.Factories;
 using OpenStandup.Mobile.Interfaces;
+using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 
 
@@ -15,6 +17,9 @@ namespace OpenStandup.Mobile.Bootstrap
         {
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
            .Where(t => t.IsSubclassOf(typeof(BaseViewModel))).SingleInstance();
+
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => t.IsSubclassOf(typeof(Page))).SingleInstance();
 
             builder.RegisterType<Navigator>().As<INavigator>().SingleInstance();
 
@@ -31,6 +36,10 @@ namespace OpenStandup.Mobile.Bootstrap
             });
 
             builder.RegisterInstance(GetPlatformDependency<IIndicatorPageService>()).As<IIndicatorPageService>().SingleInstance();
+
+            builder.RegisterInstance(Rg.Plugins.Popup.Services.PopupNavigation.Instance).As<IPopupNavigation>().SingleInstance();
+
+            builder.RegisterType<PageFactory>().As<IPageFactory>().SingleInstance();
         }
 
         public static T GetPlatformDependency<T>() where T : class

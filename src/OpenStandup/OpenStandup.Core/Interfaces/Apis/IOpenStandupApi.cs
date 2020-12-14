@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OpenStandup.Common.Dto;
 using OpenStandup.Core.Domain.Entities;
 using Vessel;
@@ -12,5 +13,7 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<string>> ValidateGitHubAccessToken(string token);
         Task<Dto<bool>> UpdateLocation(double latitude, double longitude);
         Task<Dto<bool>> PublishPost(string text, byte[] image);
+        Task<Dto<IEnumerable<PostSummaryDto>>> GetPostSummaries();
+        Task<Dto<UserDto>> GetUser(string login);
     }
 }
