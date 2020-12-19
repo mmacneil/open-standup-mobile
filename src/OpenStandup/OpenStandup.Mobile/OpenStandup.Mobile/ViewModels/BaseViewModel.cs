@@ -7,11 +7,19 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        bool _isBusy;
+        private bool _isBusy;
         public bool IsBusy
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
+        }
+
+        private string _statusText;
+
+        public string StatusText
+        {
+            get => _statusText;
+            set => SetProperty(ref _statusText, value);
         }
 
         protected void SetAndRaisePropertyChanged<TRef>(ref TRef field, TRef value, [CallerMemberName] string propertyName = null)
@@ -21,7 +29,7 @@ namespace OpenStandup.Mobile.ViewModels
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName]string propertyName = "",
+            [CallerMemberName] string propertyName = "",
             Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))

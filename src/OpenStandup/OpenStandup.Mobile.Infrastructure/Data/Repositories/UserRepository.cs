@@ -54,7 +54,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
             if (model != null)
             {
-                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHtml, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, model.FollowerCount, model.RepositoryCount, model.FollowingCount, model.GistCount, model.Latitude ?? 0, model.Longitude ?? 0, null);
+                return new GitHubUser(model.Id, model.Login, model.Name, model.AvatarUrl, model.BioHtml, model.WebsiteUrl, model.Company, model.Location, model.DatabaseId, model.Email, model.CreatedAt, model.FollowerCount, model.RepositoryCount, model.FollowingCount, model.GistCount, model.Latitude ?? 0, model.Longitude ?? 0, null, default, default);
             }
 
             throw new Exception("No profile exists.");

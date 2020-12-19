@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Autofac;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Factories;
@@ -74,13 +75,17 @@ namespace OpenStandup.Mobile.Views
                     e.Cancel = true;
                 };
 
-                var loginLabel = new Label { Style = (Style)Application.Current.Resources["MetaLabel"] };
+                var loginLabel = new Label { Style = (Style)Application.Current.Resources["LinkLabel"] };
                 loginLabel.SetBinding(Label.TextProperty, "Login");
 
                 var loginTapGestureRecognizer = new TapGestureRecognizer();
                 loginTapGestureRecognizer.Tapped += async (sender, args) =>
                 {
-                    await _popupNavigation.PushAsync(_pageFactory.Resolve<ProfileViewModel>(vm=>vm.AuthorLogin=loginLabel.Text) as PopupPage);
+                    await _popupNavigation.PushAsync(_pageFactory.Resolve<ProfileViewModel>(vm=>
+                    {
+                        vm.SelectedGitHubId = _viewModel.PostSummaries.First(x => x.Login == loginLabel.Text).GitHubId;
+                        vm.SelectedLogin = loginLabel.Text;
+                    }) as PopupPage);
                 };
 
                 loginLabel.GestureRecognizers.Add(loginTapGestureRecognizer);

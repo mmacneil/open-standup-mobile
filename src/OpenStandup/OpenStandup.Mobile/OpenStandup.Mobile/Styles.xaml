@@ -35,6 +35,13 @@
         <Setter Property="FontSize" Value="Subtitle" />
     </Style>
 
+    <Style x:Key="LinkLabel"  TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Link}" />
+        <Setter Property="FontSize" Value="Micro" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+
     <Style x:Key="MetaLabel"  TargetType="Label">
         <Setter Property="TextColor" Value="DarkSlateGray" />
         <Setter Property="FontSize" Value="Micro" />
@@ -60,6 +67,11 @@
 
     <Style x:Key="ActionButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource ControlPrimary}" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#ff6666" />
         <Setter Property="TextColor" Value="White" />
     </Style>
 

@@ -20,14 +20,6 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly IMediator _mediator;
         private readonly INavigator _navigator;
 
-        private string _statusText;
-
-        public string StatusText
-        {
-            get => _statusText;
-            set => SetProperty(ref _statusText, value);
-        }
-
         private bool _canLogin = true;
 
         public bool CanLogin

@@ -78,13 +78,37 @@ namespace OpenStandup.Mobile.Views
             websiteUrl.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl), BindingMode.Default, new StringToBoolConverter()));
             websiteUrl.SetBinding(IconItem.TextProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl)));
 
-            var closeButton = new Button{Text = "Close"};
+            var followButton = new ActionButton { Text = "Follow", HorizontalOptions = LayoutOptions.Center};
+            followButton.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.CanFollow)));
+            followButton.Clicked += async (sender, args) =>
+            {
+                await _viewModel.UpdateFollower(true);
+            };
+
+            var unFollowButton = new AppButton { Text = "Unfollow", HorizontalOptions = LayoutOptions.Center, Style = (Style)Application.Current.Resources["CancelButton"]};
+            unFollowButton.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.IsFollowing)));
+            unFollowButton.Clicked += async (sender, args) =>
+            {
+                await _viewModel.UpdateFollower();
+            };
+
+            var closeButton = new Button { Text = "Close", HorizontalOptions = LayoutOptions.Center};
+
             closeButton.Clicked += async (sender, args) =>
             {
                 await _popupNavigation.PopAsync();
             };
 
-            var rootLayout = new StackLayout
+            var actionsLayout = new StackLayout
+            {
+                Children = { followButton, unFollowButton, closeButton },
+                Spacing = 45,
+                Margin = new Thickness(0, 35, 0, 0)
+            };
+
+            actionsLayout.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.ShowActions)));
+
+            var profileLayout = new StackLayout
             {
                 Children =
                 {
@@ -102,13 +126,39 @@ namespace OpenStandup.Mobile.Views
                             email,
                             websiteUrl
                         }
-                    },
-                    new StackLayout
-                    {
-                        BackgroundColor = Color.Aqua,
-                        Orientation = StackOrientation.Horizontal,
-                        Children = { closeButton }
                     }
+                }
+            };
+
+            profileLayout.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.Initialized)));
+
+            var activityIndicator = new ActivityIndicator();
+            activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, new Binding(nameof(ProfileViewModel.IsBusy)));
+
+            var statusLabel = new Label { Text = "Loading..." };
+            statusLabel.SetBinding(Label.TextProperty, new Binding(nameof(ProfileViewModel.StatusText)));
+
+            var defaultLayout = new FlexLayout
+            {
+                Direction = FlexDirection.Column,
+                AlignItems = FlexAlignItems.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                Children =
+                {
+                    activityIndicator,
+                    statusLabel
+                }
+            };
+
+            defaultLayout.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.Initialized), BindingMode.Default, new BoolInversionConverter()));
+
+            var rootLayout = new StackLayout
+            {
+                Children =
+                {
+                    defaultLayout,
+                    profileLayout,
+                    actionsLayout
                 }
             };
 

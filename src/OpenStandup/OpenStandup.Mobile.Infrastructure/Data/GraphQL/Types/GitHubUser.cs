@@ -22,6 +22,7 @@ namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL.Types
         public double Latitude { get; }
         public double Longitude { get; }
         public bool ViewerCanFollow { get; }
+        public bool ViewerIsFollowing { get; }
 
         public GitHubUser(
             string id,
@@ -38,8 +39,27 @@ namespace OpenStandup.Mobile.Infrastructure.Data.GraphQL.Types
             Connection followers,
             Connection following,
             RepositoriesConnection repositories,
-            Connection gists, double latitude, double longitude, bool viewerCanFollow) =>
-            (Id, Login, Name, AvatarUrl, BioHtml, WebsiteUrl, Company, Location, DatabaseId, Email, CreatedAt, Followers, Following, Repositories, Gists, Latitude, Longitude, ViewerCanFollow) =
-            (id, login, name, avatarUrl, bioHtml, websiteUrl, company, location, databaseId, email, createdAt, followers, following, repositories, gists, latitude, longitude, viewerCanFollow);
+            Connection gists, double latitude, double longitude, bool viewerCanFollow, bool viewerIsFollowing)
+        {
+            Id = id;
+            Login = login;
+            Name = name;
+            AvatarUrl = avatarUrl;
+            BioHtml = bioHtml;
+            WebsiteUrl = websiteUrl;
+            Company = company;
+            Location = location;
+            DatabaseId = databaseId;
+            Email = email;
+            CreatedAt = createdAt;
+            Followers = followers;
+            Following = following;
+            Repositories = repositories;
+            Gists = gists;
+            Latitude = latitude;
+            Longitude = longitude;
+            ViewerCanFollow = viewerCanFollow;
+            ViewerIsFollowing = viewerIsFollowing;
+        }
     }
 }

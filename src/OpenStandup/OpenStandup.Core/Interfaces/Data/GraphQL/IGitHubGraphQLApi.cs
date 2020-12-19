@@ -6,7 +6,9 @@ namespace OpenStandup.Core.Interfaces.Data.GraphQL
 {
     public interface IGitHubGraphQLApi
     {
-        Task<Dto<bool>> CanFollow(string login);
+        Task<Dto<bool>> Follow(string userId);
+        Task<Dto<bool>> Unfollow(string userId);
+        Task<Dto<GitHubUser>> GetFollowerStatus(string login);
         Task<Dto<GitHubUser>> GetViewer();
     }
 }

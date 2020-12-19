@@ -4,5 +4,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Color x:Key="NavigationPrimary">#14213d</Color>
     <Color x:Key="ControlAccent">#e5e5e5</Color>
-    <Color x:Key="ControlPrimary">#fca311</Color>
+    <Color x:Key="Link">#fca311</Color>
+    <Color x:Key="ControlPrimary">#2ea44f</Color>
 </ResourceDictionary>

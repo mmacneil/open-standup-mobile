@@ -1,15 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OpenStandup.Core.Interfaces;
-using OpenStandup.Core.Interfaces.Apis;
+using MediatR;
+using OpenStandup.Core.Domain.Entities;
+using OpenStandup.Core.Domain.Features.Profile.Models;
 using OpenStandup.Mobile.Models;
 using OpenStandup.SharedKernel.Extensions;
+
 
 namespace OpenStandup.Mobile.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
         public IList<StatModel> StatModels { get; private set; }
+
+        private bool _initialized;
+        public bool Initialized
+        {
+            get => _initialized;
+            set => SetAndRaisePropertyChanged(ref _initialized, value);
+        }
 
         private string _avatarUrl;
         public string AvatarUrl
@@ -53,42 +62,70 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetAndRaisePropertyChanged(ref _websiteUrl, value);
         }
 
-        public string AuthorLogin;
-
-        private readonly IAppContext _appContext;
-        private readonly IOpenStandupApi _openStandupApi;
-
-        public ProfileViewModel(IAppContext appContext, IOpenStandupApi openStandupApi)
+        private bool _showActions;
+        public bool ShowActions
         {
-            _appContext = appContext;
-            _openStandupApi = openStandupApi;
+            get => _showActions;
+            set => SetAndRaisePropertyChanged(ref _showActions, value);
+        }
+
+        private bool _canFollow;
+        public bool CanFollow
+        {
+            get => _canFollow;
+            set => SetAndRaisePropertyChanged(ref _canFollow, value);
+        }
+
+        private bool _isFollowing;
+        public bool IsFollowing
+        {
+            get => _isFollowing;
+            set => SetAndRaisePropertyChanged(ref _isFollowing, value);
+        }
+
+        public string SelectedLogin, SelectedGitHubId;
+        private string _gitHubId;
+        
+        private readonly IMediator _mediator;
+
+        public ProfileViewModel(IMediator mediator)
+        {
+            _mediator = mediator;
         }
 
         public async Task Initialize()
         {
-            if (AuthorLogin == null || AuthorLogin == _appContext.User.Login)
-            {
-                AvatarUrl = _appContext.User.AvatarUrl;
-                Login = _appContext.User.Login.Truncate(13, true);
-                Location = _appContext.User.Location;
-                Joined = $"Joined {_appContext.User.CreatedAt:MMM dd, yyyy}";
-                Email = _appContext.User.Email;
-                WebsiteUrl = _appContext.User.WebsiteUrl;
+            _gitHubId = SelectedGitHubId;
+            ShowActions = false;
+            Initialized = false;
+            IsBusy = true;
+            StatusText = "Loading...";
+            await _mediator.Send(new GetProfileRequest(SelectedGitHubId, SelectedLogin)).ConfigureAwait(false);
+        }
 
-                StatModels = new List<StatModel>
-                {
-                    new StatModel ("followers", _appContext.User.FollowerCount),
-                    new StatModel ("following", _appContext.User.FollowingCount),
-                    new StatModel ("repositories", _appContext.User.RepositoryCount),
-                    new StatModel ("gists", _appContext.User.GistCount)
-                };
-            }
-            else
-            {
-                await _openStandupApi.GetUser(AuthorLogin);
-            }
+        public void SetData(GitHubUser gitHubUser)
+        {
+            AvatarUrl = gitHubUser.AvatarUrl;
+            Login = gitHubUser.Login.Truncate(13, true);
+            Location = gitHubUser.Location;
+            Joined = $"Joined {gitHubUser.CreatedAt:MMM dd, yyyy}";
+            Email = gitHubUser.Email;
+            WebsiteUrl = gitHubUser.WebsiteUrl;
 
-            AuthorLogin = null; // fix me so "local" view doesn't need this reset
+            StatModels = new List<StatModel>
+            {
+                new StatModel ("followers", gitHubUser.FollowerCount),
+                new StatModel ("following", gitHubUser.FollowingCount),
+                new StatModel ("repositories", gitHubUser.RepositoryCount),
+                new StatModel ("gists", gitHubUser.GistCount)
+            };
+
+            Initialized = true;
+        }
+
+        public async Task UpdateFollower(bool follow=false)
+        {
+            await _mediator.Send(new UpdateFollowerRequest(_gitHubId, Login, follow));
         }
     }
 }

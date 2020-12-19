@@ -111,18 +111,17 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             return null;
         }
 
-        public async Task<Dto<UserDto>> GetUser(string login)
+        public async Task<Dto<GitHubUser>> GetUser(string gitHubId)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users?login={login}")).ConfigureAwait(false);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/users?gitHubId={gitHubId}")).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                return Dto<UserDto>.Success(
-                    JsonConvert.DeserializeObject<UserDto>(
-                        await response.Content.ReadAsStringAsync()));
+                return Dto<GitHubUser>.Success(_mapper.Map<GitHubUser>(JsonConvert.DeserializeObject<UserDto>(
+                    await response.Content.ReadAsStringAsync())));
             }
 
-            return null;
+            return Dto<GitHubUser>.Failed(response.StatusCode, response.ReasonPhrase);
         }
     }
 }

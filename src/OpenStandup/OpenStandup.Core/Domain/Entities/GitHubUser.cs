@@ -24,6 +24,8 @@ namespace OpenStandup.Core.Domain.Entities
         public double Latitude { get; }
         public double Longitude { get; }
         public IEnumerable<Repository> Repositories { get; }
+        public bool ViewerCanFollow { get; }
+        public bool ViewerIsFollowing { get; }
 
         public GitHubUser(
             string id,
@@ -41,7 +43,31 @@ namespace OpenStandup.Core.Domain.Entities
             long repositoryCount,
             long followingCount,
             long gistCount,
-            double latitude, double longitude, IEnumerable<Repository> repositories) => (Id, Login, Name, AvatarUrl, BioHtml, WebsiteUrl, Company, Location, DatabaseId, Email, CreatedAt, FollowerCount, RepositoryCount, FollowingCount, GistCount, Latitude, Longitude, Repositories) =
-            (id, login, name, avatarUrl, bioHtml, websiteUrl, company, location, databaseId, email, createdAt, followerCount, repositoryCount, followingCount, gistCount, latitude, longitude, repositories);
+            double latitude, double longitude,
+            IEnumerable<Repository> repositories,
+            bool viewerCanFollow,
+            bool viewerIsFollowing)
+        {
+            Id = id;
+            Login = login;
+            Name = name;
+            AvatarUrl = avatarUrl;
+            BioHtml = bioHtml;
+            WebsiteUrl = websiteUrl;
+            Company = company;
+            Location = location;
+            DatabaseId = databaseId;
+            Email = email;
+            CreatedAt = createdAt;
+            FollowerCount = followerCount;
+            RepositoryCount = repositoryCount;
+            FollowingCount = followingCount;
+            GistCount = gistCount;
+            Latitude = latitude;
+            Longitude = longitude;
+            Repositories = repositories;
+            ViewerCanFollow = viewerCanFollow;
+            ViewerIsFollowing = viewerIsFollowing;
+        }
     }
 }

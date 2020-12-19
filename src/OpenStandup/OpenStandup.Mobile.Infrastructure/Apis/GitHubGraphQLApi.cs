@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenStandup.Core.Interfaces.Data.GraphQL;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Data.GraphQL.Responses;
@@ -25,16 +26,75 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             _mapper = mapper;
         }
 
-        public async Task<Dto<bool>> CanFollow(string login)
+        public async Task<Dto<bool>> Follow(string userId)
         {
             var graphQLRequest = new GraphQLRequest
             {
-                Query = @"query ViewerCanFollow($login: String!) {
+                Query = @"mutation FollowUser($input: FollowUserInput!) {
+                            followUser(input: $input) {
+                                clientMutationId
+                            }
+                        }",
+                OperationName = "FollowUser",
+                Variables =
+                    new
+                    {
+                        input = new
+                        {
+                            clientMutationId = Guid.NewGuid().ToString(),
+                            userId
+                        }
+                    }
+            };
+
+            await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<FollowUserGraphQLResponse>(graphQLRequest))
+                .ConfigureAwait(false);
+
+            return !response.IsSuccess() ? response.GenerateFailedResponse<FollowUserGraphQLResponse, bool>() : Dto<bool>.Success(true);
+        }
+
+        public async Task<Dto<bool>> Unfollow(string userId)
+        {
+            var graphQLRequest = new GraphQLRequest
+            {
+                Query = @"mutation UnfollowUser($input: UnfollowUserInput!) {
+                            unfollowUser(input: $input) {
+                                clientMutationId
+                            }
+                        }",
+                OperationName = "UnfollowUser",
+                Variables =
+                    new
+                    {
+                        input = new
+                        {
+                            clientMutationId = Guid.NewGuid().ToString(),
+                            userId
+                        }
+                    }
+            };
+
+            await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<FollowUserGraphQLResponse>(graphQLRequest))
+                .ConfigureAwait(false);
+
+            return !response.IsSuccess() ? response.GenerateFailedResponse<FollowUserGraphQLResponse, bool>() : Dto<bool>.Success(true);
+        }
+
+        public async Task<Dto<GitHubUser>> GetFollowerStatus(string login)
+        {
+            var graphQLRequest = new GraphQLRequest
+            {
+                Query = @"query FollowerStatus($login: String!) {
                           user(login:$login) {
-                                viewerCanFollow
+                                viewerCanFollow,
+                                viewerIsFollowing
                               }
                         }",
-                OperationName = "ViewerCanFollow",
+                OperationName = "FollowerStatus",
                 Variables = new
                 {
                     login
@@ -46,7 +106,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             var response = await Policies.AttemptAndRetryPolicy(() => _graphQLHttpClient.SendQueryAsync<GitHubUserGraphQLResponse>(graphQLRequest))
                 .ConfigureAwait(false);
 
-            return !response.IsSuccess() ? response.GenerateFailedResponse<GitHubUserGraphQLResponse, bool>() : Dto<bool>.Success(response.Data.User.ViewerCanFollow);
+            return !response.IsSuccess() ? response.GenerateFailedResponse<GitHubUserGraphQLResponse, GitHubUser>() : Dto<GitHubUser>.Success(_mapper.Map<GitHubUser>(response.Data.User));
         }
 
         public async Task<Dto<GitHubUser>> GetViewer()
