@@ -66,7 +66,7 @@
     </Style>
 
     <Style x:Key="ActionButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource ControlPrimary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonPrimary}" />
         <Setter Property="TextColor" Value="White" />
     </Style>
 

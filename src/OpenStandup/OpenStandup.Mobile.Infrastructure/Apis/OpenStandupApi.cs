@@ -74,7 +74,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         public async Task<Dto<string>> ValidateGitHubAccessToken(string token)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.PostAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken", new StringContent(token))).ConfigureAwait(false);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.PostAsync($"{_appSettings.ApiEndpoint}/users/ValidateGitHubAccessToken", new StringContent($"\"{token}\"", Encoding.UTF8, "application/json"))).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
                 ? Dto<string>.Success(response.StatusCode.ToString())

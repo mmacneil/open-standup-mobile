@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
@@ -23,14 +24,16 @@ namespace OpenStandup.Mobile.ViewModels
             set => SetProperty(ref _failed, value);
         }
 
+        private readonly IAppContext _appContext;
         private readonly ISecureDataRepository _secureDataRepository;
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
         private readonly IOpenStandupApi _openStandupApi;
-     
-        
-        public InitializeViewModel(ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
+
+
+        public InitializeViewModel(IAppContext appContext, ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
         {
+            _appContext = appContext;
             _secureDataRepository = secureDataRepository;
             _navigator = navigator;
             _configurationLoader = configurationLoader;
@@ -45,7 +48,7 @@ namespace OpenStandup.Mobile.ViewModels
 
             try
             {
-                if (!await _configurationLoader.TryLoad()/*.ConfigureAwait(false)*/)
+                if (!await _configurationLoader.TryLoad())
                 {
                     Failed = true;
                     Status = "Startup failed, check connection and try again.";
@@ -54,8 +57,9 @@ namespace OpenStandup.Mobile.ViewModels
 
                 // If we have an access token and it's still valid then proceed to shell, otherwise route to login
                 var accessToken = await _secureDataRepository.GetPersonalAccessToken().ConfigureAwait(false);
-                if (!string.IsNullOrEmpty(accessToken) && (await _openStandupApi.ValidateGitHubAccessToken(accessToken)/*.ConfigureAwait(false)*/).Succeeded)
+                if (!string.IsNullOrEmpty(accessToken) && (await _openStandupApi.ValidateGitHubAccessToken(accessToken)).Succeeded)
                 {
+                    await _appContext.Refresh();
                     await _navigator.GoTo("///main");
                 }
                 else

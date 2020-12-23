@@ -23,6 +23,12 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
 
         public async Task<bool> TryLoad()
         {
+            if (await _appDb.AsyncDb.ExecuteScalarAsync<int>("SELECT EXISTS(SELECT 1 FROM configuration)")
+                .ConfigureAwait(false) == 1)
+            {
+                return true;
+            }
+
             var configurationResponse = await _openStandupApi.GetConfiguration();
 
             if (!configurationResponse.Succeeded) return false;

@@ -30,11 +30,11 @@ namespace OpenStandup.Mobile.Infrastructure.Services
             }
 
             // save the file into local storage
-            var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+            var path = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
             await using var stream = await photo.OpenReadAsync();
-            await using var newStream = File.OpenWrite(newFile);
+            await using var newStream = File.OpenWrite(path);
             await stream.CopyToAsync(newStream);
-            return newFile;
+            return path;
         }
     }
 }

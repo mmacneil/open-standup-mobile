@@ -14,17 +14,19 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
             _secureDataRepository = secureDataRepository;
         }
 
-        public string ApiEndpoint
+        public string Host
         {
             get
             {
 #if DEBUG
-                return "https://192.168.0.141:45455/api";
+                return "https://192.168.0.141:45455";
 #else
-                return "https://192.168.0.141:45455/api"; // "https://openstandup.com/api;
+                return "https://192.168.0.141:45455"; // "https://openstandup.com;
 #endif
             }
         }
+
+        public string ApiEndpoint => $"{Host}/api";
 
         public async Task<string> GetGitHubClientId()
         {
@@ -38,4 +40,3 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
     }
 }
 
- 

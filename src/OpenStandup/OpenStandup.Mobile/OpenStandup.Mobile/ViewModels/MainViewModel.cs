@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using OpenStandup.Common.Dto;
+using OpenStandup.Common.Extensions;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 

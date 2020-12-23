@@ -37,6 +37,7 @@ namespace OpenStandup.Mobile.Bootstrap
 
             builder.RegisterInstance(GetPlatformDependency<IIndicatorPageService>()).As<IIndicatorPageService>().SingleInstance();
             builder.RegisterInstance(GetPlatformDependency<IToastService>()).As<IToastService>().SingleInstance();
+            builder.RegisterInstance(GetPlatformDependency<IBaseUrl>()).As<IBaseUrl>().SingleInstance();
 
             builder.RegisterInstance(Rg.Plugins.Popup.Services.PopupNavigation.Instance).As<IPopupNavigation>().SingleInstance();
 

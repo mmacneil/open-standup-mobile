@@ -5,5 +5,5 @@
     <Color x:Key="NavigationPrimary">#14213d</Color>
     <Color x:Key="ControlAccent">#e5e5e5</Color>
     <Color x:Key="Link">#fca311</Color>
-    <Color x:Key="ControlPrimary">#2ea44f</Color>
+    <Color x:Key="ButtonPrimary">#fca311</Color>
 </ResourceDictionary>

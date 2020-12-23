@@ -13,7 +13,7 @@
             BackgroundColor="{StaticResource NavigationPrimary}"
             HorizontalOptions="Center"
             VerticalOptions="Center">
-            <ActivityIndicator IsRunning="True" Color="{StaticResource ControlPrimary}" />
+            <ActivityIndicator IsRunning="True" Color="{StaticResource ButtonPrimary}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
