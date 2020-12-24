@@ -34,6 +34,7 @@ namespace OpenStandup.Mobile.Infrastructure
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<FileUtilities>().As<IFileUtilities>().SingleInstance();
+            builder.RegisterType<ImageUtilities>().As<IImageUtilities>().SingleInstance();
 
             builder.RegisterType<OAuthAuthenticator>().As<IAuthenticator>().SingleInstance();
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Autofac;
 using OpenStandup.Common.Dto;
 using OpenStandup.Core.Interfaces;
@@ -47,6 +49,14 @@ namespace OpenStandup.Mobile.Views
             collectionView.SetBinding(ItemsView.ItemsSourceProperty, nameof(_viewModel.PostSummaries));
 
             var refreshView = new RefreshView { Content = collectionView };
+
+            ICommand refreshCommand = new Command(async () =>
+            {
+                await _viewModel.LoadPostSummaries();
+                refreshView.IsRefreshing = false;
+            });
+
+            refreshView.Command = refreshCommand;
 
             AbsoluteLayout.SetLayoutBounds(refreshView, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(refreshView, AbsoluteLayoutFlags.SizeProportional);
@@ -147,7 +157,7 @@ namespace OpenStandup.Mobile.Views
                     grid.Children.Add(image, 0, 2);
                 }
 
-                grid.Children.Add(new BoxView { HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#f0f0f0") }, 0, hasImage ? 3 : 2);
+                grid.Children.Add(new BoxView { Margin = new Thickness(0,12, 0, 0), HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#d9dadc") }, 0, hasImage ? 3 : 2);
 
                 return grid;
             });

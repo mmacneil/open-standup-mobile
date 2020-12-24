@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MediatR;
 using OpenStandup.Common.Dto;
-using OpenStandup.Common.Extensions;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 
@@ -25,13 +24,17 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task Initialize()
         {
-            var summaries = await _openStandupApi.GetPostSummaries();
-            PostSummaries = new ObservableCollection<PostSummaryDto>(summaries.Payload);
-            OnPropertyChanged(nameof(PostSummaries));
-            /*foreach (var s in summaries.Payload)
+            await LoadPostSummaries();
+        }
+
+        public async Task LoadPostSummaries()
+        {
+            var summaries = await _openStandupApi.GetPostSummaries(1).ConfigureAwait(false);
+            if (summaries.Succeeded)
             {
-                PostSummaries.Add(s);
-            }*/
+                PostSummaries = new ObservableCollection<PostSummaryDto>(summaries.Payload.Items);
+                OnPropertyChanged(nameof(PostSummaries));
+            }
         }
     }
 }
