@@ -97,15 +97,15 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
-        public async Task<Dto<PagedResult<PostSummaryDto, int>>> GetPostSummaries(int firstId)
+        public async Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?firstId={firstId}")).ConfigureAwait(false);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}")).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode ?
-                Dto<PagedResult<PostSummaryDto, int>>.Success(
-                    JsonConvert.DeserializeObject<PagedResult<PostSummaryDto, int>>(
+                Dto<PagedResult<PostSummaryDto>>.Success(
+                    JsonConvert.DeserializeObject<PagedResult<PostSummaryDto>>(
                         await response.Content.ReadAsStringAsync().ConfigureAwait(false)))
-            : Dto<PagedResult<PostSummaryDto, int>>.Failed();
+            : Dto<PagedResult<PostSummaryDto>>.Failed();
         }
 
         public async Task<Dto<GitHubUser>> GetUser(string gitHubId)

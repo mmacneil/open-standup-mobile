@@ -30,7 +30,7 @@ namespace OpenStandup.UnitTests.Profile
         public async Task ShouldDeletePhotoWhenApiCallSucceeds()
         {
             _mockApi.Setup(x => x.PublishPost(null, It.IsAny<byte[]>())).ReturnsAsync(Dto<bool>.Success(true));
-            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, _mockApi.Object, _mockOutputPort.Object);
+            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, null, _mockApi.Object, _mockOutputPort.Object);
             await useCase.Handle(new PublishPostRequest(default, default), new CancellationToken());
             _mockFileUtilities.Verify(x => x.TryDelete(It.IsAny<string>()), Times.Once);
         }
@@ -39,7 +39,7 @@ namespace OpenStandup.UnitTests.Profile
         public async Task ShouldCallPresenterWithSuccessResponseWhenAllOpsSucceed()
         {
             _mockApi.Setup(x => x.PublishPost(null, It.IsAny<byte[]>())).ReturnsAsync(Dto<bool>.Success(true));
-            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, _mockApi.Object, _mockOutputPort.Object);
+            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, null, _mockApi.Object, _mockOutputPort.Object);
             await useCase.Handle(new PublishPostRequest(default, default), new CancellationToken());
             _mockOutputPort.Verify(x => x.Handle(It.Is<PublishPostResponse>(p => p.ApiResponse.Succeeded)));
         }
@@ -49,7 +49,7 @@ namespace OpenStandup.UnitTests.Profile
         {
             const string error = "fatal error";
             _mockApi.Setup(x => x.PublishPost(null, It.IsAny<byte[]>())).ThrowsAsync(new InvalidOperationException(error));
-            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, _mockApi.Object, _mockOutputPort.Object);
+            var useCase = new PublishPostUseCase(_mockFileUtilities.Object, null, _mockApi.Object, _mockOutputPort.Object);
             await useCase.Handle(new PublishPostRequest(default, default), new CancellationToken());
             _mockOutputPort.Verify(x =>
                 x.Handle(It.Is<PublishPostResponse>(p =>

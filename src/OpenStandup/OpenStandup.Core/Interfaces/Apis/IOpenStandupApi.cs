@@ -13,7 +13,7 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<string>> ValidateGitHubAccessToken(string token);
         Task<Dto<bool>> UpdateLocation(double latitude, double longitude);
         Task<Dto<bool>> PublishPost(string text, byte[] image);
-        Task<Dto<PagedResult<PostSummaryDto, int>>> GetPostSummaries(int firstId);
+        Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset);
         Task<Dto<GitHubUser>> GetUser(string gitHubId);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac;
 using OpenStandup.Common.Dto;
@@ -50,8 +49,31 @@ namespace OpenStandup.Mobile.Views
 
             var refreshView = new RefreshView { Content = collectionView };
 
+            collectionView.RemainingItemsThreshold = 0;
+            collectionView.SetBinding(ItemsView.RemainingItemsThresholdProperty, nameof(_viewModel.ItemThreshold));
+
+            collectionView.RemainingItemsThresholdReached += async delegate
+            {
+                if (_viewModel.IsBusy || refreshView.IsRefreshing)
+                {
+                    return;
+                }
+
+                _viewModel.IsBusy = true;
+                refreshView.IsRefreshing = true;
+                await _viewModel.LoadPostSummaries();
+                refreshView.IsRefreshing = false;
+            };
+
+
             ICommand refreshCommand = new Command(async () =>
             {
+                if (_viewModel.IsBusy)
+                {
+                    return;
+                }
+
+                _viewModel.Reset();
                 await _viewModel.LoadPostSummaries();
                 refreshView.IsRefreshing = false;
             });
@@ -157,7 +179,7 @@ namespace OpenStandup.Mobile.Views
                     grid.Children.Add(image, 0, 2);
                 }
 
-                grid.Children.Add(new BoxView { Margin = new Thickness(0,12, 0, 0), HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#d9dadc") }, 0, hasImage ? 3 : 2);
+                grid.Children.Add(new BoxView { Margin = new Thickness(0, 12, 0, 0), HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#d9dadc") }, 0, hasImage ? 3 : 2);
 
                 return grid;
             });
