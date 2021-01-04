@@ -20,7 +20,7 @@ namespace OpenStandup.Mobile.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            var assembliesToScan = this._assembliesToScan as Assembly[] ?? this._assembliesToScan.ToArray();
+            var assembliesToScan = _assembliesToScan as Assembly[] ?? _assembliesToScan.ToArray();
 
             var allTypes = assembliesToScan
                           .Where(a => !a.IsDynamic && a.GetName().Name != nameof(AutoMapper))

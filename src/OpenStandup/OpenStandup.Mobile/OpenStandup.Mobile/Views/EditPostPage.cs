@@ -94,7 +94,7 @@ namespace OpenStandup.Mobile.Views
                 Children = { cancelButton, postButton }
             };
 
-            var cameraIcon = new Label { Style = (Style)Application.Current.Resources["MaterialIcon"], Text = IconFont.Camera, FontSize = 40 };
+            var cameraIcon = new Label { Style = (Style)Application.Current.Resources["ItemIcon"], Text = IconFont.Camera, FontSize = 40 };
 
             var tapGestureRecognizer = new TapGestureRecognizer();
             tapGestureRecognizer.Tapped += async (s, e) =>

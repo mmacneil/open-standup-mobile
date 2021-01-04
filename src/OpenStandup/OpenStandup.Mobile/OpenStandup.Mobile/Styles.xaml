@@ -11,13 +11,25 @@
         <On Platform="iOS" Value="Material Design Icons" />
         <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons" />
     </OnPlatform>
-
-    <Style TargetType="{x:Type Label}" x:Key="MaterialIcon">
+  
+    <Style TargetType="{x:Type Label}" x:Key="ItemIcon">
         <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
         <Setter Property="FontSize" Value="Large"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="TextColor" Value="{StaticResource ControlAccent}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="MetaIcon">
+        <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
+        <Setter Property="FontSize" Value="Small"/>
+        <Setter Property="TextColor" Value="{StaticResource MetaGrey}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="MetaText">
+        <Setter Property="FontSize" Value="Small"/>
+        <Setter Property="TextColor" Value="{StaticResource MetaGrey}"/>
     </Style>
 
     <Style TargetType="ActivityIndicator">

@@ -68,7 +68,7 @@ namespace OpenStandup.Mobile.Controls
         {
             Padding = new Thickness(0, 10);
             Orientation = StackOrientation.Horizontal;
-            Children.Add(new Label { Style = (Style)Application.Current.Resources["MaterialIcon"], Text = icon });
+            Children.Add(new Label { Style = (Style)Application.Current.Resources["ItemIcon"], Text = icon });
             Children.Add(_text);
         }
     }

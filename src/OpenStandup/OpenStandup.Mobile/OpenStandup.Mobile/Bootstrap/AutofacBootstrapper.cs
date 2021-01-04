@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using OpenStandup.Mobile.Infrastructure.Mapping;
 
+
 namespace OpenStandup.Mobile.Bootstrap
 {
     public abstract class AutofacBootstrapper

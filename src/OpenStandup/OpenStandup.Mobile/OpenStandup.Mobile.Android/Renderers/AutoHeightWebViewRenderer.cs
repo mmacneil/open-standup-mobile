@@ -1,8 +1,10 @@
-﻿using Android.Content;
+﻿using System;
+using Android.Content;
 using Android.Graphics;
 using OpenStandup.Mobile.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+
 
 [assembly: ExportRenderer(typeof(WebView), typeof(AutoHeightWebViewRenderer))]
 namespace OpenStandup.Mobile.Droid.Renderers
@@ -35,7 +37,9 @@ namespace OpenStandup.Mobile.Droid.Renderers
 
             public override async void OnPageFinished(Android.Webkit.WebView view, string url)
             {
-                if (_control != null)
+                if (_control == null) return;
+
+                try
                 {
                     var i = 10;
                     while (view.ContentHeight == 0 && i-- > 0) // wait here till content is rendered
@@ -45,8 +49,10 @@ namespace OpenStandup.Mobile.Droid.Renderers
 
                     _control.HeightRequest = view.ContentHeight;
                 }
-
-                base.OnPageFinished(view, url);
+                catch (ObjectDisposedException)
+                {
+                    // Fix me: very frequent "System.ObjectDisposedException: Cannot access a disposed object. Android.Webkit.WebView"
+                }
             }
 
             public override void OnPageStarted(Android.Webkit.WebView view, string url, Bitmap favicon)

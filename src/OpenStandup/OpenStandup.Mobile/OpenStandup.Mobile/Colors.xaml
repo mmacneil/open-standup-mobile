@@ -6,4 +6,5 @@
     <Color x:Key="ControlAccent">#e5e5e5</Color>
     <Color x:Key="Link">#fca311</Color>
     <Color x:Key="ButtonPrimary">#fca311</Color>
+    <Color x:Key="MetaGrey">#747577</Color>
 </ResourceDictionary>
