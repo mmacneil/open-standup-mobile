@@ -16,5 +16,6 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset);
         Task<Dto<PostSummaryDto>> GetPost(int id);
         Task<Dto<GitHubUser>> GetUser(string gitHubId);
+        Task DeletePost(int id);
     }
 }

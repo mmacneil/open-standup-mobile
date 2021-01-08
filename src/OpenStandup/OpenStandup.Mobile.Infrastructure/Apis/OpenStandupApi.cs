@@ -90,7 +90,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
             await AddAuthorizationHeader(request);
 
-            var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode
                 ? Dto<bool>.Success(true)
@@ -132,6 +132,13 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             }
 
             return Dto<GitHubUser>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
+        public async Task DeletePost(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"{_appSettings.ApiEndpoint}/posts?id={id}");
+            await AddAuthorizationHeader(request);
+            await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
         }
     }
 }

@@ -116,7 +116,7 @@ namespace OpenStandup.Mobile.ViewModels
             {
                 new StatModel ("followers", gitHubUser.FollowerCount),
                 new StatModel ("following", gitHubUser.FollowingCount),
-                new StatModel ("repositories", gitHubUser.RepositoryCount),
+                new StatModel ("repos", gitHubUser.RepositoryCount),
                 new StatModel ("gists", gitHubUser.GistCount)
             };
 

@@ -13,7 +13,6 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly IDialogProvider _dialogProvider;
         private readonly IMediator _mediator;
         private readonly IIndicatorPageService _indicatorPageService;
-       
 
         private string _photoPath;
         public string PhotoPath
@@ -26,11 +25,7 @@ namespace OpenStandup.Mobile.ViewModels
         public string Text
         {
             get => _text;
-            set
-            {
-                CanPost = value.Length >= 5;
-                SetAndRaisePropertyChanged(ref _text, value);
-            }
+            set => SetAndRaisePropertyChanged(ref _text, value);
         }
 
         private bool _canPost;

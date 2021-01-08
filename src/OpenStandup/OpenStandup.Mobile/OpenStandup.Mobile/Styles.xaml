@@ -11,7 +11,7 @@
         <On Platform="iOS" Value="Material Design Icons" />
         <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons" />
     </OnPlatform>
-  
+
     <Style TargetType="{x:Type Label}" x:Key="ItemIcon">
         <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
         <Setter Property="FontSize" Value="Large"/>
@@ -30,6 +30,18 @@
     <Style TargetType="{x:Type Label}" x:Key="MetaText">
         <Setter Property="FontSize" Value="Small"/>
         <Setter Property="TextColor" Value="{StaticResource MetaGrey}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="MetaCommandText">
+        <Setter Property="FontSize" Value="Micro"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"/>
+        <Setter Property="TextColor" Value="{StaticResource MetaGrey}"/>
+    </Style>
+
+    <Style TargetType="{x:Type StackLayout}" x:Key="MetaCommandLayout">
+        <Setter Property="Spacing" Value="3"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
     </Style>
 
     <Style TargetType="ActivityIndicator">
@@ -53,20 +65,19 @@
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
 
-
     <Style x:Key="MetaLabel"  TargetType="Label">
         <Setter Property="TextColor" Value="DarkSlateGray" />
         <Setter Property="FontSize" Value="Micro" />
     </Style>
 
     <Style x:Key="ProfileStatValue" TargetType="Label">
-        <Setter Property="TextColor" Value="LightSlateGray" />
-        <Setter Property="FontSize" Value="Title" />
+        <Setter Property="FontSize" Value="Large" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="ProfileStatName" TargetType="Label">
-        <Setter Property="FontSize" Value="Subtitle" />
+        <Setter Property="TextColor" Value="{StaticResource MetaGrey}"/>
+        <Setter Property="FontSize" Value="Small" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
@@ -90,6 +101,12 @@
     <Style x:Key="NavigationButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource NavigationPrimary}" />
         <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <Style x:Key="ModalFrame" TargetType="Frame">
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="Margin" Value="14,0" />
     </Style>
 
 </ResourceDictionary>

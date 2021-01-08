@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac;
 using OpenStandup.Mobile.Controls;
@@ -16,8 +17,8 @@ namespace OpenStandup.Mobile.Views
         {
             Title = "Recent Posts";
             BindingContext = _viewModel;
-            var postWithImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, true));
-            var postWithoutImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary));
+            var postWithImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler, true));
+            var postWithoutImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler));
 
             var layout = new AbsoluteLayout();
 
@@ -82,6 +83,16 @@ namespace OpenStandup.Mobile.Views
             layout.Children.Add(fab);
 
             Content = new StackLayout { Children = { layout } };
+
+            MessagingCenter.Subscribe<PostDetailPage>(this, "OnDelete", async sender =>
+            {
+                await DeleteHandler().ConfigureAwait(false);
+            });
+        }
+
+        private async Task DeleteHandler()
+        {
+            await _viewModel.Initialize().ConfigureAwait(false);
         }
 
         private async void OnImageButtonClicked(object sender, EventArgs e)

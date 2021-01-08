@@ -1,43 +1,51 @@
-﻿using OpenStandup.Mobile.Controls;
+﻿using System.Threading.Tasks;
+using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.ViewModels;
-using Rg.Plugins.Popup.Animations;
-using Rg.Plugins.Popup.Enums;
-using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Views
 {
-    public class PostDetailPage : PopupPage
+    public class PostDetailPage : BaseModalPage
     {
         private PostDetailViewModel _viewModel;
         private PostLayout _postLayout;
-        private readonly Frame _frame;
+        private readonly Grid _grid = new Grid();
+        private readonly ActivityIndicator _activityIndicator = new ActivityIndicator { IsRunning = true };
 
-        public PostDetailPage()
+        private readonly IPopupNavigation _popupNavigation;
+
+        public PostDetailPage(IPopupNavigation popupNavigation)
         {
-            Animation = new ScaleAnimation
-            {
-                PositionIn = MoveAnimationOptions.Bottom,
-                PositionOut = MoveAnimationOptions.Center,
-                ScaleIn = 1,
-                ScaleOut = .7,
-                DurationIn = 300,
-                EasingIn = Easing.Linear
-            };
+            _popupNavigation = popupNavigation;
 
-            _frame = new Frame
+            _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            _grid.Children.Add(_activityIndicator);
+
+            _grid.Children.Add(new StackLayout
             {
-                Margin = new Thickness(15, 0),
-                HorizontalOptions = LayoutOptions.Center,
-                BackgroundColor = Color.White,
-                Content = new ActivityIndicator { IsRunning = true }
+                Children = {new Label { FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)), Text = "Comment"}, new Entry
+                {
+                    HeightRequest = 50,
+                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Entry)),
+                    Placeholder = "..."
+                }}
+            }, 0, 2);
+
+            var frame = new Frame
+            {
+                Style = (Style)Application.Current.Resources["ModalFrame"],
+                Content = _grid
             };
 
             Content = new ScrollView
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                Content = _frame
+                Content = frame
             };
         }
 
@@ -46,12 +54,25 @@ namespace OpenStandup.Mobile.Views
             base.OnAppearing();
             _viewModel = (PostDetailViewModel)BindingContext;
             await _viewModel.Initialize();
-            _postLayout = new PostLayout(PostViewMode.Detail, !string.IsNullOrEmpty(_viewModel.PostSummary.ImageName))
+            _postLayout = new PostLayout(PostViewMode.Detail, DeleteHandler, !string.IsNullOrEmpty(_viewModel.PostSummary.ImageName))
             {
                 BindingContext = _viewModel.PostSummary
             };
 
-            _frame.Content = _postLayout;
+            _activityIndicator.IsVisible = false;
+            _grid.Children.Add(_postLayout, 0, 1);
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            _grid.Children.Remove(_postLayout);
+        }
+
+        private async Task DeleteHandler()
+        {
+            await _popupNavigation.PopAsync().ConfigureAwait(false);
+            MessagingCenter.Send(this, "OnDelete");
         }
     }
 }

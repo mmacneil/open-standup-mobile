@@ -4,7 +4,7 @@ namespace OpenStandup.Mobile.Controls
 {
     public class RoundImage : StackLayout
     {
-        public RoundImage(Image image, int height = 100, int width = 100, int cornerRadius = 50)
+        public RoundImage(View image, int height = 80, int width = 80, int cornerRadius = 40)
         {
             Children.Add(new Frame
             {

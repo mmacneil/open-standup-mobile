@@ -3,13 +3,12 @@ using OpenStandup.Mobile.ViewModels;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 
 namespace OpenStandup.Mobile.Views
 {
-    public class ProfilePage : PopupPage
+    public class ProfilePage : BaseModalPage
     {
         private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
         private readonly ProfileViewModel _viewModel = App.Container.Resolve<ProfileViewModel>();
@@ -18,9 +17,6 @@ namespace OpenStandup.Mobile.Views
 
         public ProfilePage()
         {
-            BackgroundColor = Color.White;
-            Padding = new Thickness(5, 20);
-
             BindingContext = _viewModel;
 
             Title = "My Profile";
@@ -78,21 +74,21 @@ namespace OpenStandup.Mobile.Views
             websiteUrl.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl), BindingMode.Default, new StringToBoolConverter()));
             websiteUrl.SetBinding(IconItem.TextProperty, new Binding(nameof(ProfileViewModel.WebsiteUrl)));
 
-            var followButton = new ActionButton { Text = "Follow", HorizontalOptions = LayoutOptions.Center};
+            var followButton = new ActionButton { Text = "Follow", HorizontalOptions = LayoutOptions.Center };
             followButton.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.CanFollow)));
             followButton.Clicked += async (sender, args) =>
             {
                 await _viewModel.UpdateFollower(true);
             };
 
-            var unFollowButton = new AppButton { Text = "Unfollow", HorizontalOptions = LayoutOptions.Center, Style = (Style)Application.Current.Resources["CancelButton"]};
+            var unFollowButton = new AppButton { Text = "Unfollow", HorizontalOptions = LayoutOptions.Center, Style = (Style)Application.Current.Resources["CancelButton"] };
             unFollowButton.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.IsFollowing)));
             unFollowButton.Clicked += async (sender, args) =>
             {
                 await _viewModel.UpdateFollower();
             };
 
-            var closeButton = new Button { Text = "Close", HorizontalOptions = LayoutOptions.Center};
+            var closeButton = new Button { Text = "Close", HorizontalOptions = LayoutOptions.Center };
 
             closeButton.Clicked += async (sender, args) =>
             {
@@ -152,23 +148,26 @@ namespace OpenStandup.Mobile.Views
 
             defaultLayout.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.Initialized), BindingMode.Default, new BoolInversionConverter()));
 
-            var rootLayout = new StackLayout
+            Content = new Frame
             {
-                Children =
+                Style = (Style)Application.Current.Resources["ModalFrame"],
+                Content = new StackLayout
                 {
-                    defaultLayout,
-                    profileLayout,
-                    actionsLayout
+                    Children =
+                    {
+                        defaultLayout,
+                        profileLayout,
+                        actionsLayout
+                    },
+                    Margin = new Thickness(0, 20, 0, 0)
                 }
             };
-
-            Content = rootLayout;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.Initialize(); //.ConfigureAwait(false);
+            await _viewModel.Initialize().ConfigureAwait(false);
             BindableLayout.SetItemsSource(_statsLayout, _viewModel.StatModels); // Do standard property bindings or ObservableCollections work with SetItemSource? Seems the data source must be hydrated before calling this to render the data
         }
     }
