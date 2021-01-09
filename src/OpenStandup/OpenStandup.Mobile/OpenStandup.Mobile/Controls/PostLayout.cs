@@ -24,6 +24,8 @@ namespace OpenStandup.Mobile.Controls
         private readonly IOpenStandupApi _openStandupApi = App.Container.Resolve<IOpenStandupApi>();
         private readonly IPageFactory _pageFactory = App.Container.Resolve<IPageFactory>();
         private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
+        private readonly IToastService _toastService = App.Container.Resolve<IToastService>();
+
 
         public PostLayout(PostViewMode viewMode, Func<Task> deleteHandler, bool hasImage = false)
         {
@@ -136,13 +138,14 @@ namespace OpenStandup.Mobile.Controls
             var deleteTapGestureRecognizer = new TapGestureRecognizer();
             deleteTapGestureRecognizer.Tapped += async (sender, args) =>
             {
-                if (!await _dialogProvider.DisplayAlert("Delete", "Delete this post?", "Yes", "No").ConfigureAwait(false))
+                if (!await _dialogProvider.DisplayAlert("Delete", "Delete this post?", "Yes", "No"))
                 {
                     return;
                 }
 
-                await _openStandupApi.DeletePost(Convert.ToInt32(AutomationId)).ConfigureAwait(false);
-                await deleteHandler().ConfigureAwait(false);
+                await _openStandupApi.DeletePost(Convert.ToInt32(AutomationId));
+                await deleteHandler();
+                _toastService.Show("Post deleted");
             };
 
             deleteLayout.GestureRecognizers.Add(deleteTapGestureRecognizer);
