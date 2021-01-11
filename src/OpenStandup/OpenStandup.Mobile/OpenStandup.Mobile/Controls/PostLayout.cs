@@ -6,11 +6,11 @@ using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Converters;
 using OpenStandup.Mobile.Factories;
+using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.Interfaces;
 using OpenStandup.Mobile.ViewModels;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Controls
@@ -19,13 +19,11 @@ namespace OpenStandup.Mobile.Controls
     {
         private readonly IAppContext _appContext = App.Container.Resolve<IAppContext>();
         private readonly IAppSettings _appSettings = App.Container.Resolve<IAppSettings>();
-        private readonly IBaseUrl _baseUrl = App.Container.Resolve<IBaseUrl>();
         private readonly IDialogProvider _dialogProvider = App.Container.Resolve<IDialogProvider>();
         private readonly IOpenStandupApi _openStandupApi = App.Container.Resolve<IOpenStandupApi>();
         private readonly IPageFactory _pageFactory = App.Container.Resolve<IPageFactory>();
         private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
         private readonly IToastService _toastService = App.Container.Resolve<IToastService>();
-
 
         public PostLayout(PostViewMode viewMode, Func<Task> deleteHandler, bool hasImage = false)
         {
@@ -37,31 +35,13 @@ namespace OpenStandup.Mobile.Controls
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            if (hasImage)
-            {
-                RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            }
-
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
             var avatar = new Image { Aspect = Aspect.AspectFill };
             avatar.SetBinding(Image.SourceProperty, nameof(PostSummaryDto.AvatarUrl));
 
-            var webViewSource = new HtmlWebViewSource { BaseUrl = _baseUrl.Get() };
-            webViewSource.SetBinding(HtmlWebViewSource.HtmlProperty, nameof(PostSummaryDto.HtmlText));
-
-            var webView = new WebView { Margin = new Thickness(0, 5), Source = webViewSource };
-
-            webView.Navigating += async (s, e) =>
-            {
-                var uri = new Uri(e.Url);
-                await Launcher.OpenAsync(uri);
-                e.Cancel = true;
-            };
-
-            var loginLabel = new Label { Style = (Style)Application.Current.Resources["LinkLabel"], VerticalOptions = LayoutOptions.Center };
+            var loginLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("LinkLabel"), VerticalOptions = LayoutOptions.Center };
             loginLabel.SetBinding(Label.TextProperty, nameof(PostSummaryDto.Login));
             loginLabel.SetBinding(AutomationIdProperty, nameof(PostSummaryDto.GitHubId));
 
@@ -77,11 +57,18 @@ namespace OpenStandup.Mobile.Controls
 
             loginLabel.GestureRecognizers.Add(loginTapGestureRecognizer);
 
-            var modifiedLabel = new Label { Style = (Style)Application.Current.Resources["MetaLabel"], VerticalOptions = LayoutOptions.Center };
+            var modifiedLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel"), VerticalOptions = LayoutOptions.Center };
             modifiedLabel.SetBinding(Label.TextProperty, nameof(PostSummaryDto.Modified));
 
             Children.Add(new StackLayout { Padding = new Thickness(13, 0), Children = { new RoundImage(avatar, 35, 35, 20), loginLabel, modifiedLabel }, Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.Start });
-            Children.Add(webView, 0, 1);
+
+            var contentLayout = new StackLayout();
+
+            // Alert: Padding borks the TapGestureRecognizer on hyper-linked spans but Margin works
+            var textLabel = new Label { LineHeight = 1.1, Margin = new Thickness(15, 15, 15, 8) };
+            textLabel.SetBinding(Label.FormattedTextProperty, nameof(PostSummaryDto.HtmlText), BindingMode.Default, new HtmlLabelConverter());
+
+            contentLayout.Children.Add(textLabel);
 
             if (hasImage)
             {
@@ -99,16 +86,18 @@ namespace OpenStandup.Mobile.Controls
                     new StringToUriImageSourceConverter(),
                     $"{_appSettings.Host}/images/posts/"));
 
-                Children.Add(image, 0, 2);
+                contentLayout.Children.Add(image);
             }
+
+            Children.Add(contentLayout, 0, 1);
 
             var commentLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label { Style = (Style)Application.Current.Resources["MetaIcon"], Text = IconFont.CommentMultiple },
-                    new Label { Text = "0", Style = (Style)Application.Current.Resources["MetaText"] }
+                    new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.CommentMultiple },
+                    new Label { Text = "0",  Style = ResourceDictionaryHelper.GetStyle("MetaText") }
                 }
             };
 
@@ -127,10 +116,10 @@ namespace OpenStandup.Mobile.Controls
             {
                 Children =
                 {
-                    new Label { Style = (Style)Application.Current.Resources["MetaIcon"], Text = IconFont.Delete },
-                    new Label { Text = "delete", Style = (Style)Application.Current.Resources["MetaCommandText"] }
+                    new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.Delete },
+                    new Label { Text = "delete",  Style = ResourceDictionaryHelper.GetStyle("MetaCommandText") }
                 },
-                Style = (Style)Application.Current.Resources["MetaCommandLayout"]
+                Style = ResourceDictionaryHelper.GetStyle("MetaCommandLayout")
             };
 
             deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostSummaryDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
@@ -154,7 +143,7 @@ namespace OpenStandup.Mobile.Controls
             {
                 Orientation = StackOrientation.Horizontal,
                 Spacing = 15,
-                Padding = new Thickness(12, 0, 0, 0),
+                Padding = new Thickness(15, 0, 0, 0),
                 Children =
                 {
                     commentLayout,
@@ -163,15 +152,21 @@ namespace OpenStandup.Mobile.Controls
                         Orientation = StackOrientation.Horizontal,
                         Children =
                         {
-                            new Label { Style = (Style)Application.Current.Resources["MetaIcon"], Text = IconFont.ThumbUp },
-                            new Label { Text = "0", Style = (Style)Application.Current.Resources["MetaText"] }
+                            new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.ThumbUp },
+                            new Label { Text = "0", Style = ResourceDictionaryHelper.GetStyle("MetaText") }
                         }
                     },
                     deleteLayout
                 },
-            }, 0, hasImage ? 3 : 2);
+            }, 0, 2);
 
-            Children.Add(new BoxView { Margin = new Thickness(0, 6, 0, 0), HorizontalOptions = LayoutOptions.FillAndExpand, HeightRequest = 1, Color = Color.FromHex("#d9dadc") }, 0, hasImage ? 4 : 3);
+            Children.Add(new BoxView
+            {
+                Margin = new Thickness(0, 6, 0, 0),
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                HeightRequest = 1,
+                Color = Color.FromHex("#d9dadc")
+            }, 0, 3);
         }
     }
 }

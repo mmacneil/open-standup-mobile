@@ -2,6 +2,7 @@
 using OpenStandup.Mobile.ViewModels;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
+using OpenStandup.Mobile.Helpers;
 using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 
@@ -36,13 +37,13 @@ namespace OpenStandup.Mobile.Views
                 VerticalOptions = LayoutOptions.Center
             };
 
-            var login = new Label { Style = (Style)Application.Current.Resources["Title"] };
+            var login = new Label { Style = ResourceDictionaryHelper.GetStyle("Title") };
             login.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Login));
 
-            var location = new Label { Style = (Style)Application.Current.Resources["SubTitle"] };
+            var location = new Label { Style = ResourceDictionaryHelper.GetStyle("SubTitle") };
             location.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Location));
 
-            var joined = new Label { Style = (Style)Application.Current.Resources["MetaLabel"] };
+            var joined = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel") };
             joined.SetBinding(Label.TextProperty, nameof(ProfileViewModel.Joined));
 
             header.Children.Add(new RoundImage(image));
@@ -81,7 +82,7 @@ namespace OpenStandup.Mobile.Views
                 await _viewModel.UpdateFollower(true);
             };
 
-            var unFollowButton = new AppButton { Text = "Unfollow", HorizontalOptions = LayoutOptions.Center, Style = (Style)Application.Current.Resources["CancelButton"] };
+            var unFollowButton = new AppButton { Text = "Unfollow", HorizontalOptions = LayoutOptions.Center, Style = ResourceDictionaryHelper.GetStyle("CancelButton") };
             unFollowButton.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.IsFollowing)));
             unFollowButton.Clicked += async (sender, args) =>
             {
@@ -150,7 +151,7 @@ namespace OpenStandup.Mobile.Views
 
             Content = new Frame
             {
-                Style = (Style)Application.Current.Resources["ModalFrame"],
+                Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
                 Content = new StackLayout
                 {
                     Children =

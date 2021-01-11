@@ -1,5 +1,5 @@
-﻿using Xamarin.Forms;
-using Application = Xamarin.Forms.Application;
+﻿using OpenStandup.Mobile.Helpers;
+
 
 namespace OpenStandup.Mobile.Controls
 {
@@ -7,7 +7,7 @@ namespace OpenStandup.Mobile.Controls
     {
         public NavigationButton()
         {
-            Style = (Style)Application.Current.Resources["NavigationButton"];
+            Style = ResourceDictionaryHelper.GetStyle("NavigationButton");
         }
     }
 }

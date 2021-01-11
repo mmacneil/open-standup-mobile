@@ -1,4 +1,5 @@
-﻿using OpenStandup.SharedKernel.Utilities;
+﻿using OpenStandup.Mobile.Helpers;
+using OpenStandup.SharedKernel.Utilities;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -68,7 +69,7 @@ namespace OpenStandup.Mobile.Controls
         {
             Padding = new Thickness(0, 10);
             Orientation = StackOrientation.Horizontal;
-            Children.Add(new Label { Style = (Style)Application.Current.Resources["ItemIcon"], Text = icon });
+            Children.Add(new Label { Style = ResourceDictionaryHelper.GetStyle("ItemIcon"), Text = icon });
             Children.Add(_text);
         }
     }

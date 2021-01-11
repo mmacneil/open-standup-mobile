@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using OpenStandup.Mobile.Controls;
+using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
 using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
@@ -27,17 +28,15 @@ namespace OpenStandup.Mobile.Views
 
             _grid.Children.Add(new StackLayout
             {
-                Children = {new Label { FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)), Text = "Comment"}, new Entry
+                Children = {new Label { FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)), Text = "Comment"}, new EnhancedEditor(100)
                 {
-                    HeightRequest = 50,
-                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Entry)),
-                    Placeholder = "..."
+                    HeightRequest = 45
                 }}
             }, 0, 2);
 
             var frame = new Frame
             {
-                Style = (Style)Application.Current.Resources["ModalFrame"],
+                Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
                 Content = _grid
             };
 

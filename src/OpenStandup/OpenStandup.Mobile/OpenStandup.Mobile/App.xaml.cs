@@ -1,6 +1,7 @@
 ﻿using OpenStandup.Mobile.Bootstrap;
 using Autofac;
 
+
 namespace OpenStandup.Mobile
 {
     public partial class App
@@ -13,7 +14,7 @@ namespace OpenStandup.Mobile
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
             MainPage = new AppShell();
-        } 
+        }
 
         protected override void OnStart()
         {

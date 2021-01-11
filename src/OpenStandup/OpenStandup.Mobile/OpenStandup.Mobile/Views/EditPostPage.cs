@@ -1,9 +1,13 @@
 ﻿using Autofac;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
+using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
+using Xamarin.CommunityToolkit.Effects;
+using Xamarin.CommunityToolkit.Extensions;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using Application = Xamarin.Forms.Application;
 using Button = Xamarin.Forms.Button;
 
 namespace OpenStandup.Mobile.Views
@@ -28,7 +32,7 @@ namespace OpenStandup.Mobile.Views
                 await _viewModel.PublishPost();
             };
 
-            var editorLayout = new AbsoluteLayout { HeightRequest = 170 };
+            var editorLayout = new AbsoluteLayout { HeightRequest = 135 };
             AbsoluteLayout.SetLayoutBounds(_editor, new Rectangle(0, 0, 1, 1));
             AbsoluteLayout.SetLayoutFlags(_editor, AbsoluteLayoutFlags.SizeProportional);
 
@@ -46,7 +50,7 @@ namespace OpenStandup.Mobile.Views
 
             previewImage.GestureRecognizers.Add(photoTapGestureRecognizer);
 
-            AbsoluteLayout.SetLayoutBounds(previewImage, new Rectangle(.99, .99, 55, 55));
+            AbsoluteLayout.SetLayoutBounds(previewImage, new Rectangle(.99, .65, 40, 40));
             AbsoluteLayout.SetLayoutFlags(previewImage, AbsoluteLayoutFlags.PositionProportional);
 
             editorLayout.Children.Add(_editor);
@@ -71,20 +75,25 @@ namespace OpenStandup.Mobile.Views
                 Children = { postButton }
             };
 
-            var cameraIcon = new Label { Style = (Style)Application.Current.Resources["ItemIcon"], Text = IconFont.Camera, FontSize = 40,Margin = new Thickness(0, -22, 0 ,0)};
+            var cameraIcon = new Label { Style = ResourceDictionaryHelper.GetStyle("ItemIcon"), Text = IconFont.Camera, FontSize = 40 };
 
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            tapGestureRecognizer.Tapped += async (s, e) =>
+            TouchEffect.SetNormalTranslationY(cameraIcon, -22);
+            TouchEffect.SetNativeAnimation(cameraIcon, true);
+
+            TouchEffect.SetCommand(cameraIcon, new Command(async () =>
             {
                 await _viewModel.TakePhoto();
-            };
+            }));
 
-            cameraIcon.GestureRecognizers.Add(tapGestureRecognizer);
 
             var toolbarLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
-                Children = { new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Repo names will be hyper-linked" } /* metaLayout*/, cameraIcon }
+                Children =
+                {
+                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Repo names will be hyper-linked" },
+                    cameraIcon
+                }
             };
 
             var stackLayout = new StackLayout

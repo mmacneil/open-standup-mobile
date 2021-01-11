@@ -38,6 +38,7 @@ namespace OpenStandup.Mobile.Controls
         {
             _editor = new Editor
             {
+                FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
                 MaxLength = maxLength,
                 Placeholder = "...",
                 VerticalOptions = LayoutOptions.FillAndExpand

@@ -6,6 +6,15 @@
              mc:Ignorable="d"
              x:Class="OpenStandup.Mobile.App">
     <Application.Resources>
-        <ResourceDictionary Source="Styles.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--See ResourceDictionaryHelper - peculiar bug/design when using multiple standalone resource dictionaries, the (old?) indexer syntax Application.Current.Resources["MetaLabel"] 
+                throws a KeyNotFoundException with this setup, however, using extension method Application.Current.Resources.TryGetValue works - bug here: https://github.com/xamarin/Xamarin.Forms/issues/12592-->
+                <ResourceDictionary Source="Colors.xaml"/>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
+    
+    

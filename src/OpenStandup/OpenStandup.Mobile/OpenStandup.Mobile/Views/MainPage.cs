@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Autofac;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.DataTemplates;
+using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
 using Xamarin.Forms;
 
@@ -70,7 +71,7 @@ namespace OpenStandup.Mobile.Views
 
             var fab = new ImageButton
             {
-                Style = (Style)Application.Current.Resources["FloatingActionButton"],
+                Style = ResourceDictionaryHelper.GetStyle("FloatingActionButton"),
                 Source = "ic_edit.png"
             };
 
