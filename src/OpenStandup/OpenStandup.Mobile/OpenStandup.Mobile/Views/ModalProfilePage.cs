@@ -1,35 +1,37 @@
-﻿using Autofac;
+﻿using OpenStandup.Mobile.Controls;
+using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
-using OpenStandup.Mobile.Controls;
 using Xamarin.Forms;
-
 
 namespace OpenStandup.Mobile.Views
 {
-    public class ProfilePage : ContentPage
+    public class ModalProfilePage : BaseModalPage
     {
-        private readonly ProfileViewModel _viewModel = App.Container.Resolve<ProfileViewModel>();
+        private ProfileViewModel _viewModel;
+
         private readonly ProfileLayout _profileLayout;
 
-        public ProfilePage()
+        public ModalProfilePage()
         {
-            Title = "My Profile";
-
             _profileLayout = new ProfileLayout
             {
                 Margin = new Thickness(0, 20, 0, 0)
             };
 
-            Content = _profileLayout;
+            Content = new Frame
+            {
+                Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
+                Content = _profileLayout
+            };
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.Initialize().ConfigureAwait(false);
+            _viewModel = (ProfileViewModel)BindingContext;
+            await _viewModel.Initialize();
             _profileLayout.BindingContext = _viewModel;
             _profileLayout.BindStats(_viewModel.StatModels);
         }
     }
 }
-

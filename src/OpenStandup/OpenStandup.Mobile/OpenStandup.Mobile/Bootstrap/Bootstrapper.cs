@@ -17,7 +17,7 @@ namespace OpenStandup.Mobile.Bootstrap
         protected override void RegisterPages(IPageFactory pageFactory)
         {
             pageFactory.Register<PostDetailViewModel, PostDetailPage>();
-            pageFactory.Register<ProfileViewModel, ProfilePage>();
+            pageFactory.Register<ProfileViewModel, ModalProfilePage>();
         }
     }
 }

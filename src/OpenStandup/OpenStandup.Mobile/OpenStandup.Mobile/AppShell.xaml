@@ -29,7 +29,7 @@
         <ShellContent Route="home"
                       IsTabStop="False"
                       ContentTemplate="{DataTemplate views:MainPage}"
-                      Title="Home" />
+                      Title="Posts" />
     </FlyoutItem> 
 
     <ShellContent Route="profile"                       
