@@ -30,7 +30,11 @@ namespace OpenStandup.Mobile.Converters
                 Text = section.Text
             };
 
-            if (string.IsNullOrEmpty(section.Link)) return span;
+            if (string.IsNullOrEmpty(section.Link))
+            {
+                span.TextColor = ResourceDictionaryHelper.GetColor("PostBody");
+                return span;
+            }
 
             span.GestureRecognizers.Add(new TapGestureRecognizer
             {

@@ -7,4 +7,6 @@
     <Color x:Key="Link">#fca311</Color>
     <Color x:Key="ButtonPrimary">#fca311</Color>
     <Color x:Key="MetaGrey">#747577</Color>
+    <Color x:Key="PostBody">#1d1c1d</Color>
 </ResourceDictionary>
+

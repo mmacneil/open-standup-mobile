@@ -30,18 +30,18 @@
                       IsTabStop="False"
                       ContentTemplate="{DataTemplate views:MainPage}"
                       Title="Posts" />
-    </FlyoutItem> 
+    </FlyoutItem>
 
     <ShellContent Route="profile"                       
                       Title="My Profile"   
                       ContentTemplate="{DataTemplate views:ProfilePage}" />
-    
+
     <MenuItem Text="Logout"
-              Command="{Binding ExecuteLogout}" /> 
+              Command="{Binding ExecuteLogout}" />
 
     <!-- Login and Registration Page -->
     <ShellContent Route="login"
                   ContentTemplate="{DataTemplate views:LoginPage}">
     </ShellContent>
-    
+
 </Shell>

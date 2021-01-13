@@ -4,9 +4,6 @@ using OpenStandup.Mobile.Converters;
 using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
 using Xamarin.CommunityToolkit.Effects;
-using Xamarin.CommunityToolkit.Extensions;
-using Xamarin.CommunityToolkit.Helpers;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Button = Xamarin.Forms.Button;
 
