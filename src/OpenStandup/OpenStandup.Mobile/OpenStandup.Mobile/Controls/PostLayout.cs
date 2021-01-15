@@ -31,7 +31,7 @@ namespace OpenStandup.Mobile.Controls
             Padding = new Thickness(0, 10);
             RowSpacing = 0;
 
-            this.SetBinding(AutomationIdProperty, nameof(PostSummaryDto.Id));
+            this.SetBinding(AutomationIdProperty, nameof(PostDto.Id));
 
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -40,11 +40,11 @@ namespace OpenStandup.Mobile.Controls
             ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
             var avatar = new Image { Aspect = Aspect.AspectFill };
-            avatar.SetBinding(Image.SourceProperty, nameof(PostSummaryDto.AvatarUrl));
+            avatar.SetBinding(Image.SourceProperty, nameof(PostDto.AvatarUrl));
 
             var loginLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("LinkLabel"), VerticalOptions = LayoutOptions.Center };
-            loginLabel.SetBinding(Label.TextProperty, nameof(PostSummaryDto.Login));
-            loginLabel.SetBinding(AutomationIdProperty, nameof(PostSummaryDto.GitHubId));
+            loginLabel.SetBinding(Label.TextProperty, nameof(PostDto.Login));
+            loginLabel.SetBinding(AutomationIdProperty, nameof(PostDto.GitHubId));
 
             var loginTapGestureRecognizer = new TapGestureRecognizer();
             loginTapGestureRecognizer.Tapped += async (sender, args) =>
@@ -59,7 +59,7 @@ namespace OpenStandup.Mobile.Controls
             loginLabel.GestureRecognizers.Add(loginTapGestureRecognizer);
 
             var modifiedLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel"), VerticalOptions = LayoutOptions.Center };
-            modifiedLabel.SetBinding(Label.TextProperty, nameof(PostSummaryDto.Modified));
+            modifiedLabel.SetBinding(Label.TextProperty, nameof(PostDto.Modified));
 
             Children.Add(new StackLayout { Padding = new Thickness(13, 0), Children = { new RoundImage(avatar, 35, 35, 20), loginLabel, modifiedLabel }, Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.Start });
 
@@ -67,7 +67,7 @@ namespace OpenStandup.Mobile.Controls
 
             // Alert: Padding borks the TapGestureRecognizer on hyper-linked spans but Margin works
             var textLabel = new Label { LineHeight = 1.1, Margin = new Thickness(15, 15, 15, 8) };
-            textLabel.SetBinding(Label.FormattedTextProperty, nameof(PostSummaryDto.HtmlText), BindingMode.Default, new HtmlLabelConverter());
+            textLabel.SetBinding(Label.FormattedTextProperty, nameof(PostDto.HtmlText), BindingMode.Default, new HtmlLabelConverter());
 
             contentLayout.Children.Add(textLabel);
 
@@ -81,9 +81,9 @@ namespace OpenStandup.Mobile.Controls
                     Margin = new Thickness(0, 0, 0, 5)
                 };
 
-                image.SetBinding(IsVisibleProperty, nameof(PostSummaryDto.ImageName), BindingMode.Default, new StringToBoolConverter());
+                image.SetBinding(IsVisibleProperty, nameof(PostDto.ImageName), BindingMode.Default, new StringToBoolConverter());
 
-                image.SetBinding(Image.SourceProperty, new Binding(nameof(PostSummaryDto.ImageName), BindingMode.Default,
+                image.SetBinding(Image.SourceProperty, new Binding(nameof(PostDto.ImageName), BindingMode.Default,
                     new StringToUriImageSourceConverter(),
                     $"{_appSettings.Host}/images/posts/"));
 
@@ -121,7 +121,7 @@ namespace OpenStandup.Mobile.Controls
                 Style = ResourceDictionaryHelper.GetStyle("MetaCommandLayout")
             };
 
-            deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostSummaryDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
+            deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
 
             TouchEffect.SetNativeAnimation(deleteLayout, true);
             TouchEffect.SetCommand(deleteLayout, new Command(async () =>

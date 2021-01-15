@@ -14,8 +14,8 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<bool>> UpdateLocation(double latitude, double longitude);
         Task<Dto<bool>> PublishPost(string text, byte[] image);
         Task<Dto<bool>> PublishPostComment(int postId, string text);
-        Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset);
-        Task<Dto<PostSummaryDto>> GetPost(int id);
+        Task<Dto<PagedResult<PostDto>>> GetPostSummaries(int offset);
+        Task<Dto<PostDto>> GetPost(int id);
         Task<Dto<GitHubUser>> GetUser(string gitHubId);
         Task DeletePost(int id);
     }

@@ -77,9 +77,9 @@ namespace OpenStandup.Mobile.Views
             base.OnAppearing();
             _viewModel = (PostDetailViewModel)BindingContext;
             await _viewModel.Initialize();
-            _postLayout = new PostLayout(PostViewMode.Detail, DeleteHandler, !string.IsNullOrEmpty(_viewModel.PostSummary.ImageName))
+            _postLayout = new PostLayout(PostViewMode.Detail, DeleteHandler, !string.IsNullOrEmpty(_viewModel.Post.ImageName))
             {
-                BindingContext = _viewModel.PostSummary
+                BindingContext = _viewModel.Post
             };
 
             _activityIndicator.IsVisible = false;

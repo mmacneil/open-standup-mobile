@@ -10,7 +10,7 @@ namespace OpenStandup.Mobile.DataTemplates
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return string.IsNullOrEmpty(((PostSummaryDto)item).ImageName) ? PostWithoutImage : PostWithImage;
+            return string.IsNullOrEmpty(((PostDto)item).ImageName) ? PostWithoutImage : PostWithImage;
         }
     }
 }

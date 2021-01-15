@@ -27,7 +27,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly IIndicatorPageService _indicatorPageService;
         private readonly IOpenStandupApi _openStandupApi;
 
-        public PostSummaryDto PostSummary;
+        public PostDto Post;
 
         public PostDetailViewModel(IIndicatorPageService indicatorPageService, IOpenStandupApi openStandupApi)
         {
@@ -41,7 +41,7 @@ namespace OpenStandup.Mobile.ViewModels
 
             if (post.Succeeded)
             {
-                PostSummary = post.Payload;
+                Post = post.Payload;
             }
         }
 

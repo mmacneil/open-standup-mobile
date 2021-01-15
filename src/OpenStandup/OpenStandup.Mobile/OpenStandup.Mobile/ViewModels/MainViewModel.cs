@@ -8,7 +8,7 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public ObservableCollection<PostSummaryDto> PostSummaries { get; } = new ObservableCollection<PostSummaryDto>();
+        public ObservableCollection<PostDto> PostSummaries { get; } = new ObservableCollection<PostDto>();
         private readonly IOpenStandupApi _openStandupApi;
         private int _offset;
 

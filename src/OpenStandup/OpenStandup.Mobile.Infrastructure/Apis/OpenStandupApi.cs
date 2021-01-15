@@ -85,7 +85,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new PostDto(text, image)), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(new CreatePostDto(text, image)), Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);
@@ -101,7 +101,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts/comments")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new CommentDto(postId, text)), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(new CommentDto(postId, text, "", "")), Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);
@@ -113,28 +113,28 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
-        public async Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset)
+        public async Task<Dto<PagedResult<PostDto>>> GetPostSummaries(int offset)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}")).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode ?
-                Dto<PagedResult<PostSummaryDto>>.Success(
-                    JsonConvert.DeserializeObject<PagedResult<PostSummaryDto>>(
+                Dto<PagedResult<PostDto>>.Success(
+                    JsonConvert.DeserializeObject<PagedResult<PostDto>>(
                         await response.Content.ReadAsStringAsync().ConfigureAwait(false)))
-            : Dto<PagedResult<PostSummaryDto>>.Failed();
+            : Dto<PagedResult<PostDto>>.Failed();
         }
 
-        public async Task<Dto<PostSummaryDto>> GetPost(int id)
+        public async Task<Dto<PostDto>> GetPost(int id)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts?id={id}")).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                return Dto<PostSummaryDto>.Success(JsonConvert.DeserializeObject<PostSummaryDto>(
+                return Dto<PostDto>.Success(JsonConvert.DeserializeObject<PostDto>(
                     await response.Content.ReadAsStringAsync()));
             }
 
-            return Dto<PostSummaryDto>.Failed(response.StatusCode, response.ReasonPhrase);
+            return Dto<PostDto>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
         public async Task<Dto<GitHubUser>> GetUser(string gitHubId)
