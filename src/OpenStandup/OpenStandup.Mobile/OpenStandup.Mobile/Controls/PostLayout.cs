@@ -92,13 +92,16 @@ namespace OpenStandup.Mobile.Controls
 
             Children.Add(contentLayout, 0, 1);
 
+            var commentCountLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaText") };
+            commentCountLabel.SetBinding(Label.TextProperty, nameof(PostDto.CommentCount));
+
             var commentLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
                     new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.CommentMultiple },
-                    new Label { Text = "0",  Style = ResourceDictionaryHelper.GetStyle("MetaText") }
+                    commentCountLabel
                 }
             };
 
