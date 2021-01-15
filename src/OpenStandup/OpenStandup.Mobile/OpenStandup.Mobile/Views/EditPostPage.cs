@@ -5,7 +5,7 @@ using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.Forms;
-using Button = Xamarin.Forms.Button;
+
 
 namespace OpenStandup.Mobile.Views
 {
@@ -54,24 +54,6 @@ namespace OpenStandup.Mobile.Views
 
             editorLayout.Children.Add(previewImage);
 
-            var cancelButton = new Button
-            {
-                Text = "Cancel",
-                HorizontalOptions = LayoutOptions.EndAndExpand
-            };
-
-            cancelButton.Clicked += async (s, a) =>
-            {
-                await Navigation.PopAsync();
-            };
-
-            var buttonsLayout = new StackLayout
-            {
-                Margin = new Thickness(0, 15, 0, 0),
-                Orientation = StackOrientation.Horizontal,
-                Children = { postButton }
-            };
-
             var cameraIcon = new Label { Style = ResourceDictionaryHelper.GetStyle("ItemIcon"), Text = IconFont.Camera, FontSize = 40 };
 
             TouchEffect.SetNormalTranslationY(cameraIcon, -22);
@@ -81,7 +63,6 @@ namespace OpenStandup.Mobile.Views
             {
                 await _viewModel.TakePhoto();
             }));
-
 
             var toolbarLayout = new StackLayout
             {
@@ -100,7 +81,12 @@ namespace OpenStandup.Mobile.Views
                     new Label {Text = "What are you working on?", FontSize = Device.GetNamedSize(NamedSize.Title, typeof(Label)),  HorizontalTextAlignment = TextAlignment.Center},
                     editorLayout,
                     toolbarLayout,
-                    buttonsLayout
+                    new StackLayout
+                    {
+                        Margin = new Thickness(0, 15, 0, 0),
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { postButton }
+                    }
                }
             };
 

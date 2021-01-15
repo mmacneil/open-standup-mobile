@@ -26,25 +26,49 @@ namespace OpenStandup.Mobile.Views
 
             _grid.Children.Add(_activityIndicator);
 
+            var postButton = new Button
+            {
+                FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Button)),
+                HorizontalOptions = LayoutOptions.EndAndExpand,
+                Text = "Post",
+                Visual = new CustomVisual() // A bridging mechanism to allow this specific button to opt-in to the platform renderer
+            };
+
+            postButton.SetBinding(IsEnabledProperty, nameof(PostDetailViewModel.CanPost));
+
+            postButton.Clicked += async (sender, args) =>
+            {
+                await _viewModel.PublishComment();
+            };
+
+            var editor = new EnhancedEditor(100, 5, NamedSize.Micro)
+            {
+                HeightRequest = 65
+            };
+
+            editor.SetBinding(EnhancedEditor.IsValidProperty, nameof(PostDetailViewModel.CanPost));
+            editor.SetBinding(EnhancedEditor.TextProperty, nameof(PostDetailViewModel.CommentText));
+
             _grid.Children.Add(new StackLayout
             {
-                Children = {new Label { FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)), Text = "Comment"}, new EnhancedEditor(100)
-                {
-                    HeightRequest = 45
-                }}
+                Children = {
+                    new Label { Style = ResourceDictionaryHelper.GetStyle("MetaCommandText"), Text = "Comment"},
+                    editor,
+                    postButton
+                },
+                Padding = new Thickness(8, 0),
+                Spacing = 2
             }, 0, 2);
-
-            var frame = new Frame
-            {
-                Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
-                Content = _grid
-            };
 
             Content = new ScrollView
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                Content = frame
+                Content = new Frame
+                {
+                    Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
+                    Content = _grid
+                }
             };
         }
 

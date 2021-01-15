@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Effects\RoundCornersEffect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\CompressedButtonRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IndicatorPageService.cs" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\launcher_foreground.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

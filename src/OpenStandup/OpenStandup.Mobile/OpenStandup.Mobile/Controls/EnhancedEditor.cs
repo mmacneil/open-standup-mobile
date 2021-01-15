@@ -34,11 +34,11 @@ namespace OpenStandup.Mobile.Controls
         private const string CharsRemaining = "characters remaining";
         private readonly Editor _editor;
 
-        public EnhancedEditor(int maxLength = 200, int minLength = 5)
+        public EnhancedEditor(int maxLength = 200, int minLength = 5, NamedSize fontSize = NamedSize.Small)
         {
             _editor = new Editor
             {
-                FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                FontSize = Device.GetNamedSize(fontSize, typeof(Editor)),
                 MaxLength = maxLength,
                 Placeholder = "...",
                 VerticalOptions = LayoutOptions.FillAndExpand

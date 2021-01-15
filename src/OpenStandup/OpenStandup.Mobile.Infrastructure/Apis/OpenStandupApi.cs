@@ -97,6 +97,22 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
+        public async Task<Dto<bool>> PublishPostComment(int postId, string text)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts/comments")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(new CommentDto(postId, text)), Encoding.UTF8, "application/json")
+            };
+
+            await AddAuthorizationHeader(request);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
         public async Task<Dto<PagedResult<PostSummaryDto>>> GetPostSummaries(int offset)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}")).ConfigureAwait(false);

@@ -11,6 +11,7 @@ using OpenStandup.Mobile.Interfaces;
 using OpenStandup.Mobile.ViewModels;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using Xamarin.CommunityToolkit.Effects;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Controls
@@ -103,13 +104,11 @@ namespace OpenStandup.Mobile.Controls
 
             if (viewMode == PostViewMode.Summary)
             {
-                var commentTapGestureRecognizer = new TapGestureRecognizer();
-                commentTapGestureRecognizer.Tapped += async (sender, args) =>
+                TouchEffect.SetNativeAnimation(commentLayout, true);
+                TouchEffect.SetCommand(commentLayout, new Command(async () =>
                 {
                     await _popupNavigation.PushAsync(_pageFactory.Resolve<PostDetailViewModel>(vm => vm.Id = Convert.ToInt32(AutomationId)) as PopupPage);
-                };
-
-                commentLayout.GestureRecognizers.Add(commentTapGestureRecognizer);
+                }));
             }
 
             var deleteLayout = new StackLayout
@@ -124,8 +123,8 @@ namespace OpenStandup.Mobile.Controls
 
             deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostSummaryDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
 
-            var deleteTapGestureRecognizer = new TapGestureRecognizer();
-            deleteTapGestureRecognizer.Tapped += async (sender, args) =>
+            TouchEffect.SetNativeAnimation(deleteLayout, true);
+            TouchEffect.SetCommand(deleteLayout, new Command(async () =>
             {
                 if (!await _dialogProvider.DisplayAlert("Delete", "Delete this post?", "Yes", "No"))
                 {
@@ -135,9 +134,7 @@ namespace OpenStandup.Mobile.Controls
                 await _openStandupApi.DeletePost(Convert.ToInt32(AutomationId));
                 await deleteHandler();
                 _toastService.Show("Post deleted");
-            };
-
-            deleteLayout.GestureRecognizers.Add(deleteTapGestureRecognizer);
+            }));
 
             Children.Add(new StackLayout
             {
