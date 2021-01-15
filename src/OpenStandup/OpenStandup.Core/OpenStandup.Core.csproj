@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="autofac" Version="5.2.0" />
     <PackageReference Include="mediatr" Version="8.0.2" />
-    <PackageReference Include="OpenStandup.Common" Version="1.0.34" />
+    <PackageReference Include="OpenStandup.Common" Version="1.0.35" />
     <PackageReference Include="Vessel" Version="1.0.4" />
   </ItemGroup>
 

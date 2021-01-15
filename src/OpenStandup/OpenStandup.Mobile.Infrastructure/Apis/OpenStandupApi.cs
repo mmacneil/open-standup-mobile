@@ -101,7 +101,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts/comments")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new CommentDto(postId, text, "", "")), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(new CreateCommentDto(postId, text)), Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);
