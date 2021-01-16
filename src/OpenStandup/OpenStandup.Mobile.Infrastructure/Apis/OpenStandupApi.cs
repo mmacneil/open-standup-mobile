@@ -124,17 +124,17 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             : Dto<PagedResult<PostDto>>.Failed();
         }
 
-        public async Task<Dto<PostDto>> GetPost(int id)
+        public async Task<Dto<PostDetailDto>> GetPost(int id)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts?id={id}")).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
-                return Dto<PostDto>.Success(JsonConvert.DeserializeObject<PostDto>(
+                return Dto<PostDetailDto>.Success(JsonConvert.DeserializeObject<PostDetailDto>(
                     await response.Content.ReadAsStringAsync()));
             }
 
-            return Dto<PostDto>.Failed(response.StatusCode, response.ReasonPhrase);
+            return Dto<PostDetailDto>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
         public async Task<Dto<GitHubUser>> GetUser(string gitHubId)

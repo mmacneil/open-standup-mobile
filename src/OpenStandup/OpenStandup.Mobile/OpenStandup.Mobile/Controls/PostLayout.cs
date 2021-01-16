@@ -39,29 +39,13 @@ namespace OpenStandup.Mobile.Controls
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-            var avatar = new Image { Aspect = Aspect.AspectFill };
-            avatar.SetBinding(Image.SourceProperty, nameof(PostDto.AvatarUrl));
+            var authorLayout = new AuthorLayout();
+            authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(PostDto.AvatarUrl));
+            authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(PostDto.Login));
+            authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(PostDto.GitHubId));
+            authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(PostDto.Modified));
 
-            var loginLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("LinkLabel"), VerticalOptions = LayoutOptions.Center };
-            loginLabel.SetBinding(Label.TextProperty, nameof(PostDto.Login));
-            loginLabel.SetBinding(AutomationIdProperty, nameof(PostDto.GitHubId));
-
-            var loginTapGestureRecognizer = new TapGestureRecognizer();
-            loginTapGestureRecognizer.Tapped += async (sender, args) =>
-            {
-                await _popupNavigation.PushAsync(_pageFactory.Resolve<ProfileViewModel>(vm =>
-                {
-                    vm.SelectedGitHubId = loginLabel.AutomationId;
-                    vm.SelectedLogin = loginLabel.Text;
-                }) as PopupPage);
-            };
-
-            loginLabel.GestureRecognizers.Add(loginTapGestureRecognizer);
-
-            var modifiedLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel"), VerticalOptions = LayoutOptions.Center };
-            modifiedLabel.SetBinding(Label.TextProperty, nameof(PostDto.Modified));
-
-            Children.Add(new StackLayout { Padding = new Thickness(13, 0), Children = { new RoundImage(avatar, 35, 35, 20), loginLabel, modifiedLabel }, Orientation = StackOrientation.Horizontal, HorizontalOptions = LayoutOptions.Start });
+            Children.Add(authorLayout);
 
             var contentLayout = new StackLayout();
 

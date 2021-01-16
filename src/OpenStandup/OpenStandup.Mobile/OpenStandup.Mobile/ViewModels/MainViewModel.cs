@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OpenStandup.Common.Dto;
@@ -8,7 +8,7 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public ObservableCollection<PostDto> PostSummaries { get; } = new ObservableCollection<PostDto>();
+        public IList<PostDto> PostSummaries { get; private set; } = new List<PostDto>();
         private readonly IOpenStandupApi _openStandupApi;
         private int _offset;
 
@@ -53,10 +53,8 @@ namespace OpenStandup.Mobile.ViewModels
                     }
                     else
                     {
-                        foreach (var s in summaries.Payload.Items)
-                        {
-                            PostSummaries.Add(s);
-                        }
+                        PostSummaries = new List<PostDto>(summaries.Payload.Items);
+                        OnPropertyChanged(nameof(PostSummaries));
                     }
 
                     _offset = summaries.Payload.Offset;

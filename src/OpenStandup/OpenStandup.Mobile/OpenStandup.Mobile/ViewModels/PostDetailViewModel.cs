@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OpenStandup.Common.Dto;
 using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Interfaces;
@@ -8,6 +9,8 @@ namespace OpenStandup.Mobile.ViewModels
 {
     public class PostDetailViewModel : BaseViewModel
     {
+        public IList<CommentDto> Comments { get; private set; }
+
         private bool _canPost;
         public bool CanPost
         {
@@ -27,7 +30,7 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly IIndicatorPageService _indicatorPageService;
         private readonly IOpenStandupApi _openStandupApi;
 
-        public PostDto Post;
+        public PostDetailDto Post;
 
         public PostDetailViewModel(IIndicatorPageService indicatorPageService, IOpenStandupApi openStandupApi)
         {
@@ -42,6 +45,8 @@ namespace OpenStandup.Mobile.ViewModels
             if (post.Succeeded)
             {
                 Post = post.Payload;
+                Comments = new List<CommentDto>(post.Payload.Comments);
+                OnPropertyChanged(nameof(Comments));
             }
         }
 

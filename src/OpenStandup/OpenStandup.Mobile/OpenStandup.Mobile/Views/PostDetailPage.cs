@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using OpenStandup.Common.Dto;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
@@ -20,6 +21,7 @@ namespace OpenStandup.Mobile.Views
         {
             _popupNavigation = popupNavigation;
 
+            _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -60,15 +62,30 @@ namespace OpenStandup.Mobile.Views
                 Spacing = 2
             }, 0, 2);
 
-            Content = new ScrollView
+            var commentsView = new CollectionView
             {
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center,
-                Content = new Frame
+                ItemTemplate = new DataTemplate(() =>
                 {
-                    Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
-                    Content = _grid
-                }
+                    var grid = new Grid();
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                    var avatar = new Image { Aspect = Aspect.AspectFill };
+                    avatar.SetBinding(Image.SourceProperty, nameof(CommentDto.AvatarUrl));
+
+                    grid.Children.Add(new RoundImage(avatar, 35, 35, 20));
+
+                    return grid;
+                })
+            };
+
+            commentsView.SetBinding(ItemsView.ItemsSourceProperty, nameof(_viewModel.Comments));
+
+            _grid.Children.Add(commentsView, 0, 3);
+
+            Content = new Frame
+            {
+                Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
+                Content = _grid
             };
         }
 
