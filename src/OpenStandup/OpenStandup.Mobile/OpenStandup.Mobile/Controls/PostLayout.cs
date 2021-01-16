@@ -41,8 +41,8 @@ namespace OpenStandup.Mobile.Controls
 
             var authorLayout = new AuthorLayout();
             authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(PostDto.AvatarUrl));
-            authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(PostDto.Login));
             authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(PostDto.GitHubId));
+            authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(PostDto.Login));
             authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(PostDto.Modified));
 
             Children.Add(authorLayout);

@@ -68,12 +68,18 @@ namespace OpenStandup.Mobile.Views
                 {
                     var grid = new Grid();
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                    var avatar = new Image { Aspect = Aspect.AspectFill };
-                    avatar.SetBinding(Image.SourceProperty, nameof(CommentDto.AvatarUrl));
+                    var authorLayout = new AuthorLayout();
+                    authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(CommentDto.AvatarUrl));
+                    authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(CommentDto.GitHubId));
+                    authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(CommentDto.Login));
+                    authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(CommentDto.Modified));
+                    grid.Children.Add(authorLayout);
 
-                    grid.Children.Add(new RoundImage(avatar, 35, 35, 20));
-
+                    var textLabel = new Label {FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
+                    textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));
+                    grid.Children.Add(textLabel, 0, 1);
                     return grid;
                 })
             };

@@ -29,7 +29,7 @@ namespace OpenStandup.Core.Domain.Features.Profile
 
         public async Task<Unit> Handle(GetProfileRequest request, CancellationToken cancellationToken)
         {
-            if (request.GitHubId == null || request.GitHubId == _appContext.User.Id)
+            if (request.GitHubId == _appContext.User.Id)
             {
                 await _outputPort.Handle(Dto<GetProfileResponse>.Success(new GetProfileResponse(Dto<GitHubUser>.Success(_appContext.User))));
             }
