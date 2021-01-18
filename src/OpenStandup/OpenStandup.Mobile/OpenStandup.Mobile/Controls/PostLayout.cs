@@ -28,7 +28,6 @@ namespace OpenStandup.Mobile.Controls
 
         public PostLayout(PostViewMode viewMode, Func<Task> deleteHandler, bool hasImage = false)
         {
-            Padding = new Thickness(0, 10);
             RowSpacing = 0;
 
             this.SetBinding(AutomationIdProperty, nameof(PostDto.Id));

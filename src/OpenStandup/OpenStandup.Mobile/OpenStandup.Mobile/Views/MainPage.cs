@@ -12,14 +12,15 @@ namespace OpenStandup.Mobile.Views
 {
     public class MainPage : ContentPage
     {
+        private readonly Thickness _postLayoutPadding = new Thickness(0, 10);
         private readonly MainViewModel _viewModel = App.Container.Resolve<MainViewModel>();
 
         public MainPage()
         {
             Title = "Recent Posts";
             BindingContext = _viewModel;
-            var postWithImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler, true));
-            var postWithoutImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler));
+            var postWithImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler, true) { Padding = _postLayoutPadding });
+            var postWithoutImage = new DataTemplate(() => new PostLayout(PostViewMode.Summary, DeleteHandler) { Padding = _postLayoutPadding });
 
             var layout = new AbsoluteLayout();
 

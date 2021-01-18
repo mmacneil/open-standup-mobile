@@ -12,7 +12,7 @@ namespace OpenStandup.Mobile.Views
     {
         private PostDetailViewModel _viewModel;
         private PostLayout _postLayout;
-        private readonly Grid _grid = new Grid();
+        private readonly Grid _grid = new Grid { Padding = new Thickness(0, 10, 0, 0) };
         private readonly ActivityIndicator _activityIndicator = new ActivityIndicator { IsRunning = true };
 
         private readonly IPopupNavigation _popupNavigation;
@@ -21,7 +21,6 @@ namespace OpenStandup.Mobile.Views
         {
             _popupNavigation = popupNavigation;
 
-            _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -60,13 +59,13 @@ namespace OpenStandup.Mobile.Views
                 },
                 Padding = new Thickness(8, 0),
                 Spacing = 2
-            }, 0, 2);
+            }, 0, 1);
 
             var commentsView = new CollectionView
             {
                 ItemTemplate = new DataTemplate(() =>
                 {
-                    var grid = new Grid();
+                    var grid = new Grid { Margin = new Thickness(0, 0, 0, 10) };
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
@@ -79,21 +78,44 @@ namespace OpenStandup.Mobile.Views
 
                     var textLabel = new Label
                     {
-                        FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                        FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                         Margin = new Thickness(15, 0, 15, 8),
                         Style = ResourceDictionaryHelper.GetStyle("ContentLabel"),
                         TextColor = ResourceDictionaryHelper.GetColor("PostBody")
-                };
+                    };
 
                     textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));
                     grid.Children.Add(textLabel, 0, 1);
                     return grid;
-                })
+                }),
+                Margin = new Thickness(0, 10, 0, 0)
             };
 
             commentsView.SetBinding(ItemsView.ItemsSourceProperty, nameof(_viewModel.Comments));
 
-            _grid.Children.Add(commentsView, 0, 3);
+            var commentsLayout = new StackLayout
+            {
+                Children =
+                {
+                    new Label
+                    {
+                        Margin = new Thickness(15, 0, 0, 0),
+                        Style = ResourceDictionaryHelper.GetStyle("MetaLabel"),
+                        Text = "Comments"
+                    },
+                    new BoxView
+                    {
+                        Margin = new Thickness(0, 6, 0, 0),
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        HeightRequest = 1,
+                        Color = Color.FromHex("#d9dadc")
+                    },
+                    commentsView
+                },
+                Spacing = 2
+            };
+
+            _grid.Children.Add(commentsLayout, 0, 2);
 
             Content = new Frame
             {
@@ -113,7 +135,7 @@ namespace OpenStandup.Mobile.Views
             };
 
             _activityIndicator.IsVisible = false;
-            _grid.Children.Add(_postLayout, 0, 1);
+            _grid.Children.Add(_postLayout);
         }
 
         protected override void OnDisappearing()
