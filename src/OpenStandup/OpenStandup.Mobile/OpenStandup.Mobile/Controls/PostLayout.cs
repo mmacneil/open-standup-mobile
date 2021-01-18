@@ -50,7 +50,12 @@ namespace OpenStandup.Mobile.Controls
             var contentLayout = new StackLayout();
 
             // Alert: Padding borks the TapGestureRecognizer on hyper-linked spans but Margin works
-            var textLabel = new Label { LineHeight = 1.1, Margin = new Thickness(15, 15, 15, 8) };
+            var textLabel = new Label
+            {
+                Margin = new Thickness(15, 15, 15, 8),
+                Style = ResourceDictionaryHelper.GetStyle("ContentLabel")
+            };
+
             textLabel.SetBinding(Label.FormattedTextProperty, nameof(PostDto.HtmlText), BindingMode.Default, new HtmlLabelConverter());
 
             contentLayout.Children.Add(textLabel);

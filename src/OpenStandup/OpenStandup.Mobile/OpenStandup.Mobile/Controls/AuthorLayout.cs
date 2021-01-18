@@ -74,6 +74,7 @@ namespace OpenStandup.Mobile.Controls
 
             if (newValue is string text)
             {
+                @this._loginLabel.AutomationId = null; // Avoid exception: 'AutomationId may only be set one time.' https://github.com/xamarin/Xamarin.Forms/issues/6157
                 @this._loginLabel.AutomationId = text;
             }
         }

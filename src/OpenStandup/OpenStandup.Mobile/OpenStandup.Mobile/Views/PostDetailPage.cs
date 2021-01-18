@@ -77,7 +77,14 @@ namespace OpenStandup.Mobile.Views
                     authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(CommentDto.Modified));
                     grid.Children.Add(authorLayout);
 
-                    var textLabel = new Label {FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
+                    var textLabel = new Label
+                    {
+                        FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                        Margin = new Thickness(15, 0, 15, 8),
+                        Style = ResourceDictionaryHelper.GetStyle("ContentLabel"),
+                        TextColor = ResourceDictionaryHelper.GetColor("PostBody")
+                };
+
                     textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));
                     grid.Children.Add(textLabel, 0, 1);
                     return grid;

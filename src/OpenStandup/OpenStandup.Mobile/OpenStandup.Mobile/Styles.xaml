@@ -49,6 +49,10 @@
         <Setter Property="Color" Value="{StaticResource NavigationPrimary}" />
     </Style>
 
+    <Style x:Key="ContentLabel" TargetType="Label">
+        <Setter Property="LineHeight" Value="1.1" />
+    </Style>
+
     <Style x:Key="Title" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource NavigationPrimary}" />
         <Setter Property="FontSize" Value="Title" />
