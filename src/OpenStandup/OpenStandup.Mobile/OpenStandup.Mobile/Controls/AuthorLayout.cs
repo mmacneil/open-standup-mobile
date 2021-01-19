@@ -68,14 +68,15 @@ namespace OpenStandup.Mobile.Controls
             }
         }
 
+        private string _gitHubId = "";
+
         private static void GitHubIdChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (!(bindable is AuthorLayout @this)) return;
 
             if (newValue is string text)
             {
-                @this._loginLabel.AutomationId = null; // Avoid exception: 'AutomationId may only be set one time.' https://github.com/xamarin/Xamarin.Forms/issues/6157
-                @this._loginLabel.AutomationId = text;
+                @this._gitHubId = text;
             }
         }
 
@@ -110,7 +111,7 @@ namespace OpenStandup.Mobile.Controls
             {
                 await _popupNavigation.PushAsync(_pageFactory.Resolve<ProfileViewModel>(vm =>
                 {
-                    vm.SelectedGitHubId = _loginLabel.AutomationId;
+                    vm.SelectedGitHubId = _gitHubId;
                     vm.SelectedLogin = _loginLabel.Text;
                 }) as PopupPage);
             }));
