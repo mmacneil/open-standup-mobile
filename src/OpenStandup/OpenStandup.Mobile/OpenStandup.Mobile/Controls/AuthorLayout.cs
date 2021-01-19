@@ -22,7 +22,7 @@ namespace OpenStandup.Mobile.Controls
         public static BindableProperty GitHubIdProperty = BindableProperty.Create(
             nameof(GitHubId),
             typeof(string),
-            typeof(AuthorLayout), null, BindingMode.Default, null, GitHubIdChanged);
+            typeof(AuthorLayout), null, BindingMode.Default);
 
         public static BindableProperty LoginProperty = BindableProperty.Create(
             nameof(Login),
@@ -68,18 +68,6 @@ namespace OpenStandup.Mobile.Controls
             }
         }
 
-        private string _gitHubId = "";
-
-        private static void GitHubIdChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (!(bindable is AuthorLayout @this)) return;
-
-            if (newValue is string text)
-            {
-                @this._gitHubId = text;
-            }
-        }
-
         private static void LoginChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (!(bindable is AuthorLayout @this)) return;
@@ -111,7 +99,7 @@ namespace OpenStandup.Mobile.Controls
             {
                 await _popupNavigation.PushAsync(_pageFactory.Resolve<ProfileViewModel>(vm =>
                 {
-                    vm.SelectedGitHubId = _gitHubId;
+                    vm.SelectedGitHubId = GitHubId;
                     vm.SelectedLogin = _loginLabel.Text;
                 }) as PopupPage);
             }));
