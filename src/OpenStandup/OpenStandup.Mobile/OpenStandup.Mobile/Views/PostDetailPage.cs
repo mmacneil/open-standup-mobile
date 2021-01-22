@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using OpenStandup.Common.Dto;
 using OpenStandup.Core.Interfaces;
-using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
 using OpenStandup.Mobile.Helpers;
@@ -22,7 +21,7 @@ namespace OpenStandup.Mobile.Views
 
         private readonly IPopupNavigation _popupNavigation;
 
-        public PostDetailPage(IAppContext appContext, IDialogProvider dialogProvider, IOpenStandupApi openStandupApi, IPopupNavigation popupNavigation, IToastService toastService)
+        public PostDetailPage(IAppContext appContext, IDialogProvider dialogProvider, IPopupNavigation popupNavigation)
         {
             _popupNavigation = popupNavigation;
 
@@ -47,11 +46,7 @@ namespace OpenStandup.Mobile.Views
                 await _viewModel.PublishComment();
             };
 
-            var editor = new EnhancedEditor(100, 5, NamedSize.Micro)
-            {
-                HeightRequest = 65
-            };
-
+            var editor = new EnhancedEditor(100, 5, NamedSize.Micro, 50);
             editor.SetBinding(EnhancedEditor.IsValidProperty, nameof(PostDetailViewModel.CanPost));
             editor.SetBinding(EnhancedEditor.TextProperty, nameof(PostDetailViewModel.CommentText));
 
@@ -99,15 +94,7 @@ namespace OpenStandup.Mobile.Views
                             return;
                         }
 
-                        if ((await openStandupApi.DeletePostComment(Convert.ToInt32(grid.AutomationId))).Succeeded)
-                        {
-                            await _viewModel.Initialize();
-                            toastService.Show("Comment deleted");
-                        }
-                        else
-                        {
-                            toastService.Show("Failed to delete comment");
-                        }
+                        await _viewModel.DeleteComment(Convert.ToInt32(grid.AutomationId));
                     })
                     {
                         HorizontalOptions = LayoutOptions.Start,

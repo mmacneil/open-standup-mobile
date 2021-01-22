@@ -17,7 +17,7 @@ namespace OpenStandup.Mobile.Controls
             typeof(string),
             typeof(EnhancedEditor),
             "",
-            BindingMode.TwoWay);
+            BindingMode.TwoWay, null, TextChanged);
 
         public bool IsValid
         {
@@ -31,10 +31,20 @@ namespace OpenStandup.Mobile.Controls
             set => SetValue(TextProperty, value);
         }
 
+        private static void TextChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (!(bindable is EnhancedEditor @this)) return;
+
+            if (newValue is string source)
+            {
+                @this._editor.Text = source;
+            }
+        }
+
         private const string CharsRemaining = "characters remaining";
         private readonly Editor _editor;
 
-        public EnhancedEditor(int maxLength = 200, int minLength = 5, NamedSize fontSize = NamedSize.Small)
+        public EnhancedEditor(int maxLength = 200, int minLength = 5, NamedSize fontSize = NamedSize.Small, double? editorHeight = null)
         {
             _editor = new Editor
             {
@@ -43,6 +53,11 @@ namespace OpenStandup.Mobile.Controls
                 Placeholder = "...",
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
+
+            if (editorHeight.HasValue)
+            {
+                _editor.HeightRequest = editorHeight.Value;
+            }
 
             var charactersLabel = new Label { Text = $"{maxLength} {CharsRemaining}", FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)) };
 

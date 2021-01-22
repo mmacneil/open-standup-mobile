@@ -29,17 +29,21 @@ namespace OpenStandup.Mobile.ViewModels
 
         private readonly IIndicatorPageService _indicatorPageService;
         private readonly IOpenStandupApi _openStandupApi;
+        private readonly IToastService _toastService;
 
         public PostDetailDto Post;
 
-        public PostDetailViewModel(IIndicatorPageService indicatorPageService, IOpenStandupApi openStandupApi)
+        public PostDetailViewModel(IIndicatorPageService indicatorPageService, IOpenStandupApi openStandupApi, IToastService toastService)
         {
             _indicatorPageService = indicatorPageService;
             _openStandupApi = openStandupApi;
+            _toastService = toastService;
         }
 
         public async Task Initialize()
         {
+            CommentText = "";
+
             var post = await _openStandupApi.GetPost(Id).ConfigureAwait(false);
 
             if (post.Succeeded)
@@ -52,10 +56,27 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task PublishComment()
         {
-            //_indicatorPageService.ShowIndicatorPage();
-            await _openStandupApi.PublishPostComment(Id, _commentText);
-            // await _mediator.Send(new PublishPostRequest(Text, PhotoPath));
-            // _indicatorPageService.HideIndicatorPage();
+            _indicatorPageService.ShowIndicatorPage();
+
+            if ((await _openStandupApi.PublishPostComment(Id, CommentText)).Succeeded)
+            {
+                await Initialize();
+            }
+
+            _indicatorPageService.HideIndicatorPage();
+        }
+
+        public async Task DeleteComment(int id)
+        {
+            if ((await _openStandupApi.DeletePostComment(id)).Succeeded)
+            {
+                await Initialize();
+                _toastService.Show("Comment deleted");
+            }
+            else
+            {
+                _toastService.Show("Failed to delete comment");
+            }
         }
     }
 }
