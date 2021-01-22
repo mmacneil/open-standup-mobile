@@ -14,7 +14,7 @@ namespace OpenStandup.Mobile.Controls
         private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
         private readonly FlexLayout _statsLayout;
 
-        public ProfileLayout()
+        public ProfileLayout(bool isModal = true)
         {
             var header = new Grid
             {
@@ -83,19 +83,24 @@ namespace OpenStandup.Mobile.Controls
                 await ((ProfileViewModel)BindingContext).UpdateFollower();
             };
 
-            var closeButton = new Button { Text = "Close", HorizontalOptions = LayoutOptions.Center };
-
-            closeButton.Clicked += async (sender, args) =>
-            {
-                await _popupNavigation.PopAsync();
-            };
-
             var actionsLayout = new StackLayout
             {
-                Children = { followButton, unFollowButton, closeButton },
+                Children = { followButton, unFollowButton },
                 Spacing = 45,
                 Margin = new Thickness(0, 35, 0, 0)
             };
+
+            if (isModal)
+            {
+                var closeButton = new Button { Text = "Close", HorizontalOptions = LayoutOptions.Center };
+
+                closeButton.Clicked += async (sender, args) =>
+                {
+                    await _popupNavigation.PopAsync();
+                };
+
+                actionsLayout.Children.Add(closeButton);
+            }
 
             actionsLayout.SetBinding(IsVisibleProperty, new Binding(nameof(ProfileViewModel.ShowActions)));
 

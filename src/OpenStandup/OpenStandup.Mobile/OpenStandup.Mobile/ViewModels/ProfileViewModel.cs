@@ -84,8 +84,7 @@ namespace OpenStandup.Mobile.ViewModels
         }
 
         public string SelectedLogin, SelectedGitHubId;
-        private string _gitHubId;
-        
+      
         private readonly IMediator _mediator;
 
         public ProfileViewModel(IMediator mediator)
@@ -95,7 +94,6 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task Initialize()
         {
-            _gitHubId = SelectedGitHubId;
             ShowActions = false;
             Initialized = false;
             IsBusy = true;
@@ -125,7 +123,7 @@ namespace OpenStandup.Mobile.ViewModels
 
         public async Task UpdateFollower(bool follow=false)
         {
-            await _mediator.Send(new UpdateFollowerRequest(_gitHubId, Login, follow));
+            await _mediator.Send(new UpdateFollowerRequest(SelectedGitHubId, Login, follow));
         }
     }
 }
