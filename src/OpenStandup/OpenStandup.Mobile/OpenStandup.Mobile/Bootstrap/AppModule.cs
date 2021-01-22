@@ -5,6 +5,7 @@ using OpenStandup.Mobile.ViewModels;
 using System.Reflection;
 using OpenStandup.Mobile.Factories;
 using OpenStandup.Mobile.Interfaces;
+using OpenStandup.Mobile.Views;
 using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 
@@ -20,6 +21,9 @@ namespace OpenStandup.Mobile.Bootstrap
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.IsSubclassOf(typeof(Page))).SingleInstance();
+
+            // Re-using this caused headaches around view resizing with content of varying size (i.e. image/no image etc.)
+            builder.RegisterType<PostDetailPage>().AsSelf();
 
             builder.RegisterType<Navigator>().As<INavigator>().SingleInstance();
 

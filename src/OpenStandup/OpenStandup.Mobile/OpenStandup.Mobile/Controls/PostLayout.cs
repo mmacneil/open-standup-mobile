@@ -102,20 +102,7 @@ namespace OpenStandup.Mobile.Controls
                 }));
             }
 
-            var deleteLayout = new StackLayout
-            {
-                Children =
-                {
-                    new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.Delete },
-                    new Label { Text = "delete",  Style = ResourceDictionaryHelper.GetStyle("MetaCommandText") }
-                },
-                Style = ResourceDictionaryHelper.GetStyle("MetaCommandLayout")
-            };
-
-            deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
-
-            TouchEffect.SetNativeAnimation(deleteLayout, true);
-            TouchEffect.SetCommand(deleteLayout, new Command(async () =>
+            var deleteLayout = new DeleteLayout(async () =>
             {
                 if (!await _dialogProvider.DisplayAlert("Delete", "Delete this post?", "Yes", "No"))
                 {
@@ -125,7 +112,9 @@ namespace OpenStandup.Mobile.Controls
                 await _openStandupApi.DeletePost(Convert.ToInt32(AutomationId));
                 await deleteHandler();
                 _toastService.Show("Post deleted");
-            }));
+            });
+
+            deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), _appContext.User.Id));
 
             Children.Add(new StackLayout
             {

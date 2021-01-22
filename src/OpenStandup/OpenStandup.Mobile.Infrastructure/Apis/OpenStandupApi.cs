@@ -113,6 +113,16 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
         }
 
+        public async Task<Dto<bool>> DeletePostComment(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"{_appSettings.ApiEndpoint}/posts/comments?id={id}");
+            await AddAuthorizationHeader(request);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed();
+        }
+
         public async Task<Dto<PagedResult<PostDto>>> GetPostSummaries(int offset)
         {
             var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}")).ConfigureAwait(false);

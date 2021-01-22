@@ -1,7 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using OpenStandup.Common.Dto;
+using OpenStandup.Core.Interfaces;
+using OpenStandup.Core.Interfaces.Apis;
 using OpenStandup.Mobile.Controls;
+using OpenStandup.Mobile.Converters;
 using OpenStandup.Mobile.Helpers;
+using OpenStandup.Mobile.Interfaces;
 using OpenStandup.Mobile.ViewModels;
 using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
@@ -17,7 +22,7 @@ namespace OpenStandup.Mobile.Views
 
         private readonly IPopupNavigation _popupNavigation;
 
-        public PostDetailPage(IPopupNavigation popupNavigation)
+        public PostDetailPage(IAppContext appContext, IDialogProvider dialogProvider, IOpenStandupApi openStandupApi, IPopupNavigation popupNavigation, IToastService toastService)
         {
             _popupNavigation = popupNavigation;
 
@@ -66,26 +71,54 @@ namespace OpenStandup.Mobile.Views
                 ItemTemplate = new DataTemplate(() =>
                 {
                     var grid = new Grid { Margin = new Thickness(0, 0, 0, 10) };
+                    grid.SetBinding(AutomationIdProperty, nameof(CommentDto.Id));
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                    var authorLayout = new AuthorLayout();
+                    var authorLayout = new AuthorLayout(22, 22, 11);
                     authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(CommentDto.AvatarUrl));
                     authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(CommentDto.GitHubId));
                     authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(CommentDto.Login));
                     authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(CommentDto.Modified));
-                    grid.Children.Add(authorLayout);
 
                     var textLabel = new Label
                     {
                         FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                        Margin = new Thickness(15, 0, 15, 8),
+                        Margin = new Thickness(15, 5, 15, 5),
                         Style = ResourceDictionaryHelper.GetStyle("ContentLabel"),
                         TextColor = ResourceDictionaryHelper.GetColor("PostBody")
                     };
 
                     textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));
+
+                    var deleteLayout = new DeleteLayout(async () =>
+                    {
+                        if (!await dialogProvider.DisplayAlert("Delete", "Delete this comment? ", "Yes", "No"))
+                        {
+                            return;
+                        }
+
+                        if ((await openStandupApi.DeletePostComment(Convert.ToInt32(grid.AutomationId))).Succeeded)
+                        {
+                            await _viewModel.Initialize();
+                            toastService.Show("Comment deleted");
+                        }
+                        else
+                        {
+                            toastService.Show("Failed to delete comment");
+                        }
+                    })
+                    {
+                        HorizontalOptions = LayoutOptions.Start,
+                        Margin = new Thickness(10, 0, 0, 0)
+                    };
+
+                    deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), appContext.User.Id));
+
+                    grid.Children.Add(authorLayout);
                     grid.Children.Add(textLabel, 0, 1);
+                    grid.Children.Add(deleteLayout, 0, 2);
                     return grid;
                 }),
                 Margin = new Thickness(0, 10, 0, 0)
@@ -127,8 +160,10 @@ namespace OpenStandup.Mobile.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
             _viewModel = (PostDetailViewModel)BindingContext;
             await _viewModel.Initialize();
+
             _postLayout = new PostLayout(PostViewMode.Detail, DeleteHandler, !string.IsNullOrEmpty(_viewModel.Post.ImageName))
             {
                 BindingContext = _viewModel.Post
@@ -136,12 +171,6 @@ namespace OpenStandup.Mobile.Views
 
             _activityIndicator.IsVisible = false;
             _grid.Children.Add(_postLayout);
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            _grid.Children.Remove(_postLayout);
         }
 
         private async Task DeleteHandler()

@@ -92,7 +92,7 @@ namespace OpenStandup.Mobile.Controls
         private readonly Label _loginLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("LinkLabel"), VerticalOptions = LayoutOptions.Center };
         private readonly Label _modifiedLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel"), VerticalOptions = LayoutOptions.Center };
 
-        public AuthorLayout()
+        public AuthorLayout(int avatarHeight = 35, int avatarWidth = 35, int avatarCornerRadius = 20)
         {
             TouchEffect.SetNativeAnimation(_loginLabel, true);
             TouchEffect.SetCommand(_loginLabel, new Command(async () =>
@@ -104,7 +104,7 @@ namespace OpenStandup.Mobile.Controls
                 }) as PopupPage);
             }));
 
-            Children.Add(new RoundImage(_avatar, 35, 35, 20));
+            Children.Add(new RoundImage(_avatar, avatarHeight, avatarWidth, avatarCornerRadius));
             Children.Add(_loginLabel);
             Children.Add(_modifiedLabel);
             HorizontalOptions = LayoutOptions.Start;
