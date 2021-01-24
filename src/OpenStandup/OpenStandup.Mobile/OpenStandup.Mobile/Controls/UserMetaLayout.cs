@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Controls
 {
-    public class AuthorLayout : StackLayout
+    public class UserMetaLayout : StackLayout
     {
         private readonly IPageFactory _pageFactory = App.Container.Resolve<IPageFactory>();
         private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
@@ -17,22 +17,22 @@ namespace OpenStandup.Mobile.Controls
         public static BindableProperty AvatarSourceProperty = BindableProperty.Create(
             nameof(AvatarSource),
             typeof(string),
-            typeof(AuthorLayout), null, BindingMode.Default, null, AvatarSourceChanged);
+            typeof(UserMetaLayout), null, BindingMode.Default, null, AvatarSourceChanged);
 
         public static BindableProperty GitHubIdProperty = BindableProperty.Create(
             nameof(GitHubId),
             typeof(string),
-            typeof(AuthorLayout), null, BindingMode.Default);
+            typeof(UserMetaLayout), null, BindingMode.Default);
 
         public static BindableProperty LoginProperty = BindableProperty.Create(
             nameof(Login),
             typeof(string),
-            typeof(AuthorLayout), null, BindingMode.Default, null, LoginChanged);
+            typeof(UserMetaLayout), null, BindingMode.Default, null, LoginChanged);
 
         public static BindableProperty ModifiedProperty = BindableProperty.Create(
             nameof(Modified),
             typeof(string),
-            typeof(AuthorLayout), null, BindingMode.Default, null, ModifiedChanged);
+            typeof(UserMetaLayout), null, BindingMode.Default, null, ModifiedChanged);
 
         public string AvatarSource
         {
@@ -60,7 +60,7 @@ namespace OpenStandup.Mobile.Controls
 
         private static void AvatarSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(bindable is AuthorLayout @this)) return;
+            if (!(bindable is UserMetaLayout @this)) return;
 
             if (newValue is string source)
             {
@@ -70,7 +70,7 @@ namespace OpenStandup.Mobile.Controls
 
         private static void LoginChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(bindable is AuthorLayout @this)) return;
+            if (!(bindable is UserMetaLayout @this)) return;
 
             if (newValue is string text)
             {
@@ -80,7 +80,7 @@ namespace OpenStandup.Mobile.Controls
 
         private static void ModifiedChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(bindable is AuthorLayout @this)) return;
+            if (!(bindable is UserMetaLayout @this)) return;
 
             if (newValue is string text)
             {
@@ -92,7 +92,7 @@ namespace OpenStandup.Mobile.Controls
         private readonly Label _loginLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("LinkLabel"), VerticalOptions = LayoutOptions.Center };
         private readonly Label _modifiedLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaLabel"), VerticalOptions = LayoutOptions.Center };
 
-        public AuthorLayout(int avatarHeight = 35, int avatarWidth = 35, int avatarCornerRadius = 20)
+        public UserMetaLayout(int avatarHeight = 35, int avatarWidth = 35, int avatarCornerRadius = 20)
         {
             TouchEffect.SetNativeAnimation(_loginLabel, true);
             TouchEffect.SetCommand(_loginLabel, new Command(async () =>

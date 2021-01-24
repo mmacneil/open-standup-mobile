@@ -32,6 +32,10 @@
                       Title="Posts" />
     </FlyoutItem>
 
+    <ShellContent Route="nearby"                       
+                  Title="Nerd Nearby"   
+                  ContentTemplate="{DataTemplate views:NearbyPage}" />
+
     <ShellContent Route="profile"                       
                       Title="My Profile"   
                       ContentTemplate="{DataTemplate views:ProfilePage}" />

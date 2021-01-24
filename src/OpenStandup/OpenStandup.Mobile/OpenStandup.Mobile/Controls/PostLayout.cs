@@ -38,13 +38,13 @@ namespace OpenStandup.Mobile.Controls
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-            var authorLayout = new AuthorLayout();
-            authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(PostDto.AvatarUrl));
-            authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(PostDto.GitHubId));
-            authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(PostDto.Login));
-            authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(PostDto.Modified));
+            var userMetaLayout = new UserMetaLayout();
+            userMetaLayout.SetBinding(UserMetaLayout.AvatarSourceProperty, nameof(PostDto.AvatarUrl));
+            userMetaLayout.SetBinding(UserMetaLayout.GitHubIdProperty, nameof(PostDto.GitHubId));
+            userMetaLayout.SetBinding(UserMetaLayout.LoginProperty, nameof(PostDto.Login));
+            userMetaLayout.SetBinding(UserMetaLayout.ModifiedProperty, nameof(PostDto.Modified));
 
-            Children.Add(authorLayout);
+            Children.Add(userMetaLayout);
 
             var contentLayout = new StackLayout();
 

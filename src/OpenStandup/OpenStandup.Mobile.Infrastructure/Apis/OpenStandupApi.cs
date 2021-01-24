@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -165,6 +166,17 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             var request = new HttpRequestMessage(HttpMethod.Delete, $"{_appSettings.ApiEndpoint}/posts?id={id}");
             await AddAuthorizationHeader(request);
             await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+        }
+
+        public async Task<Dto<IEnumerable<UserNearbyDto>>> GetNearbyUsers()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_appSettings.ApiEndpoint}/users/nearby");
+            await AddAuthorizationHeader(request);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode ? Dto<IEnumerable<UserNearbyDto>>.Success(JsonConvert.DeserializeObject<IEnumerable<UserNearbyDto>>(
+                await response.Content.ReadAsStringAsync())) :
+                Dto<IEnumerable<UserNearbyDto>>.Failed(response.StatusCode, response.ReasonPhrase);
         }
     }
 }

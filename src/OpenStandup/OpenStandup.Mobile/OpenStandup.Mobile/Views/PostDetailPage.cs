@@ -71,11 +71,11 @@ namespace OpenStandup.Mobile.Views
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                    var authorLayout = new AuthorLayout(22, 22, 11);
-                    authorLayout.SetBinding(AuthorLayout.AvatarSourceProperty, nameof(CommentDto.AvatarUrl));
-                    authorLayout.SetBinding(AuthorLayout.GitHubIdProperty, nameof(CommentDto.GitHubId));
-                    authorLayout.SetBinding(AuthorLayout.LoginProperty, nameof(CommentDto.Login));
-                    authorLayout.SetBinding(AuthorLayout.ModifiedProperty, nameof(CommentDto.Modified));
+                    var userMetaLayout = new UserMetaLayout(22, 22, 11);
+                    userMetaLayout.SetBinding(UserMetaLayout.AvatarSourceProperty, nameof(CommentDto.AvatarUrl));
+                    userMetaLayout.SetBinding(UserMetaLayout.GitHubIdProperty, nameof(CommentDto.GitHubId));
+                    userMetaLayout.SetBinding(UserMetaLayout.LoginProperty, nameof(CommentDto.Login));
+                    userMetaLayout.SetBinding(UserMetaLayout.ModifiedProperty, nameof(CommentDto.Modified));
 
                     var textLabel = new Label
                     {
@@ -103,7 +103,7 @@ namespace OpenStandup.Mobile.Views
 
                     deleteLayout.SetBinding(IsVisibleProperty, new Binding(nameof(PostDto.GitHubId), BindingMode.Default, new UserIdIsMeBoolConverter(), appContext.User.Id));
 
-                    grid.Children.Add(authorLayout);
+                    grid.Children.Add(userMetaLayout);
                     grid.Children.Add(textLabel, 0, 1);
                     grid.Children.Add(deleteLayout, 0, 2);
                     return grid;

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OpenStandup.Common;
 using OpenStandup.Common.Dto;
 using OpenStandup.Core.Domain.Entities;
@@ -19,5 +20,6 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<PostDetailDto>> GetPost(int id);
         Task<Dto<GitHubUser>> GetUser(string gitHubId);
         Task DeletePost(int id);
+        Task<Dto<IEnumerable<UserNearbyDto>>> GetNearbyUsers();
     }
 }

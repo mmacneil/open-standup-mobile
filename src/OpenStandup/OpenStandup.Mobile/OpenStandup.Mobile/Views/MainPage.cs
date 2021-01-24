@@ -84,7 +84,7 @@ namespace OpenStandup.Mobile.Views
             layout.Children.Add(refreshView);
             layout.Children.Add(fab);
 
-            Content = new StackLayout { Children = { layout } };
+            Content = layout;
 
             MessagingCenter.Subscribe<PostDetailPage>(this, "OnDelete", async sender =>
             {
