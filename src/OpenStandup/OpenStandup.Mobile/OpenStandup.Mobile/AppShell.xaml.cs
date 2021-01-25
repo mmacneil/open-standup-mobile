@@ -4,14 +4,17 @@ using Autofac;
 using MediatR;
 using OpenStandup.Core.Domain.Features.Logout.Models;
 using OpenStandup.Mobile.Interfaces;
+using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile
 {
     public partial class AppShell
     {
-        private readonly IMediator _mediator = App.Container.Resolve<IMediator>();
         private readonly IIndicatorPageService _indicatorPageService = App.Container.Resolve<IIndicatorPageService>();
+        private readonly IMediator _mediator = App.Container.Resolve<IMediator>();
+        private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
+
 
         public AppShell()
         {
@@ -26,7 +29,12 @@ namespace OpenStandup.Mobile
             _indicatorPageService.InitIndicatorPage(new IndicatorPage());
         }
 
-        public ICommand ExecuteLogout => new Command(async () =>
+        public ICommand LaunchAbout => new Command(async () =>
+        {
+            await _popupNavigation.PushAsync(new AboutPage());
+        });
+
+        public ICommand Logout => new Command(async () =>
         {
             await _mediator.Send(new LogoutRequest());
             await GoToAsync("///main/login?logout=1");

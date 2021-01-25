@@ -6,12 +6,14 @@
        mc:Ignorable="d"
        xmlns:controls="clr-namespace:OpenStandup.Mobile.Controls"
        xmlns:views="clr-namespace:OpenStandup.Mobile.Views"
+       xmlns:icons="clr-namespace:OpenStandup.Mobile;assembly=OpenStandup.Mobile"
        Title="Clean Xamarin.Forms"
        x:Class="OpenStandup.Mobile.AppShell">
 
     <!-- Styles and Resources -->
     <Shell.Resources>
         <ResourceDictionary Source="ShellStyles.xaml"/>
+        <ResourceDictionary Source="Styles.xaml"/>
     </Shell.Resources>
 
     <Shell.FlyoutHeader>
@@ -26,6 +28,12 @@
     <!-- Main Page -->
     <FlyoutItem Route="main"
                 FlyoutDisplayOptions="AsMultipleItems" IsTabStop="False">
+        <FlyoutItem.Icon>
+            <FontImageSource
+                FontFamily="{DynamicResource MaterialFontFamily}"
+                Glyph="{x:Static icons:IconFont.Orbit}"
+                Color="Black"/>
+        </FlyoutItem.Icon>
         <ShellContent Route="home"
                       IsTabStop="False"
                       ContentTemplate="{DataTemplate views:MainPage}"
@@ -40,8 +48,11 @@
                       Title="My Profile"   
                       ContentTemplate="{DataTemplate views:ProfilePage}" />
 
+    <MenuItem Text="About"
+              Command="{Binding LaunchAbout}" />
+
     <MenuItem Text="Logout"
-              Command="{Binding ExecuteLogout}" />
+              Command="{Binding Logout}" />
 
     <!-- Login and Registration Page -->
     <ShellContent Route="login"
