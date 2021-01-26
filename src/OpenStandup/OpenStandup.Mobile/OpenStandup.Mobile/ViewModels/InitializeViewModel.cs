@@ -29,19 +29,23 @@ namespace OpenStandup.Mobile.ViewModels
         private readonly INavigator _navigator;
         private readonly IConfigurationLoader _configurationLoader;
         private readonly IOpenStandupApi _openStandupApi;
+        private readonly IVersionInfo _versionInfo;
 
 
-        public InitializeViewModel(IAppContext appContext, ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi)
+        public InitializeViewModel(IAppContext appContext, ISecureDataRepository secureDataRepository, INavigator navigator, IConfigurationLoader configurationLoader, IOpenStandupApi openStandupApi, IVersionInfo versionInfo)
         {
             _appContext = appContext;
             _secureDataRepository = secureDataRepository;
             _navigator = navigator;
             _configurationLoader = configurationLoader;
             _openStandupApi = openStandupApi;
+            _versionInfo = versionInfo;
         }
 
         public async Task Initialize()
         {
+            _versionInfo.Track();
+
             Failed = false;
             IsBusy = true;
             Status = "Loading...";

@@ -49,6 +49,8 @@ namespace OpenStandup.Mobile.Infrastructure
 
             builder.RegisterType<JobService>().SingleInstance();
 
+            builder.RegisterType<VersionInfo>().As<IVersionInfo>().SingleInstance();
+
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
             builder.Register(ctx => new HttpClient(new HttpClientHandler())

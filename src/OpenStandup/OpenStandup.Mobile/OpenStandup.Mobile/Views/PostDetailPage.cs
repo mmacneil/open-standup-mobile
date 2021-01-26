@@ -82,7 +82,7 @@ namespace OpenStandup.Mobile.Views
                         FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                         Margin = new Thickness(15, 5, 15, 5),
                         Style = ResourceDictionaryHelper.GetStyle("ContentLabel"),
-                        TextColor = ResourceDictionaryHelper.GetColor("PostBody")
+                        TextColor = ResourceDictionaryHelper.GetColor("Text")
                     };
 
                     textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));

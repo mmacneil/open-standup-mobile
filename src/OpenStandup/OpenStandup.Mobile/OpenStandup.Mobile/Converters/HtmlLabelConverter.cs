@@ -32,7 +32,7 @@ namespace OpenStandup.Mobile.Converters
 
             if (string.IsNullOrEmpty(section.Link))
             {
-                span.TextColor = ResourceDictionaryHelper.GetColor("PostBody");
+                span.TextColor = ResourceDictionaryHelper.GetColor("Text");
                 return span;
             }
 

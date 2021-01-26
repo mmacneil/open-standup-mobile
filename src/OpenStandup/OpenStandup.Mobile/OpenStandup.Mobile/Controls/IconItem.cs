@@ -8,7 +8,7 @@ namespace OpenStandup.Mobile.Controls
     public class IconItem : StackLayout
     {
         public static BindableProperty TextProperty = BindableProperty.Create(
-            "Text",
+            nameof(Text),
             typeof(string),
             typeof(IconItem),
             string.Empty,
