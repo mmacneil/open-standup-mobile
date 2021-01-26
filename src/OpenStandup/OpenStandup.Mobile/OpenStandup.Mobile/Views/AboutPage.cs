@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using OpenStandup.Core.Interfaces;
-using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Helpers;
+using Xamarin.CommunityToolkit.Effects;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 
@@ -13,6 +14,18 @@ namespace OpenStandup.Mobile.Views
 
         public AboutPage()
         {
+            var gitHubLink = new Label
+            {
+                Style = ResourceDictionaryHelper.GetStyle("AboutIcon")
+            };
+
+            TouchEffect.SetNativeAnimation(gitHubLink, true);
+
+            TouchEffect.SetCommand(gitHubLink, new Command(async () =>
+            {
+                await Launcher.OpenAsync("https://github.com/mmacneil/open-standup");
+            }));
+
             Content = new Frame
             {
                 Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
@@ -25,16 +38,18 @@ namespace OpenStandup.Mobile.Views
                         {
                             Children =
                             {
-                                new Label 
+                                new Label
                                 {
-                                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-                                    HorizontalTextAlignment = TextAlignment.Center, 
+                                    FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                                    HorizontalTextAlignment = TextAlignment.Center,
                                     Text = $"Version {_versionInfo.CurrentVersion}",
                                     TextColor = ResourceDictionaryHelper.GetColor("Text")
                                 },
-                                new IconItem(IconFont.Github) {Text = "https://github.com/mmacneil/open-standup"}
+
+                                gitHubLink
                             },
-                            Margin = new Thickness(0, 15, 0, 0)
+                            Margin = new Thickness(0, 15, 0, 0),
+                            Spacing = 16
                         }
                     }
                 }

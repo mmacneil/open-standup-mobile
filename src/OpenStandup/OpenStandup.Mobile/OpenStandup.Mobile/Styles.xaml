@@ -2,7 +2,8 @@
 <?xaml-comp compile="true" ?>
 
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:icons="clr-namespace:OpenStandup.Mobile;assembly=OpenStandup.Mobile">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Colors.xaml"/>
@@ -13,12 +14,20 @@
         <On Platform="Android" Value="materialdesignicons-webfont.ttf#Material Design Icons" />
     </OnPlatform>
 
-    <Style TargetType="{x:Type Label}" x:Key="ItemIcon">
+    <Style TargetType="{x:Type Label}" x:Key="BaseIconLabel">
         <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
-        <Setter Property="FontSize" Value="Large"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="TextColor" Value="{StaticResource NavigationPrimary}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="AboutIcon" BasedOn="{StaticResource BaseIconLabel}">
+        <Setter Property="FontSize" Value="60"/>
+        <Setter Property="Text" Value="{x:Static icons:IconFont.Github}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Label}" x:Key="ItemIcon">
+        <Setter Property="FontSize" Value="Large"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="TextColor" Value="{StaticResource ControlAccent}"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" x:Key="MetaIcon">
