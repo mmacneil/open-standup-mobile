@@ -26,37 +26,63 @@
     </ShellItem>
 
     <!-- Main Page -->
-    <FlyoutItem Route="main"
-                FlyoutDisplayOptions="AsMultipleItems" IsTabStop="False">
-        <FlyoutItem.Icon>
-            <FontImageSource
-                FontFamily="{DynamicResource MaterialFontFamily}"
-                Glyph="{x:Static icons:IconFont.Orbit}"
-                Color="Black"/>
-        </FlyoutItem.Icon>
+    <FlyoutItem Route="main" FlyoutDisplayOptions="AsMultipleItems" IsTabStop="False">
         <ShellContent Route="home"
                       IsTabStop="False"
                       ContentTemplate="{DataTemplate views:MainPage}"
-                      Title="Posts" />
+                      Title="Posts">
+            <ShellContent.Icon>
+                <!-- Dupe FontFamily and Color props for each icon as no implicit style support exists for FontImageSource. Enhancement request here: https://github.com/xamarin/Xamarin.Forms/issues/11961 -->
+                <FontImageSource
+                    FontFamily="{StaticResource MaterialFontFamily}"
+                    Glyph="{x:Static icons:IconFont.ImageMultipleOutline}"
+                    Color="{StaticResource NavigationPrimary}"/>
+            </ShellContent.Icon>
+        </ShellContent>
     </FlyoutItem>
 
     <ShellContent Route="nearby"                       
                   Title="Nerd Nearby"   
-                  ContentTemplate="{DataTemplate views:NearbyPage}" />
+                  ContentTemplate="{DataTemplate views:NearbyPage}">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="{StaticResource MaterialFontFamily}"
+                Glyph="{x:Static icons:IconFont.MapMarkerRadiusOutline}"
+                Color="{StaticResource NavigationPrimary}"/>
+        </ShellContent.Icon>
+    </ShellContent>
 
     <ShellContent Route="profile"                       
                       Title="My Profile"   
-                      ContentTemplate="{DataTemplate views:ProfilePage}" />
-
-    <MenuItem Text="About"
-              Command="{Binding LaunchAbout}" />
-
-    <MenuItem Text="Logout"
-              Command="{Binding Logout}" />
-
-    <!-- Login and Registration Page -->
-    <ShellContent Route="login"
-                  ContentTemplate="{DataTemplate views:LoginPage}">
+                      ContentTemplate="{DataTemplate views:ProfilePage}">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="{StaticResource MaterialFontFamily}"
+                Glyph="{x:Static icons:IconFont.AccountCircleOutline}"
+                Color="{StaticResource NavigationPrimary}"/>
+        </ShellContent.Icon>
     </ShellContent>
 
+    <MenuItem Text="About"
+              Command="{Binding LaunchAbout}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="{StaticResource MaterialFontFamily}"
+                Glyph="{x:Static icons:IconFont.InformationOutline}"
+                Color="{StaticResource NavigationPrimary}"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <MenuItem Text="Logout"
+              Command="{Binding Logout}">
+        <MenuItem.IconImageSource>
+            <FontImageSource
+                FontFamily="{StaticResource MaterialFontFamily}"
+                Glyph="{x:Static icons:IconFont.Logout}"
+                Color="{StaticResource NavigationPrimary}"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <!-- Login and Registration Page -->
+    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
 </Shell>
