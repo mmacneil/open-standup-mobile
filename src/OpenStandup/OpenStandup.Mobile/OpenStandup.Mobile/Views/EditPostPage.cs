@@ -54,7 +54,7 @@ namespace OpenStandup.Mobile.Views
 
             editorLayout.Children.Add(previewImage);
 
-            var cameraIcon = new Label { Style = ResourceDictionaryHelper.GetStyle("ItemIcon"), Text = IconFont.Camera, FontSize = 40 };
+            var cameraIcon = new Label { Style = ResourceDictionaryHelper.GetStyle("CameraIcon") };
 
             TouchEffect.SetNormalTranslationY(cameraIcon, -22);
             TouchEffect.SetNativeAnimation(cameraIcon, true);
@@ -69,7 +69,7 @@ namespace OpenStandup.Mobile.Views
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Repo names will be hyper-linked" },
+                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Your repo names will be hyper-linked" },
                     cameraIcon
                 }
             };

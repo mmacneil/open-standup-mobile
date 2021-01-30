@@ -21,5 +21,7 @@ namespace OpenStandup.Core.Interfaces.Apis
         Task<Dto<GitHubUser>> GetUser(string gitHubId);
         Task DeletePost(int id);
         Task<Dto<IEnumerable<UserNearbyDto>>> GetNearbyUsers();
+        Task<Dto<bool>> LikePost(int postId);
+        Task<Dto<bool>> UnlikePost(int postId);
     }
 }

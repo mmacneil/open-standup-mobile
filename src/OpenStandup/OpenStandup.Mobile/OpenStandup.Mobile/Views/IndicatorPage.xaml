@@ -10,10 +10,10 @@
             effects:RoundCornersEffect.CornerRadius="14"
             Opacity=".75"
             Padding="10"
-            BackgroundColor="{StaticResource NavigationPrimary}"
+            BackgroundColor="{StaticResource 1}"
             HorizontalOptions="Center"
             VerticalOptions="Center">
-            <ActivityIndicator IsRunning="True" Color="{StaticResource ButtonPrimary}" />
+            <ActivityIndicator IsRunning="True" Color="{StaticResource 4}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

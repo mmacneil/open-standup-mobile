@@ -11,7 +11,7 @@ using OpenStandup.Mobile.Interfaces;
 using OpenStandup.Mobile.ViewModels;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using Xamarin.CommunityToolkit.Effects;
+using static Xamarin.CommunityToolkit.Effects.TouchEffect;
 using Xamarin.Forms;
 
 namespace OpenStandup.Mobile.Controls
@@ -80,27 +80,35 @@ namespace OpenStandup.Mobile.Controls
 
             Children.Add(contentLayout, 0, 1);
 
-            var commentCountLabel = new Label { Style = ResourceDictionaryHelper.GetStyle("MetaText") };
-            commentCountLabel.SetBinding(Label.TextProperty, nameof(PostDto.CommentCount));
-
-            var commentLayout = new StackLayout
-            {
-                Orientation = StackOrientation.Horizontal,
-                Children =
-                {
-                    new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.CommentMultiple },
-                    commentCountLabel
-                }
-            };
+            var commentLayout = new MetaItemCountLayout(IconFont.CommentMultiple);
+            commentLayout.SetBinding(MetaItemCountLayout.CountProperty, nameof(PostDto.CommentCount));
 
             if (viewMode == PostViewMode.Summary)
             {
-                TouchEffect.SetNativeAnimation(commentLayout, true);
-                TouchEffect.SetCommand(commentLayout, new Command(async () =>
+                SetNativeAnimation(commentLayout, true);
+                SetCommand(commentLayout, new Command(async () =>
                 {
                     await _popupNavigation.PushAsync(_pageFactory.Resolve<PostDetailViewModel>(vm => vm.Id = Convert.ToInt32(AutomationId)) as PopupPage);
                 }));
             }
+
+            var likeLayout = new MetaItemCountLayout(IconFont.ThumbUp);
+            likeLayout.SetBinding(MetaItemCountLayout.ActiveProperty, nameof(PostDto.Liked));
+            likeLayout.SetBinding(MetaItemCountLayout.CountProperty, nameof(PostDto.LikeCount));
+            SetNativeAnimation(likeLayout, true);
+            SetCommand(likeLayout, new Command(async () =>
+            {
+                if (likeLayout.Active)
+                {
+                    likeLayout.Deactivate();
+                    await _openStandupApi.UnlikePost(Convert.ToInt32(AutomationId));
+                }
+                else
+                {
+                    likeLayout.Activate();
+                    await _openStandupApi.LikePost(Convert.ToInt32(AutomationId));
+                }
+            }));
 
             var deleteLayout = new DeleteLayout(async () =>
             {
@@ -124,15 +132,7 @@ namespace OpenStandup.Mobile.Controls
                 Children =
                 {
                     commentLayout,
-                    new StackLayout
-                    {
-                        Orientation = StackOrientation.Horizontal,
-                        Children =
-                        {
-                            new Label { Style = ResourceDictionaryHelper.GetStyle("MetaIcon"), Text = IconFont.ThumbUp },
-                            new Label { Text = "0", Style = ResourceDictionaryHelper.GetStyle("MetaText") }
-                        }
-                    },
+                    likeLayout,
                     deleteLayout
                 },
             }, 0, 2);

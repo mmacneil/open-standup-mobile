@@ -32,7 +32,7 @@ namespace OpenStandup.Mobile.Converters
 
             if (string.IsNullOrEmpty(section.Link))
             {
-                span.TextColor = ResourceDictionaryHelper.GetColor("Text");
+                span.TextColor = ResourceDictionaryHelper.GetColor("6");
                 return span;
             }
 
@@ -42,7 +42,7 @@ namespace OpenStandup.Mobile.Converters
                 CommandParameter = section.Link
             });
 
-            span.TextColor = ResourceDictionaryHelper.GetColor("Link");
+            span.TextColor = ResourceDictionaryHelper.GetColor("3");
             span.TextDecorations = TextDecorations.Underline;
             return span;
         }

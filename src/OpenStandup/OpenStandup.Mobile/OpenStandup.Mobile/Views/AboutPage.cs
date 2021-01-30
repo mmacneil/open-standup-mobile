@@ -43,7 +43,7 @@ namespace OpenStandup.Mobile.Views
                                     FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                                     HorizontalTextAlignment = TextAlignment.Center,
                                     Text = $"Version {_versionInfo.CurrentVersion}",
-                                    TextColor = ResourceDictionaryHelper.GetColor("Text")
+                                    TextColor = ResourceDictionaryHelper.GetColor("6")
                                 },
 
                                 gitHubLink

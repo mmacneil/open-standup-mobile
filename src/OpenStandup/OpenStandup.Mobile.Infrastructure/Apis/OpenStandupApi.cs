@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using OpenStandup.Core.Interfaces.Apis;
 using Newtonsoft.Json;
 using OpenStandup.Common;
 using OpenStandup.Common.Dto;
+using OpenStandup.Common.Dto.Commands;
 using OpenStandup.Core.Interfaces.Data.Repositories;
 using Vessel;
 
@@ -86,7 +88,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new CreatePostDto(text, image)), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(new CreatePostDto(text, new ReadOnlyCollection<byte>(image))), Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);
@@ -126,7 +128,9 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         public async Task<Dto<PagedResult<PostDto>>> GetPostSummaries(int offset)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}")).ConfigureAwait(false);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_appSettings.ApiEndpoint}/posts/summaries?offset={offset}");
+            await AddAuthorizationHeader(request);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
 
             return response.IsSuccessStatusCode ?
                 Dto<PagedResult<PostDto>>.Success(
@@ -137,7 +141,9 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         public async Task<Dto<PostDetailDto>> GetPost(int id)
         {
-            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.GetAsync($"{_appSettings.ApiEndpoint}/posts?id={id}")).ConfigureAwait(false);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_appSettings.ApiEndpoint}/posts?id={id}");
+            await AddAuthorizationHeader(request);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
@@ -177,6 +183,32 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
             return response.IsSuccessStatusCode ? Dto<IEnumerable<UserNearbyDto>>.Success(JsonConvert.DeserializeObject<IEnumerable<UserNearbyDto>>(
                 await response.Content.ReadAsStringAsync())) :
                 Dto<IEnumerable<UserNearbyDto>>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
+        public async Task<Dto<bool>> LikePost(int postId)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts/likes")
+            {
+                Content = new StringContent(postId.ToString(), Encoding.UTF8, "application/json")
+            };
+
+            await AddAuthorizationHeader(request);
+
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed(response.StatusCode, response.ReasonPhrase);
+        }
+
+        public async Task<Dto<bool>> UnlikePost(int postId)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"{_appSettings.ApiEndpoint}/posts/likes?postId={postId}");
+            await AddAuthorizationHeader(request);
+            var response = await Policies.AttemptAndRetryPolicy(() => _httpClient.SendAsync(request)).ConfigureAwait(false);
+            return response.IsSuccessStatusCode
+                ? Dto<bool>.Success(true)
+                : Dto<bool>.Failed();
         }
     }
 }
