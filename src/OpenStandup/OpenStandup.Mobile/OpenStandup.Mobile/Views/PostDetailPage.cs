@@ -151,6 +151,9 @@ namespace OpenStandup.Mobile.Views
             _viewModel = (PostDetailViewModel)BindingContext;
             await _viewModel.Initialize();
 
+            // Unauthorized presenter support.
+            if (_viewModel.Post == null) return;
+
             _postLayout = new PostLayout(PostViewMode.Detail, DeleteHandler, !string.IsNullOrEmpty(_viewModel.Post.ImageName))
             {
                 BindingContext = _viewModel.Post
