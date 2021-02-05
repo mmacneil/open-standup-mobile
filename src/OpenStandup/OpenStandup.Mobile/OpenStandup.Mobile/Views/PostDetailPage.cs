@@ -17,7 +17,8 @@ namespace OpenStandup.Mobile.Views
         private PostDetailViewModel _viewModel;
         private PostLayout _postLayout;
         private readonly Grid _grid = new Grid { Padding = new Thickness(0, 10, 0, 0) };
-        private readonly ActivityIndicator _activityIndicator = new ActivityIndicator { IsRunning = true };
+
+        private readonly CollectionView _commentsView;
 
         private readonly IPopupNavigation _popupNavigation;
 
@@ -25,11 +26,20 @@ namespace OpenStandup.Mobile.Views
         {
             _popupNavigation = popupNavigation;
 
+            var activityLayout = new ContentView
+            {
+                Content = new ActivityIndicator { IsRunning = true },
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            activityLayout.SetBinding(IsVisibleProperty, nameof(_viewModel.IsBusy));
+
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             _grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            _grid.Children.Add(_activityIndicator);
+          //  _grid.Children.Add(activityLayout, 0, 1);
 
             var postButton = new Button
             {
@@ -61,7 +71,7 @@ namespace OpenStandup.Mobile.Views
                 Spacing = 2
             }, 0, 1);
 
-            var commentsView = new CollectionView
+            _commentsView = new CollectionView
             {
                 ItemTemplate = new DataTemplate(() =>
                 {
@@ -108,10 +118,10 @@ namespace OpenStandup.Mobile.Views
                     grid.Children.Add(deleteLayout, 0, 2);
                     return grid;
                 }),
-                Margin = new Thickness(0, 10, 0, 0)
+                Margin = new Thickness(0, 5, 0, 0)
             };
 
-            commentsView.SetBinding(ItemsView.ItemsSourceProperty, nameof(_viewModel.Comments));
+            _commentsView.SetBinding(ItemsView.ItemsSourceProperty, nameof(_viewModel.Comments));
 
             var commentsLayout = new StackLayout
             {
@@ -125,22 +135,29 @@ namespace OpenStandup.Mobile.Views
                     },
                     new BoxView
                     {
-                        Margin = new Thickness(0, 6, 0, 0),
+                        Margin = new Thickness(0, 5, 0, 0),
                         HorizontalOptions = LayoutOptions.FillAndExpand,
                         HeightRequest = 1,
                         Color = Color.FromHex("#d9dadc")
                     },
-                    commentsView
+                    _commentsView
                 },
                 Spacing = 2
             };
 
+            commentsLayout.SetBinding(IsVisibleProperty, nameof(_viewModel.Comments), BindingMode.Default, new CollectionToBoolConverter());
+
             _grid.Children.Add(commentsLayout, 0, 2);
+            _grid.SetBinding(IsVisibleProperty, nameof(_viewModel.IsBusy), BindingMode.Default, new BoolInversionConverter());
+
+            var container = new Grid();
+            container.Children.Add(_grid);
+            container.Children.Add(activityLayout);
 
             Content = new Frame
             {
                 Style = ResourceDictionaryHelper.GetStyle("ModalFrame"),
-                Content = _grid
+                Content = container
             };
         }
 
@@ -149,6 +166,7 @@ namespace OpenStandup.Mobile.Views
             base.OnAppearing();
 
             _viewModel = (PostDetailViewModel)BindingContext;
+            _viewModel.IsBusy = true;
             await _viewModel.Initialize();
 
             // Unauthorized presenter support.
@@ -159,7 +177,8 @@ namespace OpenStandup.Mobile.Views
                 BindingContext = _viewModel.Post
             };
 
-            _activityIndicator.IsVisible = false;
+            _viewModel.IsBusy = false;
+            _commentsView.ScrollTo(3);
             _grid.Children.Add(_postLayout);
         }
 

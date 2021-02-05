@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
@@ -88,7 +89,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_appSettings.ApiEndpoint}/posts")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new CreatePostDto(text, new ReadOnlyCollection<byte>(image))), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(new CreatePostDto(text, new ReadOnlyCollection<byte>(image ?? Array.Empty<byte>()))), Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);

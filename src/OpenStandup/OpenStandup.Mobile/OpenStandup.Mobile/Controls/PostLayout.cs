@@ -69,6 +69,11 @@ namespace OpenStandup.Mobile.Controls
                     Margin = new Thickness(0, 0, 0, 5)
                 };
 
+                if (viewMode == PostViewMode.Summary)
+                {
+                    SetNavigationState(image);
+                }
+
                 image.SetBinding(IsVisibleProperty, nameof(PostDto.ImageName), BindingMode.Default, new StringToBoolConverter());
 
                 image.SetBinding(Image.SourceProperty, new Binding(nameof(PostDto.ImageName), BindingMode.Default,
@@ -85,11 +90,7 @@ namespace OpenStandup.Mobile.Controls
 
             if (viewMode == PostViewMode.Summary)
             {
-                SetNativeAnimation(commentLayout, true);
-                SetCommand(commentLayout, new Command(async () =>
-                {
-                    await _popupNavigation.PushAsync(_pageFactory.Resolve<PostDetailViewModel>(vm => vm.Id = Convert.ToInt32(AutomationId)) as PopupPage);
-                }));
+                SetNavigationState(commentLayout);
             }
 
             var likeLayout = new MetaItemCountLayout(IconFont.ThumbUp);
@@ -144,6 +145,15 @@ namespace OpenStandup.Mobile.Controls
                 HeightRequest = 1,
                 Color = Color.FromHex("#d9dadc")
             }, 0, 3);
+        }
+
+        private void SetNavigationState(BindableObject bindableObject)
+        {
+            SetNativeAnimation(bindableObject, true);
+            SetCommand(bindableObject, new Command(async () =>
+            {
+                await _popupNavigation.PushAsync(_pageFactory.Resolve<PostDetailViewModel>(vm => vm.Id = Convert.ToInt32(AutomationId)) as PopupPage);
+            }));
         }
     }
 }

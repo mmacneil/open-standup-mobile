@@ -21,7 +21,7 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
 #if DEBUG
                 return "https://192.168.0.141:45455";
 #else
-                return "https://openstandup.com;
+                return "https://openstandup.com";
 #endif
             }
         }

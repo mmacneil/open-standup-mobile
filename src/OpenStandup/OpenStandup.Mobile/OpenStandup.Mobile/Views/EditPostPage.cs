@@ -69,7 +69,7 @@ namespace OpenStandup.Mobile.Views
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Your repo names will be hyper-linked" },
+                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Your public repo names will be hyper-linked" },
                     cameraIcon
                 }
             };
