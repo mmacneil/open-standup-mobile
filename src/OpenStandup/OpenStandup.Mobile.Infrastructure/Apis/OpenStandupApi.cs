@@ -24,6 +24,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         private readonly IAppSettings _appSettings;
         private readonly IMapper _mapper;
 
+
         public OpenStandupApi(HttpClient httpClient, IAppSettings appSettings, IMapper mapper, ISecureDataRepository secureDataRepository) : base(secureDataRepository)
         {
             _httpClient = httpClient;
@@ -54,7 +55,8 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, $"{_appSettings.ApiEndpoint}/users/Location")
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new { latitude, longitude }), Encoding.UTF8, "application/json")
+                //Serializing an anonymous object i.e. JsonConvert.SerializeObject(new {latitude, longitude}) didn't work in release mode but is fine in debug...
+                Content = new StringContent($"{{ \"{nameof(latitude)}\": {latitude}, \"{nameof(longitude)}\": {longitude} }}", Encoding.UTF8, "application/json")
             };
 
             await AddAuthorizationHeader(request);

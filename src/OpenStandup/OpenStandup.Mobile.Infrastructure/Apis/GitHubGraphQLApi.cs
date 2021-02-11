@@ -20,6 +20,7 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
         private readonly GraphQLHttpClient _graphQLHttpClient;
         private readonly IMapper _mapper;
 
+
         public GitHubGraphQLApi(GraphQLHttpClient graphQLHttpClient, IMapper mapper, ISecureDataRepository secureDataRepository) : base(secureDataRepository)
         {
             _graphQLHttpClient = graphQLHttpClient;
@@ -160,8 +161,34 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
 
         private async Task<Dto<ICollection<Repository>>> GetViewerRepositories()
         {
+#if !DEBUG
+            static string PrepareQuery(string endCursor = null)
+            {
+                return $@"query{{
+                viewer {{
+                    repositories(first: {PageSize}, after: {(endCursor == null ? "null" : $"\"{endCursor}\"")}) {{
+                        nodes {{
+                            databaseId 
+                            name
+                            url
+                            isPrivate
+                            }}
+                        pageInfo {{
+                            endCursor
+                            hasNextPage
+                            }}
+                        }}
+                    }}
+                }}";
+            }
+#endif
+
             var graphQLRequest = new GraphQLRequest
             {
+                // Check Me: There's a serialization bug in Release mode when passing vars with an anonymous object via the Variables property which results in a mangled query.
+                // This seems suspiciously familiar to OpenStandupApi#UpdateLocation which has a similar bug serializing anonymous objects in Release mode. Start by checking linking options
+                // i.e. set to "Don't Link"
+#if DEBUG
                 Query = @"query ViewerRepositories($first: Int!, $after: String) {
                           viewer {
                             repositories(first: $first, after: $after) {
@@ -183,6 +210,9 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                 {
                     first = PageSize
                 }
+#else
+                Query = PrepareQuery()
+#endif
             };
 
             await AddAuthorizationHeader(_graphQLHttpClient.HttpClient);
@@ -199,7 +229,11 @@ namespace OpenStandup.Mobile.Infrastructure.Apis
                     results.AddRange(response.Data.Viewer.Repositories.Nodes);
                     if (response.Data.Viewer.Repositories.PageInfo.HasNextPage)
                     {
+#if DEBUG
                         graphQLRequest.Variables = new { first = PageSize, after = response.Data.Viewer.Repositories.PageInfo.EndCursor };
+#else
+                        graphQLRequest.Query = PrepareQuery(response.Data.Viewer.Repositories.PageInfo.EndCursor);
+#endif
                     }
                     else
                     {

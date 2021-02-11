@@ -87,7 +87,7 @@ namespace OpenStandup.Mobile.Infrastructure.Services
 
         private async Task UpdateGitHubProfile(CancellationToken cancellationToken)
         {
-            // Fetch and store user's profile info   
+            // Fetch and store user's profile info  
             var gitHubUserResponse = await _gitHubGraphQLApi.GetViewer().ConfigureAwait(false);
 
             if (gitHubUserResponse.Succeeded)

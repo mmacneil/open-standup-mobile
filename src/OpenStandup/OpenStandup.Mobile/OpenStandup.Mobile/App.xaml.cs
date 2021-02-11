@@ -1,5 +1,6 @@
 ﻿using OpenStandup.Mobile.Bootstrap;
 using Autofac;
+using OpenStandup.Core.Interfaces.Services;
 
 
 namespace OpenStandup.Mobile
@@ -18,6 +19,8 @@ namespace OpenStandup.Mobile
 
         protected override void OnStart()
         {
+            var appCenter = Container.Resolve<IAppCenterWrapper>();
+            appCenter.Start();
         }
 
         protected override void OnSleep()

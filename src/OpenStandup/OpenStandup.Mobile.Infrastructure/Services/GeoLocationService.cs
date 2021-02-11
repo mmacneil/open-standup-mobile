@@ -8,6 +8,12 @@ namespace OpenStandup.Mobile.Infrastructure.Services
 {
     public class GeoLocationService : IGeoLocationService
     {
+        private readonly IAppCenterWrapper _appCenterWrapper;
+        public GeoLocationService(IAppCenterWrapper appCenterWrapper)
+        {
+            _appCenterWrapper = appCenterWrapper;
+        }
+
         public async Task<Tuple<double, double>> GetCurrentLocation(CancellationTokenSource cts)
         {
             try
@@ -21,6 +27,7 @@ namespace OpenStandup.Mobile.Infrastructure.Services
                 || ex is FeatureNotEnabledException
                 || ex is PermissionException)
             {
+                _appCenterWrapper.TrackError(ex);
                 return new Tuple<double, double>(0, 0);
             }
         }

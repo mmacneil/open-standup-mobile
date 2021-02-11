@@ -13,6 +13,7 @@ using OpenStandup.Common.Infrastructure;
 using OpenStandup.Common.Interfaces.Infrastructure;
 using OpenStandup.Core.Interfaces;
 using OpenStandup.Core.Interfaces.Apis;
+using OpenStandup.Core.Interfaces.Services;
 using OpenStandup.Mobile.Infrastructure.Apis;
 using OpenStandup.Mobile.Infrastructure.Configuration;
 using OpenStandup.Mobile.Infrastructure.Interfaces;
@@ -50,6 +51,9 @@ namespace OpenStandup.Mobile.Infrastructure
             builder.RegisterType<JobService>().SingleInstance();
 
             builder.RegisterType<VersionInfo>().As<IVersionInfo>().SingleInstance();
+
+            builder.RegisterType<AppCenterWrapper>().As<IAppCenterWrapper>().SingleInstance();
+
 
             builder.RegisterInstance(new AppDb("app.sqlite3", ApplicationDataPath)).SingleInstance();
 
