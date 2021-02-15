@@ -82,7 +82,7 @@ namespace OpenStandup.Mobile.Converters
             public string Link { get; set; }
         }
 
-        private readonly ICommand _navigationCommand = new Command<string>(async (url) =>
+        private readonly ICommand _navigationCommand = new Command<string>(async url =>
         {
             await Launcher.OpenAsync(url);
         });
