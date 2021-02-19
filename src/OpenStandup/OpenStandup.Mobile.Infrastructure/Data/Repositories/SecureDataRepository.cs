@@ -21,23 +21,22 @@ namespace OpenStandup.Mobile.Infrastructure.Data.Repositories
 
         public Task<string> GetPersonalAccessToken()
         {
-             return GetSecureStorageValue(PersonalAccessToken);
-             //return Task.FromResult("34343");
+            return GetSecureStorageValue(PersonalAccessToken);
         }
 
-        public async Task SetGitHubClientId(string value)
+        public Task SetGitHubClientId(string value)
         {
-            await SetSecureStorageValue(GitHubClientId, value);
+            return SetSecureStorageValue(GitHubClientId, value);
         }
 
-        public async Task SetGitHubClientSecret(string value)
+        public Task SetGitHubClientSecret(string value)
         {
-            await SetSecureStorageValue(GitHubClientSecret, value);
+            return SetSecureStorageValue(GitHubClientSecret, value);
         }
 
-        public async Task SetPersonalAccessToken(string value)
+        public Task SetPersonalAccessToken(string value)
         {
-            await SetSecureStorageValue(PersonalAccessToken, value);
+            return SetSecureStorageValue(PersonalAccessToken, value);
         }
 
         public bool RemovePersonalAccessToken()
