@@ -41,7 +41,7 @@ namespace OpenStandup.Mobile.Views
                 },
                 ItemTemplate = new DataTemplate(() =>
                 {
-                    var layout = new StackLayout { Spacing = 10 };
+                    var layout = new StackLayout { Margin = new Thickness(0, 0, 0, 15), Spacing = 10 };
                     var userMetaLayout = new UserMetaLayout();
                     userMetaLayout.SetBinding(UserMetaLayout.AvatarSourceProperty, nameof(UserNearbyDto.AvatarUrl));
                     userMetaLayout.SetBinding(UserMetaLayout.GitHubIdProperty, nameof(UserNearbyDto.GitHubId));
