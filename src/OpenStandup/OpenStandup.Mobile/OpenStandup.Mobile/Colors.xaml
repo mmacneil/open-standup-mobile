@@ -2,12 +2,12 @@
 
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Color x:Key="1">#14213d</Color>
-    <Color x:Key="2">#e5e5e5</Color>
-    <Color x:Key="3">#fca311</Color>
-    <Color x:Key="4">#fca311</Color>
-    <Color x:Key="5">#747577</Color>
-    <Color x:Key="6">#1d1c1d</Color>
-    <Color x:Key="7">#1cbe73</Color>
+    <Color x:Key="BigStone">#14213d</Color>
+    <Color x:Key="Mercury">#e5e5e5</Color>
+    <Color x:Key="Sun">#fca311</Color>
+    <Color x:Key="RollingStone">#747577</Color>
+    <Color x:Key="Thunder">#1d1c1d</Color>
+    <Color x:Key="MountainMeadow">#1cbe73</Color>
+    <Color x:Key="Denim">#1574D7</Color>
 </ResourceDictionary>
 

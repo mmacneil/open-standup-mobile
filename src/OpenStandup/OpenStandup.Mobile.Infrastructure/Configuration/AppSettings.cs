@@ -19,9 +19,9 @@ namespace OpenStandup.Mobile.Infrastructure.Configuration
             get
             {
 #if DEBUG
-                return "https://192.168.0.141:45455";
+                return  "https://192.168.0.141:45455";
 #else
-                return "https://openstandup.com";
+                return "https://192.168.0.141:45455"; //"https://openstandup.com";
 #endif
             }
         }

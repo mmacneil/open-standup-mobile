@@ -10,10 +10,10 @@
             effects:RoundCornersEffect.CornerRadius="14"
             Opacity=".75"
             Padding="10"
-            BackgroundColor="{StaticResource 1}"
+            BackgroundColor="{StaticResource BigStone}"
             HorizontalOptions="Center"
             VerticalOptions="Center">
-            <ActivityIndicator IsRunning="True" Color="{StaticResource 4}" />
+            <ActivityIndicator IsRunning="True" Color="{StaticResource Sun}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

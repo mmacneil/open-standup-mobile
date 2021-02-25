@@ -3,6 +3,7 @@ using OpenStandup.Mobile.Controls;
 using OpenStandup.Mobile.Converters;
 using OpenStandup.Mobile.Helpers;
 using OpenStandup.Mobile.ViewModels;
+using Rg.Plugins.Popup.Contracts;
 using Xamarin.CommunityToolkit.Effects;
 using Xamarin.Forms;
 
@@ -13,6 +14,7 @@ namespace OpenStandup.Mobile.Views
     {
         private readonly EditPostViewModel _viewModel = App.Container.Resolve<EditPostViewModel>();
         private readonly EnhancedEditor _editor = new EnhancedEditor();
+        private readonly IPopupNavigation _popupNavigation = App.Container.Resolve<IPopupNavigation>();
 
         public EditPostPage()
         {
@@ -64,12 +66,25 @@ namespace OpenStandup.Mobile.Views
                 await _viewModel.TakePhoto();
             }));
 
+            var help = new Label
+            {
+                FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                Text = "Formatting Help",
+                FontAttributes = FontAttributes.Bold
+            };
+
+            TouchEffect.SetCommand(help, new Command(async () =>
+            {
+                await _popupNavigation.PushAsync(new FormattingHelpPage());
+            }));
+
             var toolbarLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children =
                 {
-                    new Label { FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)), HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Your public repo names will be hyper-linked" },
+                    help,
                     cameraIcon
                 }
             };

@@ -8,7 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseStyle" TargetType="Element">
-        <Setter Property="Shell.BackgroundColor" Value="{StaticResource 1}" />
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource BigStone}" />
         <Setter Property="Shell.ForegroundColor" Value="White" />
         <Setter Property="Shell.TitleColor" Value="White" />
         <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />

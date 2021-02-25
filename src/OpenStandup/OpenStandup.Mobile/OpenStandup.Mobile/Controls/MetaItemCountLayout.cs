@@ -5,7 +5,7 @@ namespace OpenStandup.Mobile.Controls
 {
     public class MetaItemCountLayout : StackLayout
     {
-        private readonly Color _activeColor = ResourceDictionaryHelper.GetColor("7"), _textColor = ResourceDictionaryHelper.GetColor("5");
+        private readonly Color _activeColor = ResourceDictionaryHelper.GetColor("MountainMeadow"), _textColor = ResourceDictionaryHelper.GetColor("RollingStone");
 
         public static BindableProperty ActiveProperty = BindableProperty.Create(
             nameof(Active),

@@ -67,6 +67,7 @@ namespace OpenStandup.Mobile.Views
                     editor,
                     postButton
                 },
+                Margin = new Thickness(0, 25, 0, 0),
                 Padding = new Thickness(8, 0),
                 Spacing = 2
             }, 0, 1);
@@ -92,7 +93,7 @@ namespace OpenStandup.Mobile.Views
                         FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
                         Margin = new Thickness(15, 5, 15, 5),
                         Style = ResourceDictionaryHelper.GetStyle("ContentLabel"),
-                        TextColor = ResourceDictionaryHelper.GetColor("6")
+                        TextColor = ResourceDictionaryHelper.GetColor("Thunder")
                     };
 
                     textLabel.SetBinding(Label.TextProperty, nameof(CommentDto.Text));

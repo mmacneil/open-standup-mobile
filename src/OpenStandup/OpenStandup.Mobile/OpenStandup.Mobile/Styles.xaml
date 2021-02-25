@@ -17,7 +17,7 @@
     <Style TargetType="{x:Type Label}" x:Key="BaseIconLabel">
         <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
-        <Setter Property="TextColor" Value="{StaticResource 1}"/>
+        <Setter Property="TextColor" Value="{StaticResource BigStone}"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" x:Key="AboutIcon" BasedOn="{StaticResource BaseIconLabel}">
@@ -33,26 +33,26 @@
     <Style TargetType="{x:Type Label}" x:Key="CameraIcon" BasedOn="{StaticResource BaseIconLabel}">
         <Setter Property="FontSize" Value="40"/>
         <Setter Property="Text" Value="{x:Static icons:IconFont.Camera}"/>
-        <Setter Property="TextColor" Value="{StaticResource 2}"/>
+        <Setter Property="TextColor" Value="{StaticResource Mercury}"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" x:Key="MetaIcon">
         <Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
         <Setter Property="FontSize" Value="Small"/>
-        <Setter Property="TextColor" Value="{StaticResource 5}"/>
+        <Setter Property="TextColor" Value="{StaticResource RollingStone}"/>
         <Setter Property="VerticalOptions" Value="Center"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" x:Key="MetaText">
         <Setter Property="FontSize" Value="Small"/>
-        <Setter Property="TextColor" Value="{StaticResource 5}"/>
+        <Setter Property="TextColor" Value="{StaticResource RollingStone}"/>
     </Style>
 
     <Style TargetType="{x:Type Label}" x:Key="MetaCommandText">
         <Setter Property="FontSize" Value="Micro"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="VerticalTextAlignment" Value="Center"/>
-        <Setter Property="TextColor" Value="{StaticResource 5}"/>
+        <Setter Property="TextColor" Value="{StaticResource RollingStone}"/>
     </Style>
 
     <Style TargetType="{x:Type StackLayout}" x:Key="MetaCommandLayout">
@@ -61,26 +61,34 @@
     </Style>
 
     <Style TargetType="ActivityIndicator">
-        <Setter Property="Color" Value="{StaticResource 1}" />
+        <Setter Property="Color" Value="{StaticResource BigStone}" />
     </Style>
 
     <Style x:Key="ContentLabel" TargetType="Label">
         <Setter Property="LineHeight" Value="1.1" />
+        <Setter Property="TextColor" Value="{StaticResource BigStone}" />
     </Style>
 
     <Style x:Key="Title" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource 1}" />
+        <Setter Property="TextColor" Value="{StaticResource BigStone}" />
         <Setter Property="FontSize" Value="Title" />
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
 
     <Style x:Key="SubTitle" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource 1}" />
+        <Setter Property="TextColor" Value="{StaticResource BigStone}" />
         <Setter Property="FontSize" Value="Subtitle" />
     </Style>
 
+    <Style x:Key="CloseLabel"  TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Denim}" />
+        <Setter Property="TextTransform" Value="Uppercase" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="LinkLabel"  TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource 3}" />
+        <Setter Property="TextColor" Value="{StaticResource Sun}" />
         <Setter Property="FontSize" Value="Micro" />
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
@@ -96,20 +104,20 @@
     </Style>
 
     <Style x:Key="ProfileStatName" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource 5}"/>
+        <Setter Property="TextColor" Value="{StaticResource RollingStone}"/>
         <Setter Property="FontSize" Value="Small" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="FloatingActionButton" TargetType="ImageButton">
-        <Setter Property="BackgroundColor" Value="{StaticResource 1}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource BigStone}" />
         <Setter Property="CornerRadius" Value="40" />
         <Setter Property="HeightRequest" Value="55" />
         <Setter Property="WidthRequest" Value="55" />
     </Style>
 
     <Style x:Key="ActionButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource 4}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Sun}" />
         <Setter Property="TextColor" Value="White" />
     </Style>
 
@@ -119,7 +127,7 @@
     </Style>
 
     <Style x:Key="NavigationButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource 1}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource BigStone}" />
         <Setter Property="TextColor" Value="White" />
     </Style>
 
