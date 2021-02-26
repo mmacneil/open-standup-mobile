@@ -84,7 +84,7 @@ namespace OpenStandup.Mobile.ViewModels
         }
 
         public string SelectedLogin, SelectedGitHubId;
-      
+
         private readonly IMediator _mediator;
 
         public ProfileViewModel(IMediator mediator)
@@ -115,13 +115,13 @@ namespace OpenStandup.Mobile.ViewModels
                 new StatModel ("followers", gitHubUser.FollowerCount),
                 new StatModel ("following", gitHubUser.FollowingCount),
                 new StatModel ("repos", gitHubUser.RepositoryCount),
-                new StatModel ("gists", gitHubUser.GistCount)
+                new StatModel ("gists",  gitHubUser.GistCount)
             };
 
             Initialized = true;
         }
 
-        public async Task UpdateFollower(bool follow=false)
+        public async Task UpdateFollower(bool follow = false)
         {
             await _mediator.Send(new UpdateFollowerRequest(SelectedGitHubId, Login, follow));
         }
