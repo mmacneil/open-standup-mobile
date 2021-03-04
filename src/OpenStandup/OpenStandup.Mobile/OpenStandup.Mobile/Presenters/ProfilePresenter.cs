@@ -9,10 +9,12 @@ namespace OpenStandup.Mobile.Presenters
 {
     public class ProfilePresenter : IOutputPort<Dto<GetProfileResponse>>
     {
+        private readonly IAppContext _appContext;
         private readonly ProfileViewModel _viewModel;
 
-        public ProfilePresenter(ProfileViewModel viewModel)
+        public ProfilePresenter(IAppContext appContext, ProfileViewModel viewModel)
         {
+            _appContext = appContext;
             _viewModel = viewModel;
         }
 
@@ -30,8 +32,7 @@ namespace OpenStandup.Mobile.Presenters
                 _viewModel.StatusText = response.Errors.FirstOrDefault();
             }
 
-            _viewModel.ShowActions = !string.IsNullOrEmpty(_viewModel.SelectedGitHubId);
-            _viewModel.SelectedGitHubId = null; // fix me so "local" view doesn't need this reset
+            _viewModel.ShowActions = _appContext.User.Id != _viewModel.SelectedGitHubId;
             return Task.CompletedTask;
         }
     }
