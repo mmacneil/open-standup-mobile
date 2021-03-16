@@ -44,6 +44,7 @@ namespace OpenStandup.Mobile.Views
             {
                 if (_viewModel.IsBusy || refreshView.IsRefreshing)
                 {
+                    refreshView.IsRefreshing = false;
                     return;
                 }
 
