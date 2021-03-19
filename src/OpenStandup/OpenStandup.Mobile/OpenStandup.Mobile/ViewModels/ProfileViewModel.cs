@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using MediatR;
 using OpenStandup.Core.Domain.Entities;
 using OpenStandup.Core.Domain.Features.Profile.Models;
+using OpenStandup.Mobile.Extensions;
 using OpenStandup.Mobile.Models;
-using OpenStandup.Shared.Extensions;
 
 
 namespace OpenStandup.Mobile.ViewModels

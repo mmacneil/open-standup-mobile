@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenStandup.Mobile.iOS", "O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenStandup.UnitTests", "..\OpenStandup.Tests\OpenStandup.UnitTests\OpenStandup.UnitTests.csproj", "{0041BEE4-AABF-4F09-98A2-AB686779723E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenStandup.Shared", "OpenStandup.Shared\OpenStandup.Shared.csproj", "{0B164E31-2470-4E29-9F94-916B5EEF9F4B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,18 +103,6 @@ Global
 		{0041BEE4-AABF-4F09-98A2-AB686779723E}.Release|iPhone.Build.0 = Release|Any CPU
 		{0041BEE4-AABF-4F09-98A2-AB686779723E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{0041BEE4-AABF-4F09-98A2-AB686779723E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|iPhone.Build.0 = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{0B164E31-2470-4E29-9F94-916B5EEF9F4B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,8 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-
-namespace OpenStandup.Shared.Utilities
+namespace OpenStandup.Mobile.Helpers
 {
     public static class Validation
     {
@@ -57,6 +56,3 @@ namespace OpenStandup.Shared.Utilities
         }
     }
 }
-
-
-
