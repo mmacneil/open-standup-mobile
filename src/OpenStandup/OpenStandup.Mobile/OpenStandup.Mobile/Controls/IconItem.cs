@@ -1,5 +1,5 @@
 ﻿using OpenStandup.Mobile.Helpers;
-using OpenStandup.SharedKernel.Utilities;
+using OpenStandup.Shared.Utilities;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 

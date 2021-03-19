@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 
-namespace OpenStandup.SharedKernel.Utilities
+namespace OpenStandup.Shared.Utilities
 {
     public static class Validation
     {

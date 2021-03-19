@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenStandup.SharedKernel\OpenStandup.SharedKernel.csproj" />
+    <ProjectReference Include="..\OpenStandup.SharedKernel\OpenStandup.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿
 
-namespace OpenStandup.SharedKernel.Extensions
+namespace OpenStandup.Shared.Extensions
 {
     public static class StringExtensions
     {

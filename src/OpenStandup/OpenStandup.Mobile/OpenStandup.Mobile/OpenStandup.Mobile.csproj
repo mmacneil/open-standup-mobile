@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\OpenStandup.Core\OpenStandup.Core.csproj" />
     <ProjectReference Include="..\..\OpenStandup.Mobile.Infrastructure\OpenStandup.Mobile.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\OpenStandup.Shared\OpenStandup.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

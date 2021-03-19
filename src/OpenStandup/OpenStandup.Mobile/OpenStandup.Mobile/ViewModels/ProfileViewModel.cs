@@ -4,7 +4,7 @@ using MediatR;
 using OpenStandup.Core.Domain.Entities;
 using OpenStandup.Core.Domain.Features.Profile.Models;
 using OpenStandup.Mobile.Models;
-using OpenStandup.SharedKernel.Extensions;
+using OpenStandup.Shared.Extensions;
 
 
 namespace OpenStandup.Mobile.ViewModels

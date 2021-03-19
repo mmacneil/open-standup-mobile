@@ -80,7 +80,7 @@ namespace OpenStandup.Mobile.Views
             fab.Clicked += OnImageButtonClicked;
 
             AbsoluteLayout.SetLayoutBounds(fab, new Rectangle(.95, .95, 55, 55));
-            AbsoluteLayout.SetLayoutFlags(fab, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutFlags(fab, AbsoluteLayoutFlags.PositionProportional);   
 
             layout.Children.Add(refreshView);
             layout.Children.Add(fab);

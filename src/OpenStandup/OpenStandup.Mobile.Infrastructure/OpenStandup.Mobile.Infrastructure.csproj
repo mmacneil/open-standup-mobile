@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenStandup.Core\OpenStandup.Core.csproj" />
-    <ProjectReference Include="..\OpenStandup.SharedKernel\OpenStandup.SharedKernel.csproj" />
+    <ProjectReference Include="..\OpenStandup.SharedKernel\OpenStandup.Shared.csproj" />
   </ItemGroup>
 
 </Project>
