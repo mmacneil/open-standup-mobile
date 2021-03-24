@@ -10,7 +10,7 @@ using OpenStandup.Core.Interfaces.Apis;
 using Vessel;
 using Xunit;
 
-namespace OpenStandup.UnitTests.Profile
+namespace OpenStandup.UnitTests.Posts
 {
     public class PublishPostUseCaseTests
     {
