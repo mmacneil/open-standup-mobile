@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="graphql.client" Version="3.2.1" />
     <PackageReference Include="graphql.client.serializer.newtonsoft" Version="3.2.1" />
