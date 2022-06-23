@@ -21,7 +21,7 @@
     <PackageReference Include="graphql.client.serializer.newtonsoft" Version="3.2.1" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.1.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1-beta1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="OpenStandup.Common" Version="1.0.44" />
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
